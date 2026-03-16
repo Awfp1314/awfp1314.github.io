@@ -1,0 +1,19 @@
+<svg width="100" height="120" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- U 的左竖线（同时是 H 的左边） -->
+  <rect x="15" y="30" width="12" height="70" fill="#E8E8E8"/>
+  
+  <!-- U 的右竖线（同时是 H 的右边） -->
+  <rect x="73" y="30" width="12" height="70" fill="#E8E8E8"/>
+  
+  <!-- U 的底部弧线 -->
+  <path d="M 27 100 Q 50 110 73 100" stroke="#E8E8E8" stroke-width="12" fill="none"/>
+  
+  <!-- H 的中间横线 -->
+  <rect x="27" y="59" width="46" height="12" fill="#E8E8E8"/>
+  
+  <!-- T 的顶部横线 -->
+  <rect x="35" y="20" width="30" height="10" fill="#E8E8E8"/>
+  
+  <!-- T 的竖线（在顶部中央） -->
+  <rect x="47" y="20" width="6" height="20" fill="#E8E8E8"/>
+</svg>

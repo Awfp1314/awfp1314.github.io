@@ -1,0 +1,44 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Link from "../components/Link.astro";
+---
+
+<MainLayout title="关于 - HUTAO667">
+  <div class="prose prose-neutral max-w-lg md:max-w-xl lg:max-w-4xl mx-auto px-4 py-8 text-justify text-foreground animate-fade-in animate-slide-up">
+    你好，我是 HUTAO。<br><br>
+    一名沉迷于虚幻引擎世界的开发者。我享受 C++ 的严谨，也热爱蓝图的灵动。
+    <br><br>
+    目前，我正致力于打磨自己的恐怖游戏项目，试图在代码与惊悚美学之间找到完美的平衡点。
+    <br><br>
+    这个空间是我学习历程的存档点，涵盖了从关卡设计到深度优化的点滴。
+    <br><br>
+    如果你也对游戏开发（尤其是那些让人心跳加速的瞬间）感兴趣，欢迎随时与我"联机"交流。
+  </div>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .animate-slide-up {
+      opacity: 0;
+      animation: slideUp 0.8s ease-out forwards;
+    }
+  </style>
+</MainLayout>

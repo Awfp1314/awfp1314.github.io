@@ -1,0 +1,13 @@
+---
+---
+<script>
+  (() => {
+    const isFirstVisit = !localStorage.getItem('hasVisited');
+    if (isFirstVisit) {
+      setTimeout(() => {
+        alert("Hey thanks for checking out my post. This site is still in development, so I recommend using the light theme for better experience.\n\nBest\nShunt");
+      }, 700);
+      localStorage.setItem('hasVisited', 'yes');
+    }
+  })();
+</script>

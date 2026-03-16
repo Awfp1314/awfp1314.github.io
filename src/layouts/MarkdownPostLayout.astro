@@ -1,0 +1,68 @@
+---
+import MainLayout from "./MainLayout.astro";
+
+const { frontmatter } = Astro.props;
+
+import "../styles/global.css";
+
+function formatDate(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+---
+
+<MainLayout title={frontmatter.title}>
+    <article class="prose prose-neutral col-start-2 max-w-full mx-auto p-6 md:p-12 text-foreground dark:prose-invert">
+        <a href="/blog" class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 no-underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <span>返回博客列表</span>
+        </a>
+        
+        <div class="mb-12 border-b border-border pb-8 max-w-6xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-foreground tracking-tight">{ frontmatter.title }</h1>
+            
+            <div class="flex flex-wrap items-center gap-y-4 gap-x-8 text-muted-foreground font-mono text-base">
+                {frontmatter.author && (
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span>{frontmatter.author}</span>
+                    </div>
+                )}
+                
+                {frontmatter.pubDate && (
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>
+                        <time datetime={frontmatter.pubDate}>{formatDate(frontmatter.pubDate)}</time>
+                    </div>
+                )}
+
+                {frontmatter.tags && frontmatter.tags.length > 0 && (
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag mt-0.5"><path d="M12.586 2.586 19 9l-7 7-6.414-6.414a2 2 0 0 1-.586-1.414V3a1 1 0 0 1 1-1h5.586a2 2 0 0 1 1.414.586Z"/><path d="M9 9h.01"/></svg>
+                        <div class="flex gap-2">
+                            {frontmatter.tags.map((tag) => (
+                                <span class="bg-muted px-2 py-0.5 rounded text-xs border border-border font-mono">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {frontmatter.description && (
+                <p class="mt-6 text-xl text-muted-foreground italic leading-relaxed border-l-4 border-primary pl-4 max-w-4xl">
+                    {frontmatter.description}
+                </p>
+            )}
+        </div>
+        
+        <div class="markdown-content max-w-xl md:max-w-3xl lg:max-w-4xl">
+            <slot />
+        </div>
+    </article>
+</MainLayout>

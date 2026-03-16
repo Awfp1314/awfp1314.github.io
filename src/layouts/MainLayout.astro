@@ -1,0 +1,78 @@
+---
+import Header from "./../components/Header.astro"
+import Footer from "./../components/Footer.astro"
+
+import "../styles/global.css"
+
+const isHome = Astro.url.pathname === '/';
+
+const {title, } = Astro.props;
+---
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    {
+      isHome && (<link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet"/>)
+    }
+
+    <title>{title}</title>
+    <script>
+      (function() {
+        window.isDark = false;
+        const savedTheme = localStorage.getItem('theme');
+        window.isDark = savedTheme === 'dark';
+        // window.isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList[window.isDark ? 'add' : 'remove']('dark');
+    
+        window.updateToggleIcon = function() {
+          const container = document.getElementById('toggle-icon');
+          if (!container) return;
+          if (window.isDark) {
+            container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" class="dark-toggle  size-5" class="lucide lucide-moon-star"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path></svg>`;
+          } else {
+            container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" class="light-toggle size-5" class="lucide lucide-cloud-sun"><path d="M12 2v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="M20 12h2"></path><path d="m19.07 4.93-1.41 1.41"></path><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"></path><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"></path></svg>`;
+          }
+        };
+    
+        window.updateLogo = function() {
+          const logoEl = document.getElementById('shunt-logo');
+          if (!logoEl) return;
+          logoEl.src = "/favicon.ico";
+        }
+    
+        window.toggleTheme = function() {
+          window.isDark = !window.isDark;
+          document.documentElement.classList[window.isDark ? 'add' : 'remove']('dark');
+          localStorage.setItem('theme', window.isDark ? 'dark' : 'light');
+          window.updateToggleIcon();
+          window.updateLogo();
+        };
+    
+        document.addEventListener('DOMContentLoaded', function() {
+          window.updateToggleIcon();
+          window.updateLogo();
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="grid"></div>
+    <div class="page flex flex-col min-h-screen">
+        <Header />
+        <main class={`flex-grow flex justify-center ${!isHome ? 'pt-20 lg:pt-24' : ''}`}>
+          <slot />
+        </main>
+        { !isHome && <Footer /> }
+        <div class="notch"></div>
+        <div class="notch-top"></div>
+    </div>
+  </body>
+</html>

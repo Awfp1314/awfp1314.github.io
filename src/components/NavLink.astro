@@ -1,0 +1,13 @@
+---
+import { REF_URL } from "../consts";
+
+const {href, className} = Astro.props;
+
+---
+
+<a 
+  href={href[0] === '/' ? href : href + "?ref=" + REF_URL} 
+  class={"font-medium text-color-2 " + className}
+>
+  <slot />
+</a>

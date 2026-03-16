@@ -1,0 +1,86 @@
+---
+import Link from "./Link.astro";
+import NavLink from "./NavLink.astro";
+import { NAV_LINKS } from "../consts";
+
+const currentPage = Astro.url.pathname;
+const isHome = currentPage === '/';
+---
+
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between py-2 lg:py-4 transition-all duration-300">
+
+      {!isHome && (
+        <a href="/" id="logo-container" class="logo ml-10 md:ml-6 lg:ml-2 transition-all duration-300">
+          <img src="#" alt=":|" id="shunt-logo" class="w-11 h-11 rounded-full object-cover transition-opacity">
+        </a>
+      )}
+      {isHome && <div></div>}
+
+      <nav id="nav-links" class="flex items-center space-x-3 md:space-x-7 lg:space-x-10 pr-6 md:pr-10 lg:pr-14 transition-all duration-300 overflow-hidden">
+        {!isHome && NAV_LINKS.map((item) => (
+            <NavLink href={item.href} className={`text-lg ${
+              currentPage.replaceAll('/', '') === item.href.replaceAll('/', '') ? "text-foreground" : "text-muted-foreground"
+              } select-none`}>{item.label}</NavLink>
+          ))
+        }
+
+        <button
+          onclick="toggleTheme()"
+          class="p-2 rounded-full hover:bg-muted-foreground/30 dark:bg-background/30 transition-colors"
+          aria-label="Toggle theme"
+        >
+          <span id="toggle-icon"></span>
+        </button>
+      </nav>
+    </header>
+
+    <script is:inline>
+      (function() {
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('main-header');
+        const navLinks = document.getElementById('nav-links');
+        const logoContainer = document.getElementById('logo-container');
+
+        window.addEventListener('scroll', () => {
+          if (!header || !navLinks || !logoContainer) return;
+          
+          const currentScrollY = window.scrollY;
+          const isMobile = window.innerWidth < 768; // md breakpoint
+          
+          if (currentScrollY > 50) {
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+              // Scrolling down - hide elements
+              navLinks.style.opacity = '0';
+              navLinks.style.pointerEvents = 'none';
+              navLinks.style.transform = 'translateY(-10px)';
+              
+              if (isMobile) {
+                logoContainer.style.opacity = '0';
+                logoContainer.style.pointerEvents = 'none';
+                logoContainer.style.transform = 'translateY(-10px)';
+              }
+            } else {
+              // Scrolling up - show elements
+              navLinks.style.opacity = '1';
+              navLinks.style.pointerEvents = 'auto';
+              navLinks.style.transform = 'translateY(0)';
+              
+              logoContainer.style.opacity = '1';
+              logoContainer.style.pointerEvents = 'auto';
+              logoContainer.style.transform = 'translateY(0)';
+            }
+          } else {
+            // Near top
+            navLinks.style.opacity = '1';
+            navLinks.style.pointerEvents = 'auto';
+            navLinks.style.transform = 'translateY(0)';
+            
+            logoContainer.style.opacity = '1';
+            logoContainer.style.pointerEvents = 'auto';
+            logoContainer.style.transform = 'translateY(0)';
+          }
+          
+          lastScrollY = currentScrollY;
+        });
+      })();
+    </script>

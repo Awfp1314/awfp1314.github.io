@@ -1,0 +1,125 @@
+---
+import { getCollection } from "astro:content";
+
+import MainLayout from "../../layouts/MainLayout.astro";
+import Link from "../../components/Link.astro";
+
+const allPosts = await getCollection("blog");
+allPosts.sort((a, b) => {
+  const dateA = new Date(a.data.pubDate);
+  const dateB = new Date(b.data.pubDate);
+  return dateB - dateA; // Descending order
+});
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0'); // Ensure two digits
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+---
+<MainLayout title="Archive - Blog">
+  <div class="max-w-4xl mx-auto px-6 py-12 w-full animate-fade-in">
+    <div class="mb-12 border-b border-border pb-8 animate-slide-up" style="animation-delay: 0.1s;">
+      <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4">博客归档</h1>
+      <p class="text-muted-foreground font-mono text-sm">探索技术世界，记录开发心得。</p>
+      
+      <div class="mt-6">
+        <input 
+          type="text" 
+          id="search-input"
+          placeholder="搜索文章..."
+          class="w-full px-4 py-2 bg-muted/30 border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+        />
+      </div>
+    </div>
+    
+    <div class="space-y-4 animate-slide-up" id="posts-container" style="animation-delay: 0.3s;">
+    </div>
+  </div>
+
+  <script define:vars={{ allPosts }}>
+    const posts = allPosts;
+    const container = document.getElementById('posts-container');
+    const searchInput = document.getElementById('search-input');
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    function renderPosts(filteredPosts) {
+      container.innerHTML = filteredPosts.map(post => `
+        <a href="/${post.id}/" class="group block p-5 bg-muted/30 hover:bg-muted/50 border border-border rounded-xl transition-all hover:translate-x-1">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex-grow">
+              <h2 class="text-lg font-bold text-foreground group-hover:text-primary transition-colors mb-1">
+                ${post.data.title}
+              </h2>
+              <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
+                ${post.data.description}
+              </p>
+              ${post.data.tags ? `
+                <div class="flex gap-2 mt-4">
+                  ${post.data.tags.map(tag => `
+                    <span class="text-[10px] uppercase tracking-widest font-mono bg-background px-2 py-0.5 border border-border rounded text-muted-foreground">
+                      ${tag}
+                    </span>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+            <div class="shrink-0 flex items-center md:flex-col md:items-end gap-2 text-muted-foreground font-mono text-sm">
+              <span>${formatDate(post.data.pubDate)}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const filtered = posts.filter(post => 
+        post.data.title.toLowerCase().includes(query) || 
+        post.data.description.toLowerCase().includes(query) ||
+        (post.data.tags && post.data.tags.some(tag => tag.toLowerCase().includes(query)))
+      );
+      renderPosts(filtered);
+    });
+
+    renderPosts(posts);
+  </script>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .animate-slide-up {
+      opacity: 0;
+      animation: slideUp 0.8s ease-out forwards;
+    }
+  </style>
+</MainLayout>
