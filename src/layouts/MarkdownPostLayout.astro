@@ -16,13 +16,13 @@ function formatDate(dateString) {
 ---
 
 <MainLayout title={frontmatter.title}>
-    <article class="prose prose-neutral col-start-2 max-w-full mx-auto p-6 md:p-12 text-foreground dark:prose-invert">
+    <article class="prose prose-neutral col-start-2 max-w-full w-full mx-auto p-6 md:p-12 text-foreground dark:prose-invert">
         <a href="/blog" class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 no-underline">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
             <span>返回博客列表</span>
         </a>
         
-        <div class="mb-12 border-b border-border pb-8 max-w-6xl mx-auto">
+        <div class="mb-12 border-b border-border pb-8">
             <h1 class="text-4xl md:text-5xl font-bold mb-6 text-foreground tracking-tight">{ frontmatter.title }</h1>
             
             <div class="flex flex-wrap items-center gap-y-4 gap-x-8 text-muted-foreground font-mono text-base">
