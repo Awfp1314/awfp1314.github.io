@@ -6,20 +6,20 @@ import Link from "../components/Link.astro";
 ---
 
 <MainLayout title="Home">
-	<div class="container flex items-center justify-center h-svh mx-auto">
-		<div class="container-2 text-center space-y-4 py-4 animate-fade-in">
-			<div class="logo-name flex items-center justify-center animate-slide-up" style="animation-delay: 0.1s;">
-				<img src="/favicon.ico" alt="HUTAO667 Logo" class="w-28 h-28 sm:w-36 sm:h-36 select-none rounded-full object-cover" />
-				<span style="font-family: Electrolize" class="text-7xl sm:text-8xl text-foreground select-none">HUTAO667</span>
+	<div class="container flex items-center justify-center h-svh mx-auto px-6">
+		<div class="container-2 text-center space-y-4 py-4 animate-fade-in w-full">
+			<div class="logo-name flex flex-col sm:flex-row items-center justify-center gap-3 animate-slide-up" style="animation-delay: 0.1s;">
+				<img src="/favicon.ico" alt="HUTAO667 Logo" class="w-24 h-24 sm:w-36 sm:h-36 select-none rounded-full object-cover" />
+				<span style="font-family: Electrolize" class="text-5xl sm:text-8xl text-foreground select-none">HUTAO667</span>
 			</div>
-			<div class="links py-3 animate-slide-up" style="animation-delay: 0.3s;">
+			<div class="links py-3 animate-slide-up flex flex-wrap justify-center gap-2" style="animation-delay: 0.3s;">
 				{
 					HOME_LINKS.map((item) => (
-						<Link href={item.href} className="text-xl sm:text-2xl px-6 select-none">{item.label}</Link>
+						<Link href={item.href} className="text-lg sm:text-2xl px-4 select-none">{item.label}</Link>
 					))
 				}
 			</div>
-			<p class="font-mono max-w-2xl text-foreground select-none text-md animate-slide-up" style="animation-delay: 0.5s;">
+			<p class="font-mono max-w-2xl text-foreground select-none text-sm sm:text-md animate-slide-up px-2" style="animation-delay: 0.5s;">
 				一名热爱游戏开发的虚幻引擎初级开发者，探索交互体验与技术实现的无限可能。了解更多 <Link href="/about" className="underline font-medium text-color-2">关于我</Link></p>
 		</div>
 	</div>
