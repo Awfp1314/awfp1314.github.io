@@ -8,7 +8,8 @@ import expressiveCode from 'astro-expressive-code';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://blog.hutao667.in/',
+  site: 'https://awfp1314.github.io/',
+  base: '/HUTAO667.github.io',
   integrations: [tailwind({
     applyBaseStyles: false,
   }), expressiveCode({
