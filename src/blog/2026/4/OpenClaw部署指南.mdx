@@ -9,48 +9,48 @@ pubDate: '2026-04-11'
 # 一、环境准备
 ## 1、安装Nodejs
 > 首先打开Nodejs官网    [传送门](https://nodejs.cn/en/download) 注意：Nodejs版本必须>=22.16
-![](/blog-images/openclaw/openclaw-20260411134314.png)
+![](/blog-images/openclaw/openclaw-20260411134314.png?url)
 
 > 下载好msi安装包后所有选项默认，一直点击下一步即可
-![](/blog-images/openclaw/openclaw-20260411132621.png)
+![](/blog-images/openclaw/openclaw-20260411132621.png?url)
 
 > 安装好之后，打开命令行窗口，输入`node -v`，检查是否输出版本号
-![](/blog-images/openclaw/openclaw-20260411132928.png)
+![](/blog-images/openclaw/openclaw-20260411132928.png?url)
 > 如果发现输出的版本号和安装的版本不一致，或者版本低于22.16，在命令行窗口输入`nvm ls`，查看当前安装的版本，如果有多个版本，运行`nvm use` 版本号 ，切换版本
-![](/blog-images/openclaw/openclaw-20260411133159.png)
+![](/blog-images/openclaw/openclaw-20260411133159.png?url)
 
 ## 2、安装git
 如果已经安装git，可以直接跳过本节内容
 为什么需要安装git？
 - 因为虽然是用npm安装，但是在安装的过程中，有些核心依赖是需要从Github仓库拉取的，因此需要安装git
 > 打开git官网  [传送门](https://git-scm.com/)，下载Windows版本
-![](/blog-images/openclaw/openclaw-20260411134234.png)
+![](/blog-images/openclaw/openclaw-20260411134234.png?url)
 >默认一直点击下一步即可
-![](/blog-images/openclaw/openclaw-20260411134446.png)
+![](/blog-images/openclaw/openclaw-20260411134446.png?url)
 >打开命令行窗口 运行`git -v` 命令，有版本号输出即可安装成功
-![](/blog-images/openclaw/openclaw-20260411134747.png)
+![](/blog-images/openclaw/openclaw-20260411134747.png?url)
 
 ## 3、安装openclaw
 > 在命令行输入 `npm i -g openclaw`  (安装时请关闭科学上网环境) ，安装的时间可能会久一些，耐心等待即可，安装过程中可以看到一些警告，这是正常现象，下面是安装成功的提示
-![](/blog-images/openclaw/openclaw-20260411140005.png)
+![](/blog-images/openclaw/openclaw-20260411140005.png?url)
 >如果出现以下错误警告，就运行 `git config --global url."https://github.com/".insteadOf "ssh://git@github.com"`的命令，出现这个错误的原因是npm它默认是通过ssh协议去拉取的，但是我们没有配置ssh密钥，就会导致拉取失败，输入这个命令就是强制使用https协议进行拉取，就不会出错了
-![](/blog-images/openclaw/openclaw-20260411141253.png)
+![](/blog-images/openclaw/openclaw-20260411141253.png?url)
 > 安装好之后，在命令行输入 `openclaw -v` 查看是否有版本输出，如果有说明已经安装成功，如果没有输出，但是前面的步骤没问题，则说明Nodejs的环境变量没有进行配置
-![](/blog-images/openclaw/openclaw-20260411141730.png)
+![](/blog-images/openclaw/openclaw-20260411141730.png?url)
 > 这段是Nodejs的环境变量配置，如果前面没有问题跳过这部分，直接看下一节
 > 首先查看Nodejs的路径，在命令行输入`npm prefix -g`，会输出npm的安装路径，复制这个路径
-![](/blog-images/openclaw/openclaw-20260411142147.png)
+![](/blog-images/openclaw/openclaw-20260411142147.png?url)
 >接着win+s，搜索环境变量
-![](/blog-images/openclaw/openclaw-20260411142236.png)
+![](/blog-images/openclaw/openclaw-20260411142236.png?url)
 >新建一个用户变量，变量名为Path，变量值为刚才复制的路径
-![](/blog-images/openclaw/openclaw-20260411142532.png)
+![](/blog-images/openclaw/openclaw-20260411142532.png?url)
 接着重新打开命令行窗口，输入`openclaw -v`，可以看到成功输出版本号
-![](/blog-images/openclaw/openclaw-20260411142641.png)
+![](/blog-images/openclaw/openclaw-20260411142641.png?url)
 
 # 二、openclaw配置
 ## 1、初始配置
 > 在命令行窗口输入 `openclaw onboard`，会弹出一个风险提示，我们选择yes即可
-![](/blog-images/openclaw/openclaw-20260411143204.png)
+![](/blog-images/openclaw/openclaw-20260411143204.png?url)
 >考虑到有些人对这个安全提示有顾虑，我把它翻译一下
 ```txt
 **安全警告 — 请务必阅读**
@@ -90,37 +90,37 @@ openclaw security audit --fix
 ```
 
 > 接着选择快速开始，回车，本教程只将解如何快速配置openclaw到Windows，自定义配置暂不进行讲解
-![](/blog-images/openclaw/openclaw-20260411143341.png)
+![](/blog-images/openclaw/openclaw-20260411143341.png?url)
 >接着会出现LLM的配置界面，这里我推荐使用Deepseek，因为它很便宜，Apikey获取也很方便
-![](/blog-images/openclaw/openclaw-20260411143646.png)
+![](/blog-images/openclaw/openclaw-20260411143646.png?url)
 > 首先找到Deepseek官网，登录后选择Api开发平台
-![](/blog-images/openclaw/openclaw-20260411143745.png)
+![](/blog-images/openclaw/openclaw-20260411143745.png?url)
 > 选择充值，可以先充值一块钱试试
-![](/blog-images/openclaw/openclaw-20260411143849.png)
+![](/blog-images/openclaw/openclaw-20260411143849.png?url)
 > 充值好后点击apikeys，创建一个新的Apikey，名称随便起
-![](/blog-images/openclaw/openclaw-20260411143957.png)
+![](/blog-images/openclaw/openclaw-20260411143957.png?url)
 创建好后会生成一个Apikey，一定要复制保存到自己的记事本或者其他地方，因为Apikey只显示一次
-![](/blog-images/openclaw/openclaw-20260411144105.png)
+![](/blog-images/openclaw/openclaw-20260411144105.png?url)
 > 现在Apikey已经到手了，我们回到命令窗口，选择Deepseek供应商
-![](/blog-images/openclaw/openclaw-20260411144202.png)
+![](/blog-images/openclaw/openclaw-20260411144202.png?url)
 > 粘贴我们刚才复制的Apikey，然后回车
-![](/blog-images/openclaw/openclaw-20260411144412.png)
+![](/blog-images/openclaw/openclaw-20260411144412.png?url)
 > 接着选择模型，选择默认即可，因为后面可以更改
-![](/blog-images/openclaw/openclaw-20260411144552.png)
+![](/blog-images/openclaw/openclaw-20260411144552.png?url)
 >接着会弹出控制渠道，可以通过这些控制openclaw在电脑上查资料改代码等，这个后面是可以配置的，我们跳过即可
-![](/blog-images/openclaw/openclaw-20260411144838.png)
+![](/blog-images/openclaw/openclaw-20260411144838.png?url)
 > 这个是联网供应商的配置，如果提问ai一些问题的话，决定ai会在哪里搜索，这个也是后期可以配置的直接跳过
-![](/blog-images/openclaw/openclaw-20260411145048.png)
+![](/blog-images/openclaw/openclaw-20260411145048.png?url)
 > 接着是skill配置，我们也选择no，直接跳过
-![](/blog-images/openclaw/openclaw-20260411145141.png)
+![](/blog-images/openclaw/openclaw-20260411145141.png?url)
 > hooks也跳过，按一下空格键，回车
-![](/blog-images/openclaw/openclaw-20260411145254.png)
+![](/blog-images/openclaw/openclaw-20260411145254.png?url)
 > 当出现这个窗口的时候，已经启动成功了
-![](/blog-images/openclaw/openclaw-20260411145624.png)
+![](/blog-images/openclaw/openclaw-20260411145624.png?url)
 > 接下来在命令行窗口输入`openclaw dashboard`就会打开openclaw的web UI界面
-![](/blog-images/openclaw/openclaw-20260411145845.png)
+![](/blog-images/openclaw/openclaw-20260411145845.png?url)
 > 随便问一个问题，可以看到已经配置成功了
-![](/blog-images/openclaw/openclaw-20260411150053.png)
+![](/blog-images/openclaw/openclaw-20260411150053.png?url)
 
 到了这里已经配置成功了
 
