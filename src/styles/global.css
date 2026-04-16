@@ -4,41 +4,41 @@
 
 @layer base {
   :root {
-    --background: 220 20% 12%;
-    --foreground: 210 40% 96%;
-    --primary: 210 100% 60%;
-    --primary-foreground: 220 20% 12%;
-    --secondary: 220 15% 20%;
-    --secondary-foreground: 210 40% 96%;
-    --muted: 220 15% 18%;
-    --muted-foreground: 210 20% 70%;
-    --accent: 210 100% 50%;
-    --accent-foreground: 210 40% 96%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     --additive: 160 60% 45%;
-    --additive-foreground: 210 40% 96%;
+    --additive-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 15% 25%;
-    --ring: 210 100% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --ring: 210 100% 50%;
   }
   
   .dark {
-    --background: 220 25% 8%;
+    --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    --primary: 210 100% 65%;
-    --primary-foreground: 220 25% 8%;
-    --secondary: 220 20% 15%;
+    --primary: 210 100% 60%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 220 20% 12%;
-    --muted-foreground: 210 20% 75%;
-    --accent: 210 100% 55%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
     --additive: 160 60% 50%;
     --additive-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 20% 18%;
-    --ring: 210 100% 65%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --ring: 210 100% 60%;
   }
 
   *,
@@ -130,7 +130,7 @@
 
 @layer components {
   article {
-    @apply prose-headings:!text-foreground prose-headings:scroll-mt-20 prose-headings:break-words first:prose-headings:mt-0 prose-p:break-words prose-a:!break-words prose-a:!decoration-muted-foreground prose-a:underline-offset-[3px] prose-a:transition-colors hover:prose-a:!decoration-foreground prose-pre:!px-0 prose-img:mx-auto relative !text-muted-foreground
+    @apply prose-headings:!text-foreground prose-headings:scroll-mt-20 prose-headings:break-words first:prose-headings:mt-0 prose-p:break-words prose-a:!break-words prose-a:!decoration-muted-foreground prose-a:underline-offset-[3px] prose-a:transition-colors hover:prose-a:!decoration-foreground prose-pre:!px-0 prose-img:mx-auto prose-img:max-w-full prose-img:h-auto relative !text-foreground
       prose-table:mx-auto prose-table:block prose-table:max-w-fit prose-table:overflow-x-auto prose-td:break-words sm:prose-table:mx-0 sm:prose-table:table sm:prose-table:max-w-none;
 
     h1 {
@@ -146,11 +146,15 @@
     }
 
     p {
-      @apply leading-relaxed mb-6;
+      @apply leading-relaxed mb-6 text-foreground;
+    }
+
+    img {
+      @apply max-w-full h-auto rounded-lg shadow-md;
     }
 
     .markdown-content {
-      @apply text-base;
+      @apply text-base text-foreground;
     }
 
     .theme-toggle {

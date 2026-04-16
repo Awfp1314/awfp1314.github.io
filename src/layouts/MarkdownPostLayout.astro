@@ -16,7 +16,8 @@ function formatDate(dateString) {
 ---
 
 <MainLayout title={frontmatter.title}>
-    <article class="prose prose-neutral max-w-4xl mx-auto p-6 md:p-12 text-foreground dark:prose-invert">
+    <article class="prose prose-neutral max-w-full w-full px-4 sm:px-6 md:max-w-4xl mx-auto py-6 md:py-12 text-foreground dark:prose-invert overflow-hidden">
+        <a href="/blog" class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 no-underline">
         <a href="/blog" class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 no-underline">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
             <span>返回博客列表</span>
