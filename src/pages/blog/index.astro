@@ -137,8 +137,17 @@ function formatDate(dateString) {
       updatePageText(newLang);
       searchInput.value = ''; // 清空搜索
     });
-
-    renderPosts(posts);
+    
+    // 页面加载时初始化语言
+    function initLanguage() {
+      const currentLang = getCurrentLang();
+      posts = getPostsByLang(currentLang);
+      updatePageText(currentLang);
+      renderPosts(posts);
+    }
+    
+    // 初始化
+    initLanguage();
   </script>
 
   <style>
