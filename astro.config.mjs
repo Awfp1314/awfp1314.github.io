@@ -22,4 +22,11 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  vite: {
+    build: {
+      assetsInlineLimit: 0, // 确保所有资源都作为独立文件
+    }
+  },
+  // 确保 .nojekyll 文件被复制到输出目录
+  publicDir: 'public',
 });
