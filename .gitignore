@@ -27,3 +27,6 @@ pnpm-debug.log*
 # Obsidian 知识库
 知识库/
 .obsidian/
+
+# Kiro 配置
+.kiro/
