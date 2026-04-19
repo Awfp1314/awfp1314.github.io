@@ -1,0 +1,128 @@
+---
+title: "AgentSkills: AI's Local Skill Library"
+description: AgentSkills is AI's skill library, local and transparent, especially suitable for team collaboration
+author: HUTAO667
+tags: ["AI", "AgentSkills", "Development Tools"]
+pubDate: "2026-03-18"
+lang: "en"
+---
+
+Today let's talk about AgentSkills, also known as Claude Skills. If you're using AI to assist development and want AI to follow your workflow, AgentSkills is a good choice.
+
+# What is AgentSkills
+
+AgentSkills is defined by Anthropic, also called Claude Skills. Essentially, it's a skill library for AI.
+
+Simply put, the difference between a skill library and a code library is: the skill library contains AI specifications that are activated on-demand based on the yaml description during development, preventing AI from making mistakes.
+
+A complete skill library generally includes these parts:
+
+- **SKILL.md**: Specification document describing the execution flow after activating this skill library
+- **scripts folder**: Contains scripts that SKILL will call during execution
+- **reference folder**: Contains standard output json files for AI to verify if its results comply with SKILL specifications
+
+# Why AgentSkills is Needed
+
+You might ask, why not just use [MCP](/2026/3/mcp-model-context-protocol/)?
+
+MCP is indeed convenient - just call it directly. But MCP is a black box. When you call it, you're not quite sure how it's implemented internally, and it's hard to debug when problems occur.
+
+AgentSkills is different. Scripts are local and transparent. You can clearly see what it's doing. If you need to fine-tune, just modify the scripts directly - as simple as fine-tuning.
+
+You could say AgentSkills provides similar functionality to MCP (letting AI call tools), but with a different implementation:
+
+- MCP is remote invocation through network communication
+- AgentSkills is local execution, running scripts directly
+
+This is why I say AgentSkills is "local and transparent."
+
+# Structure of SKILL.md
+
+SKILL.md must have yaml attributes at the beginning, with name and description being required. AI activates on-demand based on the description.
+
+For example, the SKILL I wrote in the UE_ToolkitAI project:
+
+```yaml
+---
+name: uetookit-skills
+description: UE Toolkit project-specific skills, activated when users propose specific technical requirements
+---
+```
+
+Then in SKILL.md, define:
+
+- When to activate this skill
+- Workflow after activation
+- Which scripts to call
+- What format files to output
+- What precautions to take
+
+For example, in my project I defined a 6-step SOP process: requirement analysis → proposal → wait for confirmation → implementation → delivery → Git commit. AI processes requirements according to this flow every time, without chaos.
+
+# How to Use AgentSkills
+
+Most AI clients on the market support SKILL configuration. If your AI client supports SKILL configuration, just add it in settings.
+
+If it doesn't support it, I usually put an AGENTS.md file in the root directory that AI will read by default at the start, or have AI read it in the prompt. This file briefly explains the SKILL documentation and project instructions.
+
+But if there's no SKILL configuration at the settings level, AI might forget. So if the AI client doesn't support SKILL, I think it's best to start a new conversation after completing a task, then have AI read AGENTS.
+
+However, most AI on the market now have SKILL configuration, so this isn't a big problem.
+
+# My Usage in Projects
+
+In my UE_ToolkitAI project, I use AgentSkills to standardize AI's development workflow.
+
+For example, I defined:
+
+- **Activation conditions**: Activate when users propose specific technical requirements, not for simple greetings
+- **Workflow**: 6-step SOP (requirement analysis → proposal → wait for confirmation → implementation → delivery → Git)
+- **Mandatory constraints**: Must pass self-check checklist after implementation, must sync documentation when API changes
+- **Coding standards**: File encoding, logging standards, exception handling standards, etc.
+
+This way AI won't go off track and processes requirements according to standardized procedures every time. And because SKILL is local, I can adjust specifications anytime according to project needs - very flexible.
+
+# When to Use SKILL, When to Use MCP
+
+My experience is:
+
+**Use AgentSkills for internal team development**:
+
+- Scripts are local and transparent
+- Can be fine-tuned according to team workflow
+- No worries about information leakage
+- Team members can all see and modify specifications
+
+**Use MCP for personal open source projects**:
+
+- Rich ecosystem, the more MCP Servers the better
+- Easy to get started, just call directly
+- Don't need to maintain scripts yourself
+- Community-contributed tools can be used directly
+
+Simply put, if you need transparency and controllability, use AgentSkills. If you need to quickly integrate various tools, use MCP.
+
+# Development of SKILL Ecosystem
+
+The SKILL ecosystem is now growing, with SKILLs solving various problems emerging constantly.
+
+For example, there are SKILLs specifically for code review, SKILLs for document generation, and SKILLs for testing. You can choose appropriate SKILLs according to your needs, or write your own.
+
+Compared to MCP's black box, SKILL's advantage is you can see how others implement it, learn from their experience, and then improve according to your own needs. This openness is very helpful for learning and improvement.
+
+# Summary
+
+AgentSkills and MCP are both ways to let AI call external tools, but with different focuses.
+
+MCP focuses on standardization and ecosystem, suitable for quickly integrating various tools. AgentSkills focuses on transparency and controllability, suitable for team collaboration and customization needs.
+
+If you're working on a team project and need to standardize AI's workflow, AgentSkills is a good choice. If you're working on a personal project and want to quickly integrate various tools, MCP is more suitable.
+
+Of course, these two aren't mutually exclusive - you can use both. For example, use AgentSkills to standardize workflow and use MCP to integrate external tools, taking the best of both.
+
+---
+
+**References**:
+
+- [Anthropic Claude Skills Documentation](https://docs.anthropic.com/en/docs/build-with-claude/skills)
+- [AgentSkills GitHub](https://github.com/anthropics/anthropic-skills)

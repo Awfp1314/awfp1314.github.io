@@ -1,0 +1,134 @@
+---
+title: "OpenClaw Deployment Guide"
+description: "Detailed documentation of the complete OpenClaw deployment process on Windows systems, including environment preparation, installation configuration, model setup, and more"
+author: HUTAO667
+tags: ["OpenClaw", "AI Assistant", "Deployment", "Windows", "DeepSeek"]
+pubDate: "2026-04-11"
+lang: "en"
+---
+
+# 1. Environment Preparation
+
+## 1. Install Node.js
+
+> First, open the Node.js official website [Portal](https://nodejs.cn/en/download). Note: Node.js version must be >= 22.16
+> ![](/blog-images/openclaw/openclaw-20260411134314.png)
+
+> After downloading the msi installer, keep all options default and click next until completion
+> ![](/blog-images/openclaw/openclaw-20260411132621.png)
+
+> After installation, open command line window and enter `node -v` to check if version number is displayed
+> ![](/blog-images/openclaw/openclaw-20260411132928.png)
+> If the displayed version doesn't match the installed version or is lower than 22.16, enter `nvm ls` in command line to view currently installed versions. If there are multiple versions, run `nvm use` version_number to switch versions
+> ![](/blog-images/openclaw/openclaw-20260411133159.png)
+
+## 2. Install Git
+
+If git is already installed, you can skip this section.
+Why do we need to install git?
+
+- Because although we use npm for installation, some core dependencies need to be pulled from GitHub repositories during installation, so git needs to be installed
+  > Open git official website [Portal](https://git-scm.com/), download Windows version
+  > ![](/blog-images/openclaw/openclaw-20260411134234.png)
+  > Keep clicking next with default settings
+  > ![](/blog-images/openclaw/openclaw-20260411134446.png)
+  > Open command line window and run `git -v` command. If version number is displayed, installation was successful
+  > ![](/blog-images/openclaw/openclaw-20260411134747.png)
+
+## 3. Install OpenClaw
+
+> Enter `npm i -g openclaw` in command line (please disable VPN during installation). Installation may take some time, please be patient. You may see some warnings during installation, which is normal. Below is the successful installation prompt
+> ![](/blog-images/openclaw/openclaw-20260411140005.png)
+> If you encounter the following error warning, run `git config --global url."https://github.com/".insteadOf "ssh://git@github.com"`. This error occurs because npm defaults to using ssh protocol for pulling, but we haven't configured ssh keys, causing pull failure. This command forces the use of https protocol for pulling, avoiding errors
+> ![](/blog-images/openclaw/openclaw-20260411141253.png)
+> After installation, enter `openclaw -v` in command line to check if version is displayed. If yes, installation was successful. If there's no output but previous steps were fine, it means Node.js environment variables aren't configured
+> ![](/blog-images/openclaw/openclaw-20260411141730.png)
+> This section is about Node.js environment variable configuration. If there were no previous issues, skip this part and go to the next section
+> First check Node.js path. Enter `npm prefix -g` in command line, which will output npm installation path. Copy this path
+> ![](/blog-images/openclaw/openclaw-20260411142147.png)
+> Then press win+s and search for environment variables
+> ![](/blog-images/openclaw/openclaw-20260411142236.png)
+> Create a new user variable with variable name Path and variable value as the path you just copied
+> ![](/blog-images/openclaw/openclaw-20260411142532.png)
+> Then reopen command line window and enter `openclaw -v`. You can see the version number is successfully displayed
+> ![](/blog-images/openclaw/openclaw-20260411142641.png)
+
+# 2. OpenClaw Configuration
+
+## 1. Initial Configuration
+
+> Enter `openclaw onboard` in command line window. A risk warning will appear, select yes
+> ![](/blog-images/openclaw/openclaw-20260411143204.png)
+> Considering some people may have concerns about this security warning, here's the translation:
+
+```txt
+**Security Warning — Please Read**
+
+OpenClaw is a hobby project still in testing phase. Please be prepared to encounter various issues.
+
+By default, OpenClaw is a **personal assistant** with security boundaries based on "only one trusted operator." If tools are enabled, this bot can read your files and perform operations. A carefully crafted malicious prompt could potentially trick it into unsafe behavior.
+
+OpenClaw **is not by default a security boundary that can resist malicious multi-tenant attacks**. If multiple users can send messages to a tool-enabled bot, they collectively have the **tool operation permissions** granted to that bot.
+
+**If you're not familiar with security hardening and access control, please do not run OpenClaw.**
+Please seek help from experienced people before enabling tools or exposing OpenClaw to the internet.
+
+**Recommended minimum security baseline:**
+
+- **Pairing/Whitelist + Mention Restrictions**: Only allow specific users or trigger it by @mentioning the bot in messages.
+
+- **Multi-user/Shared Inbox**: Must split trust boundaries (e.g., use independent gateways/credentials, preferably independent OS users/hosts).
+
+- **Sandbox Environment + Principle of Least Privilege**: Provide isolated environment for tool execution and grant only minimum necessary permissions.
+
+- **Shared Inbox**: Must isolate private chat sessions (set `session.dmScope: per-channel-peer`) and keep tool permissions at minimum level.
+
+- **Isolate Sensitive Information**: Ensure various keys, passwords and other sensitive information are not placed in file system paths accessible to the agent.
+
+- **Use Strongest Model**: For any bot with tools enabled or receiving untrusted inbox messages, use the currently most capable and secure large language model.
+
+
+**Regularly run the following commands for security checks:**
+
+bash
+
+openclaw security audit --deep
+openclaw security audit --fix
+
+**Must-read documentation:** [https://docs.openclaw.ai/gateway/security](https://docs.openclaw.ai/gateway/security)
+```
+
+> Then select quick start and press enter. This tutorial only explains how to quickly configure openclaw on Windows; custom configuration will not be covered
+> ![](/blog-images/openclaw/openclaw-20260411143341.png)
+> Then the LLM configuration interface will appear. I recommend using Deepseek because it's cheap and API key is easy to obtain
+> ![](/blog-images/openclaw/openclaw-20260411143646.png)
+> First find Deepseek official website, after logging in select API development platform
+> ![](/blog-images/openclaw/openclaw-20260411143745.png)
+> Select recharge, you can try recharging 1 yuan first
+> ![](/blog-images/openclaw/openclaw-20260411143849.png)
+> After recharging, click API keys and create a new API key with any name
+> ![](/blog-images/openclaw/openclaw-20260411143957.png)
+> After creation, an API key will be generated. Be sure to copy and save it to your notepad or elsewhere, as the API key is only displayed once
+> ![](/blog-images/openclaw/openclaw-20260411144105.png)
+> Now we have the API key. Return to command window and select Deepseek provider
+> ![](/blog-images/openclaw/openclaw-20260411144202.png)
+> Paste the API key we just copied and press enter
+> ![](/blog-images/openclaw/openclaw-20260411144412.png)
+> Then select model, choose default as it can be changed later
+> ![](/blog-images/openclaw/openclaw-20260411144552.png)
+> Then control channels will appear, which can control openclaw to search information and modify code on the computer. This can be configured later, so we can skip it
+> ![](/blog-images/openclaw/openclaw-20260411144838.png)
+> This is internet provider configuration, which determines where AI will search when asking questions. This can also be configured later, so skip it
+> ![](/blog-images/openclaw/openclaw-20260411145048.png)
+> Then skill configuration, we also select no and skip
+> ![](/blog-images/openclaw/openclaw-20260411145141.png)
+> Also skip hooks, press spacebar once and enter
+> ![](/blog-images/openclaw/openclaw-20260411145254.png)
+> When this window appears, startup was successful
+> ![](/blog-images/openclaw/openclaw-20260411145624.png)
+> Next, enter `openclaw dashboard` in command line window to open openclaw's web UI interface
+> ![](/blog-images/openclaw/openclaw-20260411145845.png)
+> Ask any question and you can see configuration was successful
+> ![](/blog-images/openclaw/openclaw-20260411150053.png)
+
+Configuration is now complete!

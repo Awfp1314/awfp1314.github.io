@@ -1,0 +1,101 @@
+---
+title: "Transformer Architecture: How Large Models Understand What You Say"
+description: "Simply put, Transformer lets each word see other words and then decide which words are more important. This article explains Transformer's working principle in the most straightforward way."
+author: HUTAO667
+pubDate: "2026-03-20"
+tags: ["AI", "Deep Learning", "Transformer"]
+lang: "en"
+---
+
+Recently, while researching large models, I kept wondering: when I send a long message to ChatGPT, how does it understand it? I later discovered that the core technology behind this is Transformer.
+
+Simply put, Transformer lets each word "see" other words and then decide which words are more important. It sounds simple, but the implementation is quite clever.
+
+## Prerequisite: Word Embeddings
+
+Before talking about Transformer, we need to discuss word embeddings.
+
+When you send a message to a large model, the message is split into many words, and each word is converted into a high-dimensional vector. This vector stores three types of information:
+
+- Value (the meaning of the word itself)
+- Position (the word's position in the sentence)
+- Semantic weight (the word's relationship with other words)
+
+This is a word embedding. With word embeddings, Transformer can start working.
+
+## Transformer's Core: QKV Mechanism
+
+Transformer provides three matrices: **Wq, Wk, Wv**.
+
+Each word vector is multiplied by these three matrices separately, resulting in three new vectors:
+
+- **Q (Query)**: Query vector, representing "what I'm looking for"
+- **K (Key)**: Key vector, representing "what I am"
+- **V (Value)**: Value vector, representing "what my content is"
+
+With Q, K, and V, there are four steps.
+
+### Step 1: Scoring
+
+Each word uses its own Q to multiply all other words' K (including itself), i.e., doing dot product.
+
+This way, each word gets a score with every other word, representing the correlation between this word and other words. The higher the score, the higher the correlation.
+
+For example: `[10, 5, 2]`
+
+### Step 2: Normalization
+
+Here's the problem: these scores are too large, causing gradient instability.
+
+Why? Because later we'll use the softmax formula for normalization, and softmax uses `e^x`. When x values are too large or too small, some words' weights become 0.
+
+For example:
+
+- `e^10 = 22026`
+- `e^2 = 7.4`
+
+This causes words with high scores to have infinitely large weights, while words with low scores have infinitely small weights.
+
+So we need to divide the scores by a scaling factor: **√dk** (dk is the dimension of the K vector).
+
+This way, words with high probability are still high, but other words' probabilities are also treated fairly.
+
+After scaling, use softmax for probability processing.
+
+### Step 3: Weighted Fusion
+
+This step multiplies the weight calculated by each word by its own V vector, then adds the results together.
+
+The final result is the word vector carrying contextual information from this word's own perspective.
+
+### Step 4: Response
+
+The large model does these things:
+
+1. **Multi-head Attention**: The large model actually performs several sets of QKV simultaneously for comparative analysis. This allows understanding the same word from different angles.
+
+2. **FFN (Feed-Forward Network)**: Put the results calculated in Step 3 into the FFN's input layer for forward and backward propagation continuous learning. Through repeated training to adjust w and b parameters, the final response users see is the trained response.
+
+## My Understanding
+
+Transformer's core is letting each word "see" other words, then calculating which words are more important through the QKV mechanism.
+
+The cleverness of this mechanism lies in:
+
+- Each word has its own perspective (Q)
+- Each word can be seen by other words (K)
+- Each word has its own content (V)
+
+Through calculations with these three vectors, each word can know which words it should pay attention to, thus understanding the entire sentence's meaning.
+
+This is Transformer's core principle.
+
+---
+
+**References**:
+
+- [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - Original Transformer paper
+- [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/) - Illustrated Transformer
+- [Transformer Explainer](https://poloclub.github.io/transformer-explainer/) - Interactive visualization tool to see GPT-2's working process in real-time in the browser
+- [TensorFlow Embedding Projector](https://projector.tensorflow.org/) - Word embedding visualization tool to project high-dimensional word vectors into 3D space
+- [Transformer Model Explained](https://zhuanlan.zhihu.com/p/338817680) - Detailed analysis on Zhihu

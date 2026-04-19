@@ -1,0 +1,61 @@
+---
+const HOME_LINKS = [
+  { href: '/blog', label: 'Blog' },
+  { href: 'https://github.com/Awfp1314', label: 'Github' },
+  { href: 'https://space.bilibili.com/1829900666', label: 'Bilibili' },
+];
+
+import MainLayout from "../layouts/MainLayout.astro"
+import Link from "../components/Link.astro";
+---
+
+<MainLayout title="Home">
+	<div class="container flex items-center justify-center h-svh mx-auto px-6">
+		<div class="container-2 flex flex-col items-center text-center space-y-4 py-4 animate-fade-in w-full">
+			<div class="logo-name flex flex-col sm:flex-row items-center justify-center gap-3 animate-slide-up" style="animation-delay: 0.1s;">
+				<img src="/favicon.ico" alt="HUTAO667 Logo" class="w-24 h-24 sm:w-36 sm:h-36 select-none rounded-full object-cover" />
+				<span style="font-family: Electrolize" class="text-5xl sm:text-8xl text-foreground select-none">HUTAO667</span>
+			</div>
+			<div class="links py-3 animate-slide-up flex flex-wrap justify-center gap-2" style="animation-delay: 0.3s;">
+				{
+					HOME_LINKS.map((item) => (
+						<Link href={item.href} className="text-lg sm:text-2xl px-4 select-none">{item.label}</Link>
+					))
+				}
+			</div>
+			<p class="font-mono max-w-2xl text-foreground select-none text-sm sm:text-md animate-slide-up px-4" style="animation-delay: 0.5s;">
+				An engineer focused on AI application development, exploring the application of technologies such as LLM, MCP, and Function Calling in real projects. Learn more <Link href="/about-en" className="underline font-medium text-color-2">about me</Link></p>
+		</div>
+	</div>
+
+	<style>
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		@keyframes slideUp {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.animate-fade-in {
+			animation: fadeIn 0.6s ease-out forwards;
+		}
+
+		.animate-slide-up {
+			opacity: 0;
+			animation: slideUp 0.8s ease-out forwards;
+		}
+	</style>
+</MainLayout>

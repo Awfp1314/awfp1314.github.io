@@ -1,0 +1,125 @@
+---
+title: "MCP (Model Context Protocol): Unified Standard for AI Tool Access"
+description: MCP is a protocol that standardizes how AI accesses external resources and tools
+author: HUTAO667
+tags: ["AI", "MCP", "LLM"]
+pubDate: "2026-03-15"
+lang: "en"
+---
+
+Recently, while developing the UE_ToolkitAI project, I encountered a frustrating problem: every time I wanted the AI to access different external tools, I had to write a separate plugin. Connecting Application A to Service B required a plugin, and connecting Application C to Service B required writing another one. This repetitive work was really annoying.
+
+It wasn't until I came across MCP (Model Context Protocol) that I discovered there was already a solution to this problem. Today, let's talk about what MCP is and why it's so important.
+
+# What is MCP
+
+MCP is a protocol that standardizes how AI accesses external resources and tools.
+
+Before MCP, if you wanted AI to access external tools or resources, you had to write separate plugins for each case. It was particularly troublesome. Application A connecting to Service B needed a dedicated plugin, and Application C connecting to Service B required writing another set of plugins because there was no unified standard.
+
+MCP solves exactly this problem. Now you only need to implement the server side once according to the MCP standard, and any client that supports MCP can use it.
+
+# Understanding Through Analogy
+
+I think it's easier to understand with real-life examples.
+
+It's like standardizing electrical outlets. Imagine if every appliance had its own plug shape, and every brand had different outlets - how inconvenient would that be? Now we have unified standards like national, American, and European standards. Appliance manufacturers make plugs according to the standard, outlet manufacturers make outlets according to the standard, and everything connects seamlessly.
+
+Another example is the evolution of headphone jacks. In the past, Nokia, Sony, and Samsung each had their own standards. You had to check if headphones were compatible with your phone. Later, the 3.5mm headphone jack became the industry standard, and any headphones could plug into any device. Although we've now evolved to Bluetooth and Type-C, the core idea is the same: unified standards reduce adaptation costs.
+
+There's also operating systems. In the past, every application had to be adapted separately for each hardware platform. Want to run the same program on different computers? Sorry, you had to redevelop it. Operating systems provided a unified interface layer - applications only need to call the OS APIs without worrying about the underlying hardware.
+
+MCP plays a similar role in the AI field.
+
+# MCP Workflow
+
+The MCP workflow looks like this:
+
+```
+MCP Host (AI client supporting MCP protocol)
+    ↓
+Transfer Layer (transport layer)
+    ↓
+MCP Server (various MCP tools)
+```
+
+Simply put, it's three layers:
+
+MCP Host is the AI client that supports MCP, like Claude Desktop, or an AI application you develop yourself.
+
+In the middle is the transport layer, responsible for passing messages between client and server.
+
+Finally, there's the MCP Server, which provides specific functionality like file operations, database queries, web searches, etc.
+
+Each MCP Server only needs to be implemented once and can be used by all clients that support MCP. That's its core value.
+
+# Application in My Project
+
+In my UE_ToolkitAI project, I use MCP to implement interaction between the AI assistant and Unreal Engine.
+
+Without MCP, I would have to write separate adaptation layers for each AI model (Claude, GPT, Gemini), write independent plugins for each function (file operations, project management, asset migration), and whenever an AI model updates, all plugins would need to be re-adapted. This means massive amounts of duplicate code and maintenance costs.
+
+With MCP, it's much simpler. All AI models access tools through the MCP protocol with a unified interface. Each function is implemented as an independent MCP Server, modularized. Adding new features only requires adding new MCP Servers. AI models and specific functions are decoupled and don't affect each other.
+
+For example, I implemented a "project management" feature:
+
+```python
+# MCP Server side (implement once)
+class ProjectManagementServer:
+    def list_projects(self):
+        """List all projects"""
+        return get_all_projects()
+
+    def create_project(self, name, template):
+        """Create new project"""
+        return create_ue_project(name, template)
+
+    def get_project_info(self, project_path):
+        """Get project information"""
+        return analyze_project(project_path)
+```
+
+Any AI client that supports MCP can directly call these functions without additional adaptation code.
+
+# Difference Between MCP and Traditional Plugins
+
+The problem with traditional plugins:
+
+- Each application needs separate development
+- Need to synchronously update all plugins
+- Adding new features requires changing all applications
+- Different standards from different vendors
+
+MCP advantages:
+
+- Implement once, use everywhere
+- Only need to update MCP Server
+- Just add a new MCP Server
+- Unified protocol standard
+
+The difference is quite obvious, and development efficiency can be significantly improved.
+
+# My Thoughts
+
+I think MCP's significance for AI application development is as important as HTTP's significance for the internet.
+
+Although MCP is still in the development stage, I can see its potential. There will be more and more MCP Server implementations, the community will contribute various tool libraries, and standardized best practices will emerge.
+
+However, MCP also has its drawbacks - it's like a black box. When you call an MCP Server, you're not quite sure how it's implemented internally, and it's hard to debug when problems occur. This is where AgentSkills becomes interesting - it seems to integrate MCP's advantages without the black box effect, because Skills are local and transparent. You can clearly see what it's doing.
+
+If you're also developing AI applications, I recommend considering MCP integration when designing the architecture. It will save you a lot of trouble later. Just like choosing HTTP back then, choosing a good standard can make future development much easier. Of course, for scenarios that require transparency, AgentSkills might be a better choice.
+
+# Summary
+
+Simply put, MCP solves a core problem in AI application development: how to enable AI to efficiently and standardly access external resources.
+
+Through unified protocol standards, developers can avoid reinventing the wheel, reduce maintenance costs, and improve development efficiency. Just as outlet standards enable electrical appliances to interconnect, MCP is making the AI tool ecosystem more open and prosperous.
+
+---
+
+**References**:
+
+- [MCP Official Website](https://modelcontextprotocol.io/) - Model Context Protocol official documentation
+- [MCP Specification](https://modelcontextprotocol.io/specification/2025-11-25) - Detailed protocol specification
+- [Anthropic MCP Announcement](https://www.anthropic.com/news/model-context-protocol) - Anthropic official blog
+- [MCP GitHub Repository](https://github.com/modelcontextprotocol/modelcontextprotocol) - Open source code and documentation

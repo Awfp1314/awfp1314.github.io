@@ -1,0 +1,83 @@
+---
+title: "RAG: Adding an External Knowledge Base to Large Models"
+description: "Simply put, RAG adds an external knowledge base to large models. Each time you ask a question, it first searches the knowledge base for information, then has the large model answer based on the found information, so it won't make things up."
+author: HUTAO667
+pubDate: "2026-03-25"
+tags: ["AI", "RAG", "Vector Database"]
+lang: "en"
+---
+
+When working on AI projects, I encountered a problem: large models know nothing about my own notes, project documentation, and learning materials. These things weren't included during training, so when asked, they can only make things up.
+
+Later I discovered that RAG was designed to solve this problem.
+
+## Blind Spots of Large Models
+
+Large models are trained on public data, and training has time cutoffs. This leads to two problems:
+
+1. **Don't know the latest things**: Though now there's internet search, this problem is basically solved
+2. **Don't know private things**: My notes, project documentation, learning materials, code I wrote - large models have never seen these
+
+RAG is like adding an external knowledge base to large models. Each time you ask a question, it first searches the knowledge base for information, then has the large model answer based on the found information. This way it won't make things up.
+
+## How RAG Works
+
+### Step 1: Prepare Knowledge Base
+
+First, process the documents:
+
+1. **Clean**: Remove useless stuff
+2. **Chunk**: Cut documents into small pieces, can cut by word, sentence, or paragraph
+3. **Convert to numbers**: Use semantic models to convert text into vectors (a bunch of numbers)
+
+There's a pitfall here: **whichever semantic model you use to prepare the knowledge base, you must use the same one when querying**. Otherwise they won't match - like using a China map to find your way home in America.
+
+Why convert to numbers? Because AI only understands numbers.
+
+### Step 2: User Query
+
+When you ask a question, RAG does these things:
+
+1. **Convert the question to numbers too**: Using the same semantic model
+2. **Search the knowledge base for relevant content**: Find document chunks with similar numbers
+3. **Give both the found content and question to AI**: Have AI answer based on this information
+
+The whole process is: you ask → convert to numbers → search knowledge base → give information to AI → AI answers
+
+## My Practice
+
+I've implemented RAG in projects, mainly for handling project documentation and code repository queries.
+
+Through practice, I found RAG's biggest challenge is **finding accurately**.
+
+If the knowledge base is too long, humans can handle it. And if the knowledge base isn't particularly huge, length shouldn't be a problem.
+
+The key is how to make it find more accurately:
+
+- Chunking strategy should be reasonable
+- Semantic model should be well chosen
+- Algorithm for finding similar content should be optimized
+
+## My Understanding
+
+RAG's core is letting large models no longer "work behind closed doors."
+
+Previously, large models could only answer questions based on knowledge learned during training. When encountering something they hadn't seen, they could only make things up.
+
+RAG adds a "research" capability to large models: first search the knowledge base for relevant information, then answer based on the found information. This way they can handle private knowledge and reduce making things up.
+
+Simply put, RAG separates "memory" and "reasoning":
+
+- Knowledge base handles "memory" (storing things)
+- Large model handles "reasoning" (understanding and answering)
+
+This division of labor makes AI more practical and reliable.
+
+---
+
+**References**:
+
+- [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401) - Original RAG paper
+- [LangChain RAG Tutorial](https://www.langchain.com.cn/docs/tutorials/rag/) - Chinese practical tutorial
+- [Understanding RAG: Including Advanced Methods](https://www.cnblogs.com/yongwei/p/18674978) - Detailed analysis on cnblogs
+- [RAG Best Practices](https://www.pinecone.io/learn/retrieval-augmented-generation/) - Pinecone official guide
