@@ -37,6 +37,10 @@ const {title, } = Astro.props;
         } else {
           document.documentElement.classList.remove('dark');
         }
+        
+        // 从 localStorage 读取语言，默认为 zh
+        const savedLang = localStorage.getItem('language') || 'zh';
+        window.currentLang = savedLang;
       })();
     </script>
     
@@ -84,9 +88,46 @@ const {title, } = Astro.props;
           window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
         };
         
+        // 语言切换函数
+        window.updateLanguageIcon = function() {
+          const container = document.getElementById('language-icon');
+          if (!container) return;
+          
+          // 显示当前可以切换到的语言
+          container.textContent = window.currentLang === 'zh' ? 'EN' : '中';
+        };
+        
+        window.toggleLanguage = function() {
+          // 切换语言
+          window.currentLang = window.currentLang === 'zh' ? 'en' : 'zh';
+          
+          // 保存到 localStorage
+          localStorage.setItem('language', window.currentLang);
+          
+          // 更新图标
+          window.updateLanguageIcon();
+          
+          // 获取当前路径
+          const currentPath = window.location.pathname;
+          
+          // 如果在博客文章页面，尝试跳转到对应语言的文章
+          if (currentPath.includes('/zh/') || currentPath.includes('/en/')) {
+            const newPath = window.currentLang === 'zh' 
+              ? currentPath.replace('/en/', '/zh/')
+              : currentPath.replace('/zh/', '/en/');
+            
+            // 检查目标页面是否存在（简单处理：直接跳转，如果404会显示错误页）
+            window.location.href = newPath;
+          } else {
+            // 如果不在文章页面，刷新当前页面以应用语言设置
+            window.location.reload();
+          }
+        };
+        
         // 初始化 UI
         window.updateToggleIcon();
         window.updateLogo();
+        window.updateLanguageIcon();
       }
       
       // DOM 加载完成后初始化

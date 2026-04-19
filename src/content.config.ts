@@ -2,6 +2,7 @@
 import { glob } from "astro/loaders";
 // Import utilities from `astro:content`
 import { z, defineCollection } from "astro:content";
+
 // Define a `loader` and `schema` for each collection
 const blog = defineCollection({
     loader: glob({ pattern: '**/[^_]*.mdx', base: "./src/blog/" }),
@@ -14,8 +15,10 @@ const blog = defineCollection({
         url: z.string(),
         alt: z.string()
       }),
-      tags: z.array(z.string())
+      tags: z.array(z.string()),
+      lang: z.optional(z.enum(['zh', 'en'])).default('zh'), // 添加语言字段
     })
 });
+
 // Export a single `collections` object to register your collection(s)
 export const collections = { blog };

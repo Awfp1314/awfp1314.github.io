@@ -24,6 +24,17 @@ const isHome = currentPage === '/';
           ))
         }
 
+        <!-- 语言切换按钮 -->
+        <button
+          onclick="toggleLanguage()"
+          class="p-2 rounded-full hover:bg-muted-foreground/30 dark:bg-background/30 transition-colors"
+          aria-label="Toggle language"
+          title="切换语言 / Switch Language"
+        >
+          <span id="language-icon" class="text-sm font-medium">EN</span>
+        </button>
+
+        <!-- 主题切换按钮 -->
         <button
           onclick="toggleTheme()"
           class="p-2 rounded-full hover:bg-muted-foreground/30 dark:bg-background/30 transition-colors"
