@@ -5,6 +5,11 @@ import { NAV_LINKS } from "../consts";
 
 const currentPage = Astro.url.pathname;
 const isHome = currentPage === '/' || currentPage === '/index-en' || currentPage === '/index-en/';
+
+// 根据当前页面判断语言
+const isEnglishPage = currentPage.includes('/index-en') || currentPage.includes('/about-en');
+const currentLang = isEnglishPage ? 'en' : 'zh';
+const navLinks = NAV_LINKS[currentLang];
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between py-2 lg:py-4 transition-all duration-300">
@@ -17,10 +22,10 @@ const isHome = currentPage === '/' || currentPage === '/index-en' || currentPage
       {isHome && <div></div>}
 
       <nav id="nav-links" class="flex items-center space-x-3 md:space-x-7 lg:space-x-10 pr-6 md:pr-10 lg:pr-14 transition-all duration-300 overflow-hidden">
-        {!isHome && NAV_LINKS.map((item) => (
+        {!isHome && navLinks.map((item) => (
             <NavLink href={item.href} className={`text-lg ${
               currentPage.replaceAll('/', '') === item.href.replaceAll('/', '') ? "text-foreground" : "text-muted-foreground"
-              } select-none`}>{item.label}</NavLink>
+              } select-none nav-link`} data-zh-href={NAV_LINKS.zh.find(link => link.label === item.label || (item.label === 'Home' && link.label === '首页') || (item.label === 'Blog' && link.label === '博客') || (item.label === 'About' && link.label === '关于'))?.href} data-en-href={NAV_LINKS.en.find(link => link.label === item.label || (item.label === '首页' && link.label === 'Home') || (item.label === '博客' && link.label === 'Blog') || (item.label === '关于' && link.label === 'About'))?.href} data-zh-label={NAV_LINKS.zh.find(link => link.label === item.label || (item.label === 'Home' && link.label === '首页') || (item.label === 'Blog' && link.label === '博客') || (item.label === 'About' && link.label === '关于'))?.label} data-en-label={NAV_LINKS.en.find(link => link.label === item.label || (item.label === '首页' && link.label === 'Home') || (item.label === '博客' && link.label === 'Blog') || (item.label === '关于' && link.label === 'About'))?.label}>{item.label}</NavLink>
           ))
         }
 

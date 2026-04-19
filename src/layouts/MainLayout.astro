@@ -88,6 +88,25 @@ const {title, } = Astro.props;
           window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
         };
         
+        // 更新导航链接的语言
+        window.updateNavLinks = function() {
+          const navLinks = document.querySelectorAll('.nav-link');
+          navLinks.forEach(link => {
+            const zhHref = link.getAttribute('data-zh-href');
+            const enHref = link.getAttribute('data-en-href');
+            const zhLabel = link.getAttribute('data-zh-label');
+            const enLabel = link.getAttribute('data-en-label');
+            
+            if (window.currentLang === 'zh') {
+              if (zhHref) link.setAttribute('href', zhHref);
+              if (zhLabel) link.textContent = zhLabel;
+            } else {
+              if (enHref) link.setAttribute('href', enHref);
+              if (enLabel) link.textContent = enLabel;
+            }
+          });
+        };
+        
         // 语言切换函数 - 更新当前语言的视觉状态
         window.updateLanguageIcon = function() {
           const enEl = document.getElementById('lang-en');
@@ -117,6 +136,9 @@ const {title, } = Astro.props;
           
           // 更新按钮视觉状态
           window.updateLanguageIcon();
+          
+          // 更新导航链接
+          window.updateNavLinks();
           
           // 触发语言切换事件
           window.dispatchEvent(new CustomEvent('languageChanged', { 
@@ -173,6 +195,7 @@ const {title, } = Astro.props;
         window.updateToggleIcon();
         window.updateLogo();
         window.updateLanguageIcon();
+        window.updateNavLinks();
       }
       
       // DOM 加载完成后初始化
