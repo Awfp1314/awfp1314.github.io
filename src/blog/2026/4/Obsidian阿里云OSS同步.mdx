@@ -1,0 +1,108 @@
+---
+title: "Obsidian 阿里云 OSS 同步配置教程"
+description: "说白了，就是用阿里云的对象存储来同步 Obsidian 笔记，多端访问无压力"
+author: HUTAO667
+tags: ["Obsidian", "阿里云", "OSS", "同步"]
+pubDate: "2026-04-19"
+lang: "zh"
+---
+
+我在用 Obsidian 的时候遇到一个问题：手机和电脑之间的笔记怎么同步？官方的同步服务要收费，OneDrive 在国内又不太稳定。后来发现阿里云的 OSS 对象存储可以解决这个问题，费用很低，而且速度还不错。
+
+# 什么是 OSS
+
+OSS（Object Storage Service）是阿里云提供的对象存储服务，说白了就是一个云端的文件存储空间。你可以把文件上传到 OSS，然后在任何地方访问。对于 Obsidian 同步来说，它就像一个中转站，手机和电脑都从这里读写笔记。
+
+# 配置步骤
+
+## Step 1：购买 OSS 存储
+
+首先登录阿里云官网，找到 OSS 对象存储，购买时选择如下规格：
+
+![购买 OSS 存储](/blog-images/obsidian-oss/oss-01-purchase.png)
+
+购买后会跳转到控制台，第一次使用会显示未开通，点击"立即开通"：
+
+![开通 OSS 服务](/blog-images/obsidian-oss/oss-02-activate.png)
+
+由于上传和下载都需要流量，建议给账户充值一些余额。不过费用真的很低，一个月可能都用不了一毛钱。
+
+## Step 2：创建访问用户
+
+点击账号信息的"访问控制"：
+
+![访问控制入口](/blog-images/obsidian-oss/oss-03-access-control.png)
+
+创建一个新用户：
+
+![创建用户](/blog-images/obsidian-oss/oss-04-create-user.png)
+
+设置如下：
+
+![用户设置](/blog-images/obsidian-oss/oss-05-user-settings.png)
+
+创建成功后一定要将 AccessKey ID 和 AccessKey Secret 保存下来，关闭页面后就没法再查看了。这两个密钥后面配置插件时会用到。
+
+## Step 3：创建 Bucket
+
+在工作台点击"OSS 对象存储"，点击"Bucket 列表"，创建一个新的 Bucket：
+
+![创建 Bucket](/blog-images/obsidian-oss/oss-06-create-bucket.png)
+
+配置如下：
+
+![Bucket 设置](/blog-images/obsidian-oss/oss-07-bucket-settings.png)
+
+## Step 4：设置访问权限
+
+在 Bucket 设置中，给刚才创建的用户设置访问权限为"完全访问"：
+
+![设置用户权限](/blog-images/obsidian-oss/oss-08-user-permission.png)
+
+然后打开概览界面，记录下 Bucket 的 Endpoint 地址，后面配置插件时需要用到：
+
+![查看概览信息](/blog-images/obsidian-oss/oss-09-overview.png)
+
+## Step 5：安装 Obsidian 插件
+
+在 Obsidian 中搜索并安装"Remotely Save"插件：
+
+![安装插件](/blog-images/obsidian-oss/oss-10-plugin.png)
+
+## Step 6：配置插件
+
+在插件设置中填写以下信息：
+
+- Remote Type：选择 S3 或 S3 Compatible
+- Endpoint：填写 Bucket 的 Endpoint 地址
+- Region：填写 Bucket 所在区域（如 oss-cn-hangzhou）
+- AccessKey ID：填写之前保存的 AccessKey ID
+- AccessKey Secret：填写之前保存的 AccessKey Secret
+- Bucket Name：填写 Bucket 名称
+
+配置完成后，点击"Check"测试连接，如果显示成功，就可以开始同步了。
+
+## Step 7：手机端配置
+
+在手机端创建一个新的 Obsidian 库，安装"Remotely Save"插件，填写相同的配置信息，就可以实现多端同步了。
+
+# 我的使用体验
+
+我用了一段时间，感觉还不错：
+
+- 速度比 OneDrive 快多了，基本上秒同步
+- 费用真的很低，一个月可能都用不了一毛钱
+- 配置稍微有点复杂，但配置好之后就很方便了
+
+唯一的缺点是需要手动点击同步，不像官方同步那样自动。不过可以设置自动同步间隔，基本上也能满足需求。
+
+# 总结
+
+说白了，用阿里云 OSS 同步 Obsidian 就是一个性价比很高的方案。如果你不想花钱买官方同步，又觉得 OneDrive 不稳定，可以试试这个方法。
+
+---
+
+**参考资料**：
+
+- [阿里云 OSS 官方文档](https://help.aliyun.com/product/31815.html) - OSS 产品介绍和使用指南
+- [Remotely Save 插件](https://github.com/remotely-save/remotely-save) - Obsidian 同步插件
