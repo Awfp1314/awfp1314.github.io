@@ -1,0 +1,67 @@
+---
+title: "Obsidian OneDrive 同步配置教程"
+description: "说白了，就是用 OneDrive 的免费 5G 空间来同步 Obsidian 笔记"
+author: HUTAO667
+tags: ["Obsidian", "OneDrive", "同步"]
+pubDate: "2026-04-08"
+lang: "zh"
+---
+
+我在用 Obsidian 的时候想找个免费的同步方案，OneDrive 个人版有 5G 免费空间，用来同步笔记绰绰有余。而且微软的服务还算稳定，配置也不复杂。
+
+# 什么是 OneDrive
+
+OneDrive 是微软提供的云存储服务，个人用户有 5G 免费空间。它可以自动同步电脑上的文件到云端，然后在其他设备上访问。对于 Obsidian 同步来说，它就是一个云端的中转站。
+
+# 配置步骤
+
+## Step 1：下载 OneDrive
+
+访问 OneDrive 官网，下载 OneDrive 客户端，记住是个人版：
+
+![下载 OneDrive](/blog-images/obsidian-onedrive/onedrive-01-download.png)
+
+## Step 2：放置 Obsidian 仓库
+
+登录后，将 Obsidian 仓库文件夹放进 OneDrive 文件夹下：
+
+![放置仓库](/blog-images/obsidian-onedrive/onedrive-02-folder.png)
+
+OneDrive 会自动开始同步这个文件夹到云端。
+
+## Step 3：手机端配置
+
+在手机上搜索"OneSync"，下载安装。国内软件商店一般没有，需要在 Google Play 下载。
+
+OneSync 可以自动同步电脑上 OneDrive 中的文件，支持双向同步。登录后设置好文件夹，并且取消勾选"不包括隐藏文件"，因为 Obsidian 的配置文件是隐藏文件：
+
+![OneSync 配置](/blog-images/obsidian-onedrive/onedrive-03-onesync.png)
+
+## Step 4：打开 Obsidian
+
+配置好后 OneSync 会自动同步，接着打开手机端的 Obsidian，选择手机端对应的 OneSync 文件夹即可。
+
+# 我的使用体验
+
+我用了一段时间，感觉还不错：
+
+- 完全免费，5G 空间对笔记来说够用了
+- 配置简单，不需要折腾太多
+- 同步速度还可以，不过偶尔会有延迟
+
+缺点是：
+
+- 需要额外安装 OneSync，手机端稍微麻烦一点
+- 国内访问 OneDrive 有时候不太稳定
+- 如果笔记里图片多，5G 可能不够用
+
+# 总结
+
+说白了，OneDrive 同步 Obsidian 就是一个免费但稍微有点折腾的方案。如果你不想花钱，又能接受偶尔的不稳定，可以试试这个方法。如果追求稳定，可以考虑阿里云 OSS 或者官方同步服务。
+
+---
+
+**参考资料**：
+
+- [OneDrive 官网](https://www.microsoft.com/zh-cn/microsoft-365/onedrive/online-cloud-storage) - OneDrive 产品介绍
+- [OneSync 应用](https://play.google.com/store/apps/details?id=com.ttxapps.autosync) - 手机端同步工具

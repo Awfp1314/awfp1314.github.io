@@ -1,0 +1,67 @@
+---
+title: "Obsidian OneDrive Sync Configuration Guide"
+description: "Simply put, use OneDrive's free 5GB space to sync Obsidian notes"
+author: HUTAO667
+tags: ["Obsidian", "OneDrive", "Sync"]
+pubDate: "2026-04-08"
+lang: "en"
+---
+
+When using Obsidian, I wanted to find a free sync solution. OneDrive personal edition has 5GB of free space, which is more than enough for syncing notes. Plus, Microsoft's service is relatively stable and the configuration is not complicated.
+
+# What is OneDrive
+
+OneDrive is a cloud storage service provided by Microsoft, with 5GB of free space for personal users. It can automatically sync files on your computer to the cloud and then access them on other devices. For Obsidian sync, it acts as a cloud relay station.
+
+# Configuration Steps
+
+## Step 1: Download OneDrive
+
+Visit the OneDrive official website and download the OneDrive client. Remember to get the personal version:
+
+![Download OneDrive](/blog-images/obsidian-onedrive/onedrive-01-download.png)
+
+## Step 2: Place Obsidian Vault
+
+After logging in, place your Obsidian vault folder into the OneDrive folder:
+
+![Place Vault](/blog-images/obsidian-onedrive/onedrive-02-folder.png)
+
+OneDrive will automatically start syncing this folder to the cloud.
+
+## Step 3: Mobile Configuration
+
+Search for "OneSync" on your phone and download it. It's usually not available in domestic app stores, so you'll need to download it from Google Play.
+
+OneSync can automatically sync files from OneDrive on your computer and supports two-way sync. After logging in, set up the folder and uncheck "Exclude hidden files" because Obsidian's configuration files are hidden:
+
+![OneSync Configuration](/blog-images/obsidian-onedrive/onedrive-03-onesync.png)
+
+## Step 4: Open Obsidian
+
+After configuration, OneSync will automatically sync. Then open Obsidian on your phone and select the corresponding OneSync folder.
+
+# My Experience
+
+I've been using it for a while and it works pretty well:
+
+- Completely free, 5GB is enough for notes
+- Simple configuration, not much hassle
+- Sync speed is okay, though occasionally there's some delay
+
+Downsides:
+
+- Need to install OneSync separately, slightly more troublesome on mobile
+- Accessing OneDrive in China can be unstable sometimes
+- If your notes have many images, 5GB might not be enough
+
+# Summary
+
+Simply put, syncing Obsidian with OneDrive is a free but slightly fiddly solution. If you don't want to spend money and can accept occasional instability, you can try this method. If you want stability, consider Aliyun OSS or the official sync service.
+
+---
+
+**References**:
+
+- [OneDrive Official Website](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage) - OneDrive product introduction
+- [OneSync App](https://play.google.com/store/apps/details?id=com.ttxapps.autosync) - Mobile sync tool
