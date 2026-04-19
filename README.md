@@ -90,17 +90,17 @@ pnpm preview
 
 博客主要分享以下内容：
 
-- 🔧 **项目实践** - 实际项目开发经验和技术方案
-- 💡 **技术探索** - 新技术学习和实践心得
-- 🐛 **问题解决** - 开发中遇到的问题和解决方案
-- 📚 **学习笔记** - 技术文档和学习总结
+- 🤖 **AI 应用开发** - LLM 应用实践、MCP 协议、RAG 技术
+- � **项目实践** - UE_Too实lkitAI 开发经验和技术方案
+- � **技术探索** - 新技术学习和问实践心得
+- � **问题解决** - 开发中遇到的问题和解决方案
 
 ## 🎯 特色文章
 
-- UE Toolkit 开发历程
-- Python 桌面应用开发实践
-- AI 辅助开发经验分享
-- React + Vite 项目优化技巧
+- AI 应用开发实践（MCP、Transformer、RAG）
+- UE_ToolkitAI 架构设计与实现
+- Python 桌面应用开发经验
+- 知识管理与工具使用
 
 ## 🤝 贡献
 
@@ -116,16 +116,17 @@ pnpm preview
 
 ## 👨‍💻 关于作者
 
-HUTAO - 全栈开发者，专注于：
+HUTAO - AI 应用开发者，专注于：
 
-- 🎮 Unreal Engine 工具开发
-- 🤖 AI 应用集成
-- 🌐 Web 全栈开发
-- 🐍 Python 桌面应用
+- 🤖 LLM 应用开发（多模型集成、Function Calling、MCP 协议）
+- 🎮 Unreal Engine 工具开发（AI 驱动的桌面工具箱）
+- 🐍 Python 桌面应用（PyQt6 + Flask）
+- 🌐 Web 全栈开发（React + Vite）
 
 **联系方式**:
 
 - GitHub: [@Awfp1314](https://github.com/Awfp1314)
+- Email: w184961997@gmail.com
 - Blog: [https://awfp1314.github.io](https://awfp1314.github.io)
 
 ---

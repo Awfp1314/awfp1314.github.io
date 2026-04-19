@@ -23,3 +23,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Obsidian 知识库
+知识库/
+.obsidian/
