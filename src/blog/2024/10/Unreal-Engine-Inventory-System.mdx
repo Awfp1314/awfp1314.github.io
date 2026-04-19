@@ -1,0 +1,229 @@
+---
+title: "Unreal Engine Inventory System Development Tutorial"
+description: "Simply put, building a complete inventory system from scratch, including item pickup, stacking, and dropping"
+author: HUTAO667
+tags: ["Unreal Engine", "UE5", "Inventory System", "Blueprint"]
+pubDate: "2024-10-18"
+lang: "en"
+---
+
+When working on a game project, I needed to implement an inventory system and researched how to do it in Unreal Engine. This article documents the complete process of building an inventory system from scratch, including data structure design, item pickup, stacking logic, and item dropping.
+
+# What is an Inventory System
+
+An inventory system is a core feature in games for managing player items. It needs to handle item storage, stacking, usage, and dropping. A good inventory system should:
+
+- Have clear data structures, easy to extend
+- Support item stacking to save inventory space
+- Have rigorous logic to avoid data synchronization issues
+
+# Step 1: Create Data Structures
+
+## ItemData Struct
+
+First, create a struct called ItemData to define basic item properties. It's like an item template, not directly corresponding to specific item instances.
+
+Recommended project structure:
+
+- `Blueprints/Structs/` - Store structs
+- `Blueprints/DataTable/` - Store data tables
+
+ItemData struct contains:
+
+- Item name
+- Item icon
+- Item model
+- Max stack size
+- Item description
+
+![ItemData Struct](/blog-images/ue-inventory/inventory-01.png)
+
+## Create Data Table
+
+Create a data table to store multiple items. Here using "Battery" and "Key" as examples:
+
+![Data Table Example](/blog-images/ue-inventory/inventory-02.png)
+
+## InventoryItemData Struct
+
+Then create InventoryItemData struct, which is an instantiation of ItemData, containing:
+
+- ItemID (Name type) - Used to find item info in data table
+- Amount (Integer type) - Current stack quantity
+
+![InventoryItemData Struct](/blog-images/ue-inventory/inventory-03.png)
+
+**Why two structs?**
+
+Can't use ItemData directly to record inventory quantity because ItemData is a static template shared by all instances. If Amount is in ItemData, all players' item quantities would be forcibly synchronized. For example, if one player picks up a battery, all players' battery count becomes 1, causing serious logic confusion.
+
+InventoryItemData records dynamic information of specific instances, linking to data table through ItemID to get static properties. It's the data bridge between inventory component and UI.
+
+# Step 2: Create Pickupable Items
+
+Create BP_PickupMaster blueprint class in `Blueprints/PickupActor/` folder.
+
+## Add Variables
+
+Add ItemID and Amount variables to store this pickupable instance's data.
+
+![Add Variables](/blog-images/ue-inventory/inventory-04.png)
+
+## Constructor Logic
+
+In constructor, access data table through ItemID, get item info and set static mesh model:
+
+![Constructor](/blog-images/ue-inventory/inventory-05.png)
+
+![Set Model](/blog-images/ue-inventory/inventory-06.png)
+
+## Add Collision Detection
+
+Add sphere collision component, print item info in overlap event to test if data access is successful:
+
+![Collision Detection](/blog-images/ue-inventory/inventory-07.png)
+
+![Overlap Event](/blog-images/ue-inventory/inventory-08.png)
+
+## Test Results
+
+Can see model loaded correctly:
+
+![Model Loaded](/blog-images/ue-inventory/inventory-09.png)
+
+Run test, walking into collision shows item info printed successfully:
+
+![Test Result](/blog-images/ue-inventory/inventory-11.png)
+
+# Step 3: Create Inventory Component
+
+Create BPC_Inventory Actor component in `Blueprints/Components/` folder.
+
+## Add Variables
+
+- InventoryItemData array - Store items in inventory
+- SlotAmount (Integer) - Total inventory slots
+
+![Inventory Variables](/blog-images/ue-inventory/inventory-13.png)
+
+## Initialize Event
+
+Create Initialize custom event to initialize inventory space:
+
+![Initialize Event](/blog-images/ue-inventory/inventory-14.png)
+
+## CheckForEmpty Function
+
+Create CheckForEmpty pure function to find empty slots:
+
+![CheckForEmpty Function](/blog-images/ue-inventory/inventory-15.png)
+
+## AddItem Function (Basic Version)
+
+First implement simple logic with max stack size of 1:
+
+Inputs:
+
+- ItemID (Name)
+- Amount (Integer)
+
+Outputs:
+
+- Success (Boolean)
+- Remainder (Integer)
+
+![AddItem Function](/blog-images/ue-inventory/inventory-16.png)
+
+Note: Promote input parameters to local variables to prevent data pollution.
+
+## Connect Pickup Logic
+
+Add inventory component to character blueprint, then call AddItem in BP_PickupMaster's overlap event:
+
+![Connect Pickup](/blog-images/ue-inventory/inventory-18.png)
+
+For convenience, change InventoryItemData struct variable to two independent variables:
+
+![Independent Variables](/blog-images/ue-inventory/inventory-19.png)
+
+## Test Pickup Function
+
+Add an input in character blueprint (like Tab key) to print inventory contents:
+
+![Test Input](/blog-images/ue-inventory/inventory-21.png)
+
+Set test data: Key quantity 3, Battery quantity 4
+
+![Test Data](/blog-images/ue-inventory/inventory-22.png)
+
+Test result: Items disappear when approached, press Tab to see inventory info
+
+![Test Result](/blog-images/ue-inventory/inventory-24.png)
+
+# Step 4: Implement Stacking Logic
+
+## CheckForFreeSlot Function
+
+Create CheckForFreeSlot pure function to find if there's a slot with same item:
+
+![CheckForFreeSlot](/blog-images/ue-inventory/inventory-26.png)
+
+## AddItem Function (Complete Version)
+
+Implement complete logic with stacking support:
+
+1. Check if there's a slot with same item
+2. If yes, check if can stack
+3. If exceeds max stack, recursively call AddItem
+4. If no same item slot, find empty slot
+5. Handle inventory full situation
+
+![AddItem Complete](/blog-images/ue-inventory/inventory-27.png)
+
+Note: When can't find empty slot, remember to return current item quantity, otherwise items will be removed even when overflow.
+
+# Step 5: Implement Item Dropping
+
+## GetItemIndex Function
+
+Create GetItemIndex function to get item info by index:
+
+![GetItemIndex](/blog-images/ue-inventory/inventory-31.png)
+
+## RemoveItem Function
+
+Create RemoveItem function to remove items from inventory:
+
+![RemoveItem](/blog-images/ue-inventory/inventory-32.png)
+
+## DropItem Function
+
+Add BP_PickupActorMaster class reference in ItemData struct, then create DropItem function to spawn items on ground:
+
+![DropItem](/blog-images/ue-inventory/inventory-33.png)
+
+# My Development Insights
+
+The core of this inventory system is data structure design:
+
+- ItemData is static template, storing basic item properties
+- InventoryItemData is dynamic instance, recording specific item quantities
+- Link them through ItemID, achieving data separation and reuse
+
+Stacking logic is the most complex part, need to consider:
+
+- Does inventory have same item
+- Does it exceed max stack size
+- How to handle full inventory
+- Data passing in recursive calls
+
+# Summary
+
+Simply put, an inventory system is a data management system. The key is separating static and dynamic data, organizing with reasonable data structures, then implementing CRUD logic.
+
+---
+
+**References**:
+
+- [Unreal Engine Official Documentation](https://docs.unrealengine.com/) - Complete UE5 documentation
+- [Blueprint Visual Scripting](https://docs.unrealengine.com/5.0/en-US/blueprints-visual-scripting-in-unreal-engine/) - Blueprint system guide

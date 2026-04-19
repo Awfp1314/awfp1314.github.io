@@ -1,0 +1,247 @@
+---
+title: "虚幻引擎背包系统开发教程"
+description: "说白了，就是从零开始搭建一个完整的背包系统，包括物品拾取、堆叠和丢弃"
+author: HUTAO667
+tags: ["虚幻引擎", "UE5", "背包系统", "蓝图"]
+pubDate: "2024-10-18"
+lang: "zh"
+---
+
+我在做游戏项目的时候需要实现一个背包系统，研究了一下虚幻引擎的实现方式。这篇文章记录了从零开始搭建背包系统的完整流程，包括数据结构设计、物品拾取、堆叠逻辑和物品丢弃。
+
+# 什么是背包系统
+
+背包系统是游戏中用来管理玩家物品的核心功能。它需要处理物品的存储、堆叠、使用和丢弃等操作。一个好的背包系统应该：
+
+- 数据结构清晰，易于扩展
+- 支持物品堆叠，节省背包空间
+- 逻辑严谨，避免数据同步问题
+
+# Step 1：创建数据结构
+
+## ItemData 结构体
+
+首先创建一个名为 ItemData 的结构体，用于定义物品的基础属性。它就像物品的模板，不直接对应具体的物品实例。
+
+建议的项目结构：
+
+- `Blueprints/Structs/` - 存放结构体
+- `Blueprints/DataTable/` - 存放数据表
+
+ItemData 结构体包含：
+
+- 物品名称
+- 物品图标
+- 物品模型
+- 最大堆叠数量
+- 物品描述
+
+![ItemData 结构体](/blog-images/ue-inventory/inventory-01.png)
+
+## 创建数据表
+
+创建一个数据表来存储多个物品的数据。这里以"Battery"（电池）和"Key"（钥匙）为例：
+
+![数据表示例](/blog-images/ue-inventory/inventory-02.png)
+
+## InventoryItemData 结构体
+
+接着创建 InventoryItemData 结构体，它是 ItemData 的实例化，包含：
+
+- ItemID（Name 类型）- 用于查找数据表中的物品信息
+- Amount（整数类型）- 物品当前堆叠数量
+
+![InventoryItemData 结构体](/blog-images/ue-inventory/inventory-03.png)
+
+**为什么需要两个结构体？**
+
+不能用 ItemData 直接记录库存数量，因为 ItemData 是静态模板，所有实例共享。如果把 Amount 放入 ItemData，会导致所有玩家的物品数量强制同步。比如某个玩家捡起一块电池，所有玩家的电池数量都会变成 1，这会造成严重的逻辑混乱。
+
+InventoryItemData 记录具体实例的动态信息，通过 ItemID 关联数据表获取静态属性，是背包组件与 UI 之间的数据桥梁。
+
+# Step 2：创建可拾取物品
+
+在 `Blueprints/PickupActor/` 文件夹下创建 BP_PickupMaster 蓝图类。
+
+## 添加变量
+
+添加 ItemID 和 Amount 两个变量，用于存储这个可拾取实例的数据。
+
+![添加变量](/blog-images/ue-inventory/inventory-04.png)
+
+## 构造函数逻辑
+
+在构造函数中，通过 ItemID 访问数据表，获取物品信息并设置静态网格体的模型：
+
+![构造函数](/blog-images/ue-inventory/inventory-05.png)
+
+![设置模型](/blog-images/ue-inventory/inventory-06.png)
+
+## 添加碰撞检测
+
+添加球体碰撞组件，在重叠事件中打印物品信息，测试是否成功访问到数据：
+
+![碰撞检测](/blog-images/ue-inventory/inventory-07.png)
+
+![重叠事件](/blog-images/ue-inventory/inventory-08.png)
+
+## 测试结果
+
+可以看到模型已经正确加载：
+
+![模型加载](/blog-images/ue-inventory/inventory-09.png)
+
+![模型显示](/blog-images/ue-inventory/inventory-10.png)
+
+运行测试，走进碰撞体可以看到成功打印出物品信息：
+
+![测试结果1](/blog-images/ue-inventory/inventory-11.png)
+
+![测试结果2](/blog-images/ue-inventory/inventory-12.png)
+
+# Step 3：创建背包组件
+
+在 `Blueprints/Components/` 文件夹下创建 BPC_Inventory Actor 组件。
+
+## 添加变量
+
+- InventoryItemData 数组 - 存储背包中的物品
+- SlotAmount（整数）- 背包总槽数
+
+![背包变量](/blog-images/ue-inventory/inventory-13.png)
+
+## Initialize 事件
+
+创建 Initialize 自定义事件，用于初始化背包空间：
+
+![Initialize 事件](/blog-images/ue-inventory/inventory-14.png)
+
+## CheckForEmpty 函数
+
+创建 CheckForEmpty 纯函数，用于查找空槽：
+
+![CheckForEmpty 函数](/blog-images/ue-inventory/inventory-15.png)
+
+## AddItem 函数（基础版）
+
+先实现最大堆叠数为 1 的简单逻辑：
+
+输入：
+
+- ItemID（Name）
+- Amount（整数）
+
+输出：
+
+- Success（布尔）
+- Remainder（整数）
+
+![AddItem 函数1](/blog-images/ue-inventory/inventory-16.png)
+
+![AddItem 函数2](/blog-images/ue-inventory/inventory-17.png)
+
+注意：要将传入的参数提升为局部变量，防止数据污染。
+
+## 连接拾取逻辑
+
+在角色蓝图中添加背包组件，然后在 BP_PickupMaster 的重叠事件中调用 AddItem：
+
+![连接拾取](/blog-images/ue-inventory/inventory-18.png)
+
+为了方便使用，把 InventoryItemData 结构体变量改成两个独立的变量：
+
+![独立变量1](/blog-images/ue-inventory/inventory-19.png)
+
+![独立变量2](/blog-images/ue-inventory/inventory-20.png)
+
+## 测试拾取功能
+
+在角色蓝图中添加一个输入（比如 Tab 键），用于打印背包内容：
+
+![测试输入](/blog-images/ue-inventory/inventory-21.png)
+
+设置测试数据：钥匙数量 3，电池数量 4
+
+![测试数据1](/blog-images/ue-inventory/inventory-22.png)
+
+![测试数据2](/blog-images/ue-inventory/inventory-23.png)
+
+测试结果：靠近物品后物品消失，按 Tab 键可以看到背包中的物品信息
+
+![测试结果3](/blog-images/ue-inventory/inventory-24.png)
+
+![测试结果4](/blog-images/ue-inventory/inventory-25.png)
+
+# Step 4：实现堆叠逻辑
+
+## CheckForFreeSlot 函数
+
+创建 CheckForFreeSlot 纯函数，用于查找是否有相同物品的槽：
+
+![CheckForFreeSlot](/blog-images/ue-inventory/inventory-26.png)
+
+## AddItem 函数（完整版）
+
+实现支持堆叠的完整逻辑：
+
+1. 检查是否有相同物品的槽
+2. 如果有，判断是否可以堆叠
+3. 如果超过最大堆叠数，递归调用 AddItem
+4. 如果没有相同物品的槽，查找空槽
+5. 处理背包满的情况
+
+![AddItem 完整版1](/blog-images/ue-inventory/inventory-27.png)
+
+![AddItem 完整版2](/blog-images/ue-inventory/inventory-28.png)
+
+![AddItem 完整版3](/blog-images/ue-inventory/inventory-29.png)
+
+![AddItem 完整版4](/blog-images/ue-inventory/inventory-30.png)
+
+注意：找不到空槽时，一定要记得将当前物品数量返回出去，否则物品溢出时也会移除拾取 Actor。
+
+# Step 5：实现物品丢弃
+
+## GetItemIndex 函数
+
+创建 GetItemIndex 函数，通过索引获取物品信息：
+
+![GetItemIndex](/blog-images/ue-inventory/inventory-31.png)
+
+## RemoveItem 函数
+
+创建 RemoveItem 函数，从背包中移除物品：
+
+![RemoveItem](/blog-images/ue-inventory/inventory-32.png)
+
+## DropItem 函数
+
+在 ItemData 结构体中添加 BP_PickupActorMaster 的类引用，然后创建 DropItem 函数，将物品生成在地上：
+
+![DropItem](/blog-images/ue-inventory/inventory-33.png)
+
+# 我的开发心得
+
+这个背包系统的核心是数据结构的设计：
+
+- ItemData 是静态模板，存储物品的基础属性
+- InventoryItemData 是动态实例，记录具体的物品数量
+- 通过 ItemID 关联两者，实现数据的分离和复用
+
+堆叠逻辑是最复杂的部分，需要考虑：
+
+- 背包是否有相同物品
+- 是否超过最大堆叠数
+- 背包满了怎么处理
+- 递归调用时的数据传递
+
+# 总结
+
+说白了，背包系统就是一个数据管理系统。关键是把静态数据和动态数据分开，用合理的数据结构来组织，然后实现增删改查的逻辑。
+
+---
+
+**参考资料**：
+
+- [虚幻引擎官方文档](https://docs.unrealengine.com/) - UE5 完整文档
+- [蓝图可视化脚本](https://docs.unrealengine.com/5.0/zh-CN/blueprints-visual-scripting-in-unreal-engine/) - 蓝图系统指南
