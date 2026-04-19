@@ -107,20 +107,38 @@ const {title, } = Astro.props;
           // 更新图标
           window.updateLanguageIcon();
           
+          // 触发语言切换事件
+          window.dispatchEvent(new CustomEvent('languageChanged', { 
+            detail: { language: window.currentLang } 
+          }));
+          
           // 获取当前路径
           const currentPath = window.location.pathname;
           
+          // 如果在博客列表页面，不刷新，通过事件通知页面更新
+          if (currentPath === '/blog' || currentPath === '/blog/') {
+            // 博客列表页面会监听 languageChanged 事件并更新内容
+            return;
+          }
+          
+          // 如果在首页或关于页面，跳转到对应语言版本
+          if (currentPath === '/' || currentPath === '/index') {
+            window.location.href = window.currentLang === 'en' ? '/index-en' : '/';
+            return;
+          }
+          
+          if (currentPath === '/about' || currentPath === '/about/') {
+            window.location.href = window.currentLang === 'en' ? '/about-en' : '/about';
+            return;
+          }
+          
           // 如果在博客文章页面，尝试跳转到对应语言的文章
-          if (currentPath.includes('/zh/') || currentPath.includes('/en/')) {
-            const newPath = window.currentLang === 'zh' 
-              ? currentPath.replace('/en/', '/zh/')
-              : currentPath.replace('/zh/', '/en/');
-            
-            // 检查目标页面是否存在（简单处理：直接跳转，如果404会显示错误页）
-            window.location.href = newPath;
-          } else {
-            // 如果不在文章页面，刷新当前页面以应用语言设置
-            window.location.reload();
+          // 文章URL格式: /2026/3/article-name/
+          const articleMatch = currentPath.match(/\/(\d{4})\/(\d{1,2})\/([^\/]+)\/?$/);
+          if (articleMatch) {
+            const [, year, month, slug] = articleMatch;
+            // 简单处理：刷新页面，让用户看到当前语言的文章列表
+            window.location.href = '/blog';
           }
         };
         

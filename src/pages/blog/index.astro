@@ -1,8 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-
 import MainLayout from "../../layouts/MainLayout.astro";
 import Link from "../../components/Link.astro";
+
+// 获取当前语言（从localStorage或默认为中文）
+const currentLang = 'zh'; // 服务端默认中文，客户端会动态切换
 
 const allPosts = await getCollection("blog");
 allPosts.sort((a, b) => {
@@ -23,8 +25,8 @@ function formatDate(dateString) {
 <MainLayout title="Archive - Blog">
   <div class="max-w-4xl mx-auto px-6 py-12 w-full animate-fade-in">
     <div class="mb-12 border-b border-border pb-8 animate-slide-up" style="animation-delay: 0.1s;">
-      <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4">博客归档</h1>
-      <p class="text-muted-foreground font-mono text-sm">探索技术世界，记录开发心得。</p>
+      <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4" id="blog-title">博客归档</h1>
+      <p class="text-muted-foreground font-mono text-sm" id="blog-description">探索技术世界，记录开发心得。</p>
       
       <div class="mt-6">
         <input 
@@ -41,9 +43,35 @@ function formatDate(dateString) {
   </div>
 
   <script define:vars={{ allPosts }}>
-    const posts = allPosts;
+    const allPostsData = allPosts;
     const container = document.getElementById('posts-container');
     const searchInput = document.getElementById('search-input');
+    
+    // 语言翻译
+    const translations = {
+      zh: {
+        title: '博客归档',
+        description: '探索技术世界，记录开发心得。',
+        search: '搜索文章...'
+      },
+      en: {
+        title: 'Blog Archive',
+        description: 'Explore the tech world, document development insights.',
+        search: 'Search posts...'
+      }
+    };
+    
+    // 获取当前语言
+    function getCurrentLang() {
+      return localStorage.getItem('language') || 'zh';
+    }
+    
+    // 根据语言过滤文章
+    function getPostsByLang(lang) {
+      return allPostsData.filter(post => post.data.lang === lang);
+    }
+    
+    let posts = getPostsByLang(getCurrentLang());
 
     function formatDate(dateString) {
       const date = new Date(dateString);
@@ -91,6 +119,23 @@ function formatDate(dateString) {
         (post.data.tags && post.data.tags.some(tag => tag.toLowerCase().includes(query)))
       );
       renderPosts(filtered);
+    });
+    
+    // 更新页面文本
+    function updatePageText(lang) {
+      const t = translations[lang];
+      document.getElementById('blog-title').textContent = t.title;
+      document.getElementById('blog-description').textContent = t.description;
+      document.getElementById('search-input').placeholder = t.search;
+    }
+    
+    // 监听语言切换事件
+    window.addEventListener('languageChanged', (e) => {
+      const newLang = e.detail.language;
+      posts = getPostsByLang(newLang);
+      renderPosts(posts);
+      updatePageText(newLang);
+      searchInput.value = ''; // 清空搜索
     });
 
     renderPosts(posts);
