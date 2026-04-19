@@ -1,0 +1,127 @@
+---
+title: "AgentSkills：AI 的本地技能库"
+description: AgentSkills 是 AI 的技能库，本地化、透明化，特别适合团队协作
+author: HUTAO667
+tags: ["AI", "AgentSkills", "开发工具"]
+pubDate: "2026-03-18"
+---
+
+今天来聊聊 AgentSkills，也叫 Claude Skills。如果你在用 AI 辅助开发，想让 AI 按照你的流程来工作，AgentSkills 是个不错的选择。
+
+# 什么是 AgentSkills
+
+AgentSkills 是 Anthropic 定义的，也叫 Claude Skills，本质上就是 AI 的一个技能库。
+
+说白了，技能库和代码库的区别是：技能库里写的是一些 AI 的规范，在开发的过程中会根据 yaml 的 description 来按需激活，让 AI 不会出错。
+
+一个完整的技能库一般包含这几个部分：
+
+- **SKILL.md**：规范文档，描述激活这个技能库后的执行流程
+- **scripts 文件夹**：存放一些脚本，SKILL 会声明执行流程时调用哪个脚本
+- **参考文件夹**：里面有标准输出的 json 文件，方便 AI 验证自己的结果符不符合 SKILL 规范
+
+# 为什么需要 AgentSkills
+
+你可能会问，为什么不直接用 [MCP](/2026/3/mcp模型上下文协议/) 呢？
+
+MCP 确实很方便，直接调用就行。但是 MCP 是黑盒，你调用的时候不太清楚里面具体是怎么实现的，出了问题也不好调试。
+
+AgentSkills 就不一样了，脚本都在本地，透明化。你能清楚地看到它在做什么，需要微调的话直接改脚本就行，就像微调一样简单。
+
+可以说 AgentSkills 提供了类似 MCP 的功能（让 AI 调用工具），但实现方式不同：
+
+- MCP 是远程调用，通过网络通信
+- AgentSkills 是本地执行，直接运行脚本
+
+这就是为什么我说 AgentSkills 是"本地化、透明化"的。
+
+# SKILL.md 的结构
+
+SKILL.md 开头必须有 yaml 属性，name 和 description 是必需的。AI 是根据 description 来按需激活的。
+
+比如我在 UE_ToolkitAI 项目里写的 SKILL：
+
+```yaml
+---
+name: uetookit-skills
+description: UE Toolkit项目专用技能，在用户提出具体技术需求时激活
+---
+```
+
+然后在 SKILL.md 里面定义：
+
+- 什么时候激活这个技能
+- 激活后的工作流程
+- 调用哪些脚本
+- 输出什么格式的文件
+- 有哪些注意事项
+
+比如我的项目里定义了一个 6 步 SOP 流程：需求解析 → 出方案 → 等确认 → 施工 → 交付 → Git 提交。AI 每次处理需求都会按照这个流程来，不会乱。
+
+# 如何使用 AgentSkills
+
+市面上大多数 AI 客户端都支持配置 SKILL。如果你用的 AI 客户端支持 SKILL 配置，直接在设置里添加就行。
+
+如果不支持的话，我一般会在根目录放一个 AGENTS.md 文件，AI 开始就会默认读的，或者在提示词中让 AI 先看它。这个文件里把 SKILL 文档和项目的一些说明都简短地解释清楚。
+
+但是如果设置层面没有 SKILL 配置的话，AI 可能就忘记了。所以如果 AI 客户端不支持 SKILL 的话，我觉得最好完成一个任务就开一个新对话，然后让 AI 读 AGENTS。
+
+不过现在市面上的 AI 基本上都有 SKILL 配置了，这个问题不大。
+
+# 我在项目中的使用
+
+在我的 UE_ToolkitAI 项目里，我用 AgentSkills 来规范 AI 的开发流程。
+
+比如我定义了：
+
+- **激活条件**：用户提出具体技术需求时激活，简单问候不激活
+- **工作流程**：6 步 SOP（需求解析 → 出方案 → 等确认 → 施工 → 交付 → Git）
+- **强制约束**：施工完成后必须过自检清单，改了 API 必须同步文档
+- **编码规范**：文件编码、日志规范、异常处理规范等
+
+这样 AI 就不会乱来，每次都按照规范的流程处理需求。而且因为 SKILL 是本地的，我可以随时根据项目需要调整规范，非常灵活。
+
+# 什么时候用 SKILL，什么时候用 MCP
+
+我的使用经验是：
+
+**团队内部开发用 AgentSkills**：
+
+- 脚本都在本地，透明化
+- 可以根据团队的工作流微调
+- 不用担心信息泄露
+- 团队成员都能看到和修改规范
+
+**个人开源项目用 MCP**：
+
+- 生态丰富，MCP Server 越多越好
+- 上手简单，直接调用就行
+- 不需要自己维护脚本
+- 社区贡献的工具可以直接用
+
+说白了，如果你需要透明化、可控性，用 AgentSkills。如果你需要快速接入各种工具，用 MCP。
+
+# SKILL 生态的发展
+
+现在 SKILL 生态也在上升，解决各种各样问题的 SKILL 现在也层出不穷。
+
+比如有专门做代码审查的 SKILL，有做文档生成的 SKILL，有做测试的 SKILL。你可以根据自己的需求选择合适的 SKILL，或者自己写一个。
+
+相比 MCP 的黑盒，SKILL 的优势是你可以看到别人是怎么实现的，学习别人的经验，然后根据自己的需求改进。这种开放性对于学习和改进都很有帮助。
+
+# 总结
+
+AgentSkills 和 MCP 都是让 AI 调用外部工具的方式，但侧重点不同。
+
+MCP 侧重标准化和生态，适合快速接入各种工具。AgentSkills 侧重透明化和可控性，适合团队协作和定制化需求。
+
+如果你在做团队项目，需要规范 AI 的工作流程，AgentSkills 是个不错的选择。如果你在做个人项目，想快速接入各种工具，MCP 更合适。
+
+当然，这两个也不是互斥的，你可以同时用。比如用 AgentSkills 规范工作流程，用 MCP 接入外部工具，各取所长。
+
+---
+
+**参考资料**：
+
+- [Anthropic Claude Skills 文档](https://docs.anthropic.com/en/docs/build-with-claude/skills)
+- [AgentSkills GitHub](https://github.com/anthropics/anthropic-skills)
