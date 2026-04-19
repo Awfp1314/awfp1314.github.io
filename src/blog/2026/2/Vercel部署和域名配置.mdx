@@ -1,0 +1,81 @@
+---
+title: "Vercel 部署网站和域名配置教程"
+description: "说白了，就是用 Vercel 免费部署你的网站，还能绑定自己的域名"
+author: HUTAO667
+tags: ["Vercel", "部署", "域名"]
+pubDate: "2026-02-22"
+lang: "zh"
+---
+
+我在做这个博客的时候研究了一下部署方案，Vercel 是个不错的选择。它支持自动部署，每次 push 代码就自动更新，而且还能免费绑定自己的域名。配置也很简单，几分钟就能搞定。
+
+# 什么是 Vercel
+
+Vercel 是一个专门为前端项目提供部署服务的平台，特别适合部署 React、Vue、Next.js、Astro 这类静态网站或服务端渲染项目。它的特点是：
+
+- 免费额度很大，个人项目完全够用
+- 自动 CI/CD，push 代码就自动部署
+- 全球 CDN 加速，访问速度快
+- 支持自定义域名
+
+# 部署网站
+
+## Step 1：登录 Vercel
+
+打开 [Vercel 官网](https://vercel.com/)，用 GitHub 账号登录。登录后点击右上角的"Add New"：
+
+![添加新项目](/blog-images/vercel-deploy/vercel-01-add-new.png)
+
+## Step 2：导入项目
+
+找到你需要部署的 GitHub 仓库，点击"Import"：
+
+![导入项目](/blog-images/vercel-deploy/vercel-02-import.png)
+
+## Step 3：配置并部署
+
+填写项目配置信息，一般 Vercel 会自动识别项目类型（比如 Astro、Next.js），自动填好构建命令和输出目录。如果需要环境变量，可以在这里添加。
+
+配置好后点击"Deploy"：
+
+![配置部署](/blog-images/vercel-deploy/vercel-03-deploy.png)
+
+等待几分钟，部署完成后 Vercel 会给你一个 `.vercel.app` 的域名，可以直接访问。
+
+# 绑定自定义域名
+
+如果你有自己的域名，可以绑定到 Vercel 项目上。
+
+## Step 1：添加域名
+
+打开项目设置，选择"Domains"，添加你已有的域名：
+
+![添加域名](/blog-images/vercel-deploy/vercel-04-domain.png)
+
+## Step 2：配置 DNS
+
+Vercel 会给你一些 DNS 记录，你需要在域名服务商那里添加这些记录。一般是添加一条 A 记录或 CNAME 记录。
+
+配置好 DNS 后，等待几分钟生效，就可以用自己的域名访问了。
+
+# 为什么选择 Vercel
+
+我准备用 Vercel 来部署这个博客，主要看中这几点：
+
+- 部署速度快，一般 1-2 分钟就完成
+- 自动部署很方便，不用每次手动操作
+- 有全球 CDN，访问速度应该不错
+- 免费额度对个人项目来说完全够用
+
+虽然听说国内访问有时候不太稳定，但总体来说是个很好的免费部署方案。
+
+# 总结
+
+说白了，Vercel 就是一个让你几分钟就能把网站部署上线的平台。如果你有前端项目需要部署，Vercel 是个很好的选择。
+
+---
+
+**参考资料**：
+
+- [Vercel 官方文档](https://vercel.com/docs) - Vercel 使用指南
+- [Vercel 域名配置](https://vercel.com/docs/concepts/projects/domains) - 域名绑定教程
