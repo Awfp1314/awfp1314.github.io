@@ -90,25 +90,6 @@
   header {
     @apply relative lg:sticky top-0 z-0 flex items-center justify-between py-2 lg:py-4;
   }
-
-  html.dark .astro-code,
-  html.dark .astro-code span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-    /* Optional, if you also want font styles */
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
-
-  .astro-code .line-number {
-    display: inline-block;
-    width: 2rem;
-    text-align: right;
-    margin-right: 1rem;
-    color: var(--shiki-dark-muted); /* Use a muted color for line numbers */
-    user-select: none; /* Prevent selection of line numbers */
-  }
   
   .disable-transitions,
   .disable-transitions * {
