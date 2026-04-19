@@ -88,9 +88,21 @@ const {title, } = Astro.props;
           window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
         };
         
-        // 语言切换函数 - 不改变按钮状态，始终显示 "EN | 中文"
+        // 语言切换函数 - 更新当前语言的视觉状态
         window.updateLanguageIcon = function() {
-          // 不需要更新，按钮始终显示 "EN | 中文"
+          const enEl = document.getElementById('lang-en');
+          const zhEl = document.getElementById('lang-zh');
+          if (!enEl || !zhEl) return;
+          
+          if (window.currentLang === 'zh') {
+            // 中文模式：中文大且深色，英文小且浅色
+            zhEl.className = 'text-base text-foreground transition-all';
+            enEl.className = 'text-sm text-muted-foreground transition-all';
+          } else {
+            // 英文模式：英文大且深色，中文小且浅色
+            enEl.className = 'text-base text-foreground transition-all';
+            zhEl.className = 'text-sm text-muted-foreground transition-all';
+          }
         };
         
         window.toggleLanguage = function() {
@@ -102,6 +114,9 @@ const {title, } = Astro.props;
           
           // 保存到 localStorage
           localStorage.setItem('language', window.currentLang);
+          
+          // 更新按钮视觉状态
+          window.updateLanguageIcon();
           
           // 触发语言切换事件
           window.dispatchEvent(new CustomEvent('languageChanged', { 

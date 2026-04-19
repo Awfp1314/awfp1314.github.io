@@ -27,11 +27,15 @@ const isHome = currentPage === '/' || currentPage === '/index-en' || currentPage
         <!-- 语言切换按钮 - 始终显示 -->
         <button
           onclick="toggleLanguage()"
-          class="px-3 py-1.5 rounded-md hover:bg-muted/50 transition-colors text-sm font-medium text-muted-foreground hover:text-foreground"
+          class="px-3 py-1.5 rounded-md hover:bg-muted/50 transition-colors"
           aria-label="Toggle language"
           title="切换语言 / Switch Language"
         >
-          <span id="language-text">EN | 中文</span>
+          <span id="language-text" class="flex items-center gap-1.5 font-semibold">
+            <span id="lang-en" class="text-sm text-muted-foreground transition-all">EN</span>
+            <span class="text-muted-foreground">|</span>
+            <span id="lang-zh" class="text-base text-foreground transition-all">中文</span>
+          </span>
         </button>
 
         <!-- 主题切换按钮 - 始终显示 -->
