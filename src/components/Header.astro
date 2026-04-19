@@ -22,11 +22,24 @@ const navLinks = NAV_LINKS[currentLang];
       {isHome && <div></div>}
 
       <nav id="nav-links" class="flex items-center space-x-3 md:space-x-7 lg:space-x-10 pr-6 md:pr-10 lg:pr-14 transition-all duration-300 overflow-hidden">
-        {!isHome && navLinks.map((item) => (
-            <NavLink href={item.href} className={`text-lg ${
-              currentPage.replaceAll('/', '') === item.href.replaceAll('/', '') ? "text-foreground" : "text-muted-foreground"
-              } select-none nav-link`} data-zh-href={NAV_LINKS.zh.find(link => link.label === item.label || (item.label === 'Home' && link.label === '首页') || (item.label === 'Blog' && link.label === '博客') || (item.label === 'About' && link.label === '关于'))?.href} data-en-href={NAV_LINKS.en.find(link => link.label === item.label || (item.label === '首页' && link.label === 'Home') || (item.label === '博客' && link.label === 'Blog') || (item.label === '关于' && link.label === 'About'))?.href} data-zh-label={NAV_LINKS.zh.find(link => link.label === item.label || (item.label === 'Home' && link.label === '首页') || (item.label === 'Blog' && link.label === '博客') || (item.label === 'About' && link.label === '关于'))?.label} data-en-label={NAV_LINKS.en.find(link => link.label === item.label || (item.label === '首页' && link.label === 'Home') || (item.label === '博客' && link.label === 'Blog') || (item.label === '关于' && link.label === 'About'))?.label}>{item.label}</NavLink>
-          ))
+        {!isHome && navLinks.map((item, index) => {
+          const zhLink = NAV_LINKS.zh[index];
+          const enLink = NAV_LINKS.en[index];
+          return (
+            <NavLink 
+              href={item.href} 
+              className={`text-lg ${
+                currentPage.replaceAll('/', '') === item.href.replaceAll('/', '') ? "text-foreground" : "text-muted-foreground"
+              } select-none nav-link`} 
+              data-zh-href={zhLink.href}
+              data-en-href={enLink.href}
+              data-zh-label={zhLink.label}
+              data-en-label={enLink.label}
+            >
+              {item.label}
+            </NavLink>
+          );
+        })
         }
 
         <!-- 语言切换按钮 - 始终显示 -->
@@ -37,9 +50,9 @@ const navLinks = NAV_LINKS[currentLang];
           title="切换语言 / Switch Language"
         >
           <span id="language-text" class="flex items-center gap-1.5 font-semibold">
-            <span id="lang-en" class="text-sm text-muted-foreground transition-all">EN</span>
+            <span id="lang-en" class={currentLang === 'en' ? 'text-base text-foreground transition-all' : 'text-sm text-muted-foreground transition-all'}>EN</span>
             <span class="text-muted-foreground">|</span>
-            <span id="lang-zh" class="text-base text-foreground transition-all">中文</span>
+            <span id="lang-zh" class={currentLang === 'zh' ? 'text-base text-foreground transition-all' : 'text-sm text-muted-foreground transition-all'}>中文</span>
           </span>
         </button>
 

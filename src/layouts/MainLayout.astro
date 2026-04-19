@@ -38,9 +38,19 @@ const {title, } = Astro.props;
           document.documentElement.classList.remove('dark');
         }
         
-        // 从 localStorage 读取语言，默认为 zh
-        const savedLang = localStorage.getItem('language') || 'zh';
-        window.currentLang = savedLang;
+        // 根据当前 URL 判断语言
+        const currentPath = window.location.pathname;
+        const isEnglishPage = currentPath.includes('/index-en') || currentPath.includes('/about-en');
+        
+        // 根据 URL 判断语言，URL 优先级最高
+        if (isEnglishPage) {
+          window.currentLang = 'en';
+          localStorage.setItem('language', 'en');
+        } else {
+          // 非英文页面默认为中文
+          window.currentLang = 'zh';
+          localStorage.setItem('language', 'zh');
+        }
       })();
     </script>
     
@@ -91,11 +101,15 @@ const {title, } = Astro.props;
         // 更新导航链接的语言
         window.updateNavLinks = function() {
           const navLinks = document.querySelectorAll('.nav-link');
+          console.log('Updating nav links, current lang:', window.currentLang, 'found links:', navLinks.length);
+          
           navLinks.forEach(link => {
             const zhHref = link.getAttribute('data-zh-href');
             const enHref = link.getAttribute('data-en-href');
             const zhLabel = link.getAttribute('data-zh-label');
             const enLabel = link.getAttribute('data-en-label');
+            
+            console.log('Link data:', { zhHref, enHref, zhLabel, enLabel });
             
             if (window.currentLang === 'zh') {
               if (zhHref) link.setAttribute('href', zhHref);
