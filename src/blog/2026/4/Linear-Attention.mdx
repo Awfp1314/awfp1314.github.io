@@ -1,0 +1,109 @@
+---
+title: "Linear Attention: AI's External Brain"
+description: "Simply put, linear attention gives AI a USB drive so it doesn't have to re-read all the code every time"
+author: HUTAO667
+tags: ["AI", "Transformer", "Linear Attention", "Deep Learning"]
+pubDate: "2026-04-08"
+lang: "en"
+---
+
+I noticed a frustrating problem when chatting with AI: at the beginning of a conversation, the AI responds quickly and accurately, but after chatting for a while, it starts to lose memory - its recall of earlier conversations becomes very fuzzy, sometimes forgetting completely.
+
+This made me curious: does AI really have to be this complex? So I looked into the Transformer architecture and discovered that in traditional architectures, context grows quadratically when processing long conversations - this is the root cause of AI "amnesia."
+
+Then I found [this paper](https://arxiv.org/abs/2006.16236). Although I didn't fully understand it (too many mathematical formulas), I grasped the basic concept: linear attention reduces context complexity, making context grow linearly instead of quadratically.
+
+# What is Linear Attention
+
+Linear attention is an optimization of the Transformer architecture. By introducing a "hidden state" (like an external brain), it allows AI to automatically store key information during conversations and retrieve it directly when needed, instead of reprocessing all the context every time.
+
+# Understanding Through Analogy
+
+I think linear attention is like a programmer's USB drive:
+
+**Traditional Transformer Architecture**:
+
+- Every time you write code, you have to re-read all the project code from the beginning
+- As the project grows larger, reading code takes longer and longer
+- Eventually you're too exhausted to remember the earlier code logic
+
+**Linear Attention**:
+
+- You store commonly used code snippets and project experience on a USB drive (or GitHub star them)
+- When you need them, you just pull them out and use them without diving into every detail
+- You don't actually memorize all the code, you just remember "what's on this USB drive"
+
+Or to put it another way, linear attention is like:
+
+- You take notes while reading (hidden state)
+- When you need to recall something, you check your notes instead of flipping through the book
+- The notebook is thin and quick to reference
+
+This is why linear attention solves the long conversation problem.
+
+# How Linear Attention Works
+
+Traditional Transformer uses the attention formula: Attention(Q, K, V) = softmax(QK^T)V
+
+The computational complexity is O(N² d), meaning as conversations get longer (N increases), computation grows quadratically.
+
+Linear attention introduces a kernel function φ and changes the formula to: Attention(Q, K, V) = φ(Q) (φ(K)^T V)
+
+The key is changing the computation order - first calculating φ(K)^T V, then multiplying with φ(Q). This reduces complexity to O(N d²), changing from quadratic to linear.
+
+More importantly, the AI saves each conversation as a vector (hidden state). When you ask a question next time, instead of reading all the context, the AI finds relevant hidden states based on vector similarity and retrieves them directly.
+
+# Current State
+
+Many institutions are researching linear attention, and some relatively mature models have emerged:
+
+- **RWKV Series** - Combines advantages of RNN and Transformer
+- **RetNet** - Retentive Network proposed by Microsoft
+- **DeltaNet** - Incremental attention mechanism
+- **TransNormerLLM** - Normalized Transformer variant
+
+However, linear attention still has one issue: hidden state retrieval isn't precise enough and can be inaccurate or fuzzy. But I believe if we can overcome this challenge, it will be a revolutionary breakthrough for artificial intelligence.
+
+**My Practical Experience**:
+
+To be honest, I haven't used these linear attention models in my projects yet, because they're not mature enough - they might not even match GPT-4o. But I'll keep following this direction, and once the technology matures, I'll definitely try it out right away.
+
+# Why Linear Attention Matters
+
+After learning about linear attention, I think this is a pretty revolutionary concept. It solves the fundamental problem of AI context.
+
+I believe the most important breakthroughs of linear attention are:
+
+1. **Reduced context complexity** - From quadratic O(N²) to linear O(N)
+2. **Introduced hidden states** - Like giving AI an external brain
+3. **Solved the context explosion problem** - No need to send all conversation history every time
+
+Traditional AI, when answering questions, sends each new message along with all previous context. This causes AI to have worse memory and lower quality responses as context accumulates during long conversations.
+
+Although many companies now use context compression techniques, this doesn't solve the root problem. The power consumption from massive context is a frightening number.
+
+Linear attention, by introducing hidden states, makes conversation context linear. You don't need to send all previous context every time - the AI selectively activates hidden states as needed. This not only improves efficiency but also dramatically reduces energy consumption.
+
+# My Understanding
+
+Simply put, traditional Transformer architecture and linear attention are two different approaches:
+
+- **Traditional Transformer**: Re-reads the entire book every time; as the book gets thicker, it gets slower
+- **Linear Attention**: Takes notes while reading (hidden state); when needed, just checks the notes instead of flipping through the book
+
+Linear attention isn't just an optimization - it's a shift in thinking. It transforms AI from "must review everything each time" to "remember key information, retrieve on demand."
+
+# Summary
+
+In simple terms, linear attention gives AI a USB drive (or notebook). Traditional Transformer has to re-read all the code every time, while linear attention stores key information on a USB drive and pulls it out when needed.
+
+Although hidden state retrieval isn't precise enough yet, once we overcome this challenge, both AI efficiency and energy consumption will see fundamental improvements. Reducing from quadratic to linear complexity isn't just an optimization - it's a shift in thinking.
+
+---
+
+**References**:
+
+- [Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention](https://arxiv.org/abs/2006.16236) - Original linear attention paper
+- [RWKV: Reinventing RNNs for the Transformer Era](https://arxiv.org/abs/2305.13048) - Model combining Transformer training efficiency with RNN inference efficiency
+- [RetNet: Retentive Network](https://arxiv.org/abs/2307.08621) - Microsoft's proposed retentive network, a potential successor to Transformer
+- [Transformer Architecture](/blog/2026/3/Transformer-Architecture) - My related article

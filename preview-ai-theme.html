@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HUTAO667 - AI Theme Preview</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        /* AI 主题背景色 */
+        --bg-primary: #0a0e27;
+        --grid-color: rgba(0, 217, 255, 0.08);
+        --accent-glow: rgba(0, 217, 255, 0.15);
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background: var(--bg-primary);
+        color: #f5f5f5;
+        overflow-x: hidden;
+        position: relative;
+        margin: 0;
+      }
+
+      /* 动态网格背景 */
+      .grid-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          linear-gradient(var(--grid-color) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: gridMove 20s linear infinite;
+        z-index: 0;
+      }
+
+      @keyframes gridMove {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(50px, 50px);
+        }
+      }
+
+      /* 浮动粒子效果 */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(0, 217, 255, 0.6);
+        border-radius: 50%;
+        animation: float 15s infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-100vh) translateX(50px);
+          opacity: 0;
+        }
+      }
+
+      /* 主容器 - 保持原样 */
+      .container {
+        position: relative;
+        z-index: 10;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+
+      .container-2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        width: 100%;
+        animation: fadeIn 0.6s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Logo 和名称 - 完全保持原样 */
+      .logo-name {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        animation: slideUp 0.8s ease-out forwards;
+        animation-delay: 0.1s;
+        opacity: 0;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .logo-name img {
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        object-fit: cover;
+        user-select: none;
+      }
+
+      .logo-name span {
+        font-family: Electrolize, monospace;
+        font-size: 3rem;
+        color: #f5f5f5;
+        user-select: none;
+      }
+
+      /* 链接区域 - 完全保持原样 */
+      .links {
+        padding: 0.75rem 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        animation: slideUp 0.8s ease-out forwards;
+        animation-delay: 0.3s;
+        opacity: 0;
+      }
+
+      .links a {
+        font-size: 1.25rem;
+        padding: 0 1rem;
+        user-select: none;
+        color: #f5f5f5;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+
+      .links a:hover {
+        opacity: 0.7;
+      }
+
+      /* 描述文字 - 完全保持原样 */
+      .description {
+        font-family: monospace;
+        max-width: 32rem;
+        user-select: none;
+        font-size: 0.875rem;
+        padding: 0 1rem;
+        color: #f5f5f5;
+        line-height: 1.6;
+        animation: slideUp 0.8s ease-out forwards;
+        animation-delay: 0.5s;
+        opacity: 0;
+      }
+
+      .description a {
+        text-decoration: underline;
+        font-weight: 500;
+        color: inherit;
+      }
+
+      /* 响应式设计 - 保持原样 */
+      @media (min-width: 640px) {
+        .logo-name {
+          flex-direction: row;
+          gap: 0.75rem;
+        }
+
+        .logo-name img {
+          width: 9rem;
+          height: 9rem;
+        }
+
+        .logo-name span {
+          font-size: 5rem;
+        }
+
+        .links a {
+          font-size: 1.5rem;
+        }
+
+        .description {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 网格背景 -->
+    <div class="grid-background"></div>
+
+    <!-- 粒子效果 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 主内容 - 完全保持原有布局 -->
+    <div class="container">
+      <div class="container-2">
+        <div class="logo-name">
+          <img src="public/favicon.ico" alt="HUTAO667 Logo" />
+          <span>HUTAO667</span>
+        </div>
+        <div class="links">
+          <a href="#">博客</a>
+          <a href="#">Github</a>
+          <a href="#">Bilibili</a>
+        </div>
+        <p class="description">
+          一名专注于 AI 应用开发的工程师，探索 LLM、MCP、Function Calling
+          等技术在实际项目中的应用。了解更多 <a href="#">关于我</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // 生成粒子效果
+      const particlesContainer = document.getElementById("particles");
+      const particleCount = 25;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.animationDelay = Math.random() * 15 + "s";
+        particle.style.animationDuration = Math.random() * 10 + 10 + "s";
+        particlesContainer.appendChild(particle);
+      }
+    </script>
+  </body>
+</html>
