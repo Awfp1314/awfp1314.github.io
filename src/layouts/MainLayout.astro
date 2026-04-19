@@ -4,7 +4,7 @@ import Footer from "./../components/Footer.astro"
 
 import "../styles/global.css"
 
-const isHome = Astro.url.pathname === '/';
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index-en' || Astro.url.pathname === '/index-en/';
 
 const {title, } = Astro.props;
 ---

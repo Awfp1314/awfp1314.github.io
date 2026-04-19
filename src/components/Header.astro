@@ -4,7 +4,7 @@ import NavLink from "./NavLink.astro";
 import { NAV_LINKS } from "../consts";
 
 const currentPage = Astro.url.pathname;
-const isHome = currentPage === '/';
+const isHome = currentPage === '/' || currentPage === '/index-en' || currentPage === '/index-en/';
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between py-2 lg:py-4 transition-all duration-300">
