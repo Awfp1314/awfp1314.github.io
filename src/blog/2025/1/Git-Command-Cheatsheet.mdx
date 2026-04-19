@@ -1,0 +1,252 @@
+---
+title: "Git Command Cheatsheet"
+description: "Simply put, a quick reference for commonly used Git commands"
+author: HUTAO667
+tags: ["Git", "Commands", "Cheatsheet"]
+pubDate: "2025-01-07"
+lang: "en"
+---
+
+I often forget some Git commands when using it, and have to search for them every time. So I organized commonly used commands into a cheatsheet that I can refer to when needed.
+
+# Version Rollback
+
+Sometimes you commit wrong code or want to go back to a previous version, you need version rollback.
+
+**Rollback by Number of Commits**
+
+```bash
+git reset --hard HEAD~3
+```
+
+This command rolls back 3 commits. `HEAD~3` means 3 versions before the current version. `--hard` means complete rollback, changes in working directory and staging area will be lost.
+
+**Rollback to Specific Version**
+
+```bash
+git reset --hard abc1234
+```
+
+If you know the specific commit hash (view through `git log`), you can rollback directly to that version. You don't need to write the full hash, the first few characters are enough.
+
+# View Status and History
+
+These commands help you understand the current repository status and history.
+
+**View Current Status**
+
+```bash
+git status
+```
+
+Shows current branch, which files are modified, which files are in staging area, etc. I always check this before any operation.
+
+**View Operation History**
+
+```bash
+git reflog
+```
+
+This is a lifesaver command. It shows all operation records, including rolled back commits. If you rollback by mistake, you can use this command to find the previous commit hash and rollback again.
+
+**Concise Log Display**
+
+```bash
+git log --pretty=oneline
+```
+
+Display one commit per line, looks cleaner. The default `git log` has too much information and is hard to navigate.
+
+# Staging and Committing
+
+These are the most common operations, committing modified code to the repository.
+
+**Add Files to Staging Area**
+
+```bash
+git add index.html
+```
+
+Add `index.html` to staging area. If you want to add all modified files, use `git add .`
+
+**Commit Changes**
+
+```bash
+git commit -m "Fixed login bug"
+```
+
+Commit files in staging area to repository, `-m` is followed by commit message. Write clear commit messages about what was changed for future reference.
+
+**Unstage Changes**
+
+```bash
+git restore --staged index.html
+```
+
+If you accidentally `git add` a file that shouldn't be committed, use this command to remove it from staging area, but the file modifications remain.
+
+**Discard Working Directory Changes**
+
+```bash
+git checkout -- index.html
+```
+
+If you modified a file but haven't `git add` it yet, and want to discard these changes, use this command to restore to the last committed state. Note, this operation is irreversible.
+
+# Compare Differences
+
+**Compare Working Directory with Repository**
+
+```bash
+git diff HEAD -- index.html
+```
+
+View the difference between `index.html` in working directory and the latest version in repository. You can see which lines were changed.
+
+# Branch Operations
+
+Branches are one of Git's most powerful features, allowing you to develop new features without affecting the main branch.
+
+**Create and Switch to Branch**
+
+```bash
+git checkout -b feature-login
+```
+
+Create a new branch called `feature-login` and switch to it. Equivalent to `git branch feature-login` + `git checkout feature-login`
+
+**Only Create Branch**
+
+```bash
+git branch feature-login
+```
+
+Only create branch, don't switch.
+
+**Switch Branch**
+
+```bash
+git checkout main
+```
+
+Switch to `main` branch.
+
+**Merge Branch**
+
+```bash
+git merge feature-login
+```
+
+Merge changes from `feature-login` branch to current branch. Uses fast-forward mode by default, won't create a new commit.
+
+**Disable Fast-forward Merge**
+
+```bash
+git merge --no-ff feature-login
+```
+
+Using `--no-ff` parameter creates a new commit, preserving the merge history of the branch. This way you can see which branch these commits were merged from.
+
+**Delete Branch**
+
+```bash
+git branch -d feature-login
+```
+
+Delete merged branch. If the branch hasn't been merged, Git will warn you to prevent accidental deletion.
+
+# Stash Work in Progress
+
+Sometimes you're developing a feature and suddenly need to fix an urgent bug, but don't want to commit current changes, you can use stash.
+
+**Save Work in Progress**
+
+```bash
+git stash
+```
+
+Save current changes, working directory will be restored to clean state.
+
+**View Saved Stashes**
+
+```bash
+git stash list
+```
+
+View all saved stashes.
+
+**Restore Work in Progress**
+
+```bash
+git stash pop
+```
+
+Restore the most recent stash and remove it from stash list.
+
+# Remote Operations
+
+**Push to Remote Repository**
+
+```bash
+git push origin main
+```
+
+Push local `main` branch to remote repository `origin`. First push might need `-u` parameter: `git push -u origin main`
+
+**Track Remote Branch**
+
+```bash
+git branch --set-upstream-to=origin/main main
+```
+
+Make local `main` branch track remote `origin/main` branch. After setting this up, you can just use `git push` and `git pull` without specifying remote branch every time.
+
+# SSH Key Configuration
+
+Using SSH to connect to GitHub is more convenient than HTTPS, no need to enter password every time.
+
+**Set User Information**
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your_email@example.com"
+```
+
+Set global username and email, used when committing.
+
+**Generate SSH Key**
+
+```bash
+ssh-keygen -t rsa -C "your_email@example.com"
+```
+
+Generate SSH key pair. Just press Enter all the way, it will generate `id_rsa` (private key) and `id_rsa.pub` (public key) in `~/.ssh/` directory.
+
+**Add Public Key to GitHub**
+
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+
+Copy the public key content, then go to GitHub Settings -> SSH and GPG keys -> New SSH key, paste it in.
+
+# My Usage Habits
+
+My most frequently used commands:
+
+- `git status` - Check status before each operation
+- `git add .` and `git commit -m "xxx"` - Commit code
+- `git push` - Push to remote
+- `git stash` and `git stash pop` - Temporarily save work in progress
+- `git reflog` - Lifesaver command, can recover from wrong rollbacks
+
+# Summary
+
+Simply put, there are only a few commonly used Git commands, remembering these is basically enough. Look up documentation for complex operations when needed.
+
+---
+
+**References**:
+
+- [Git Official Documentation](https://git-scm.com/doc) - Complete Git documentation
+- [Pro Git Book](https://git-scm.com/book/en/v2) - Git learning book

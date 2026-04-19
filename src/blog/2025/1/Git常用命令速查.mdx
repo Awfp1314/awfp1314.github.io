@@ -1,0 +1,252 @@
+---
+title: "Git 常用命令速查手册"
+description: "说白了，就是把常用的 Git 命令整理成一个速查表，用的时候直接查"
+author: HUTAO667
+tags: ["Git", "命令", "速查"]
+pubDate: "2025-01-07"
+lang: "zh"
+---
+
+我在用 Git 的时候经常忘记一些命令，每次都要去搜索。干脆把常用的命令整理成一个速查表，需要的时候直接翻出来看。
+
+# 版本回退
+
+有时候提交错了代码，或者想回到之前的某个版本，就需要用到版本回退。
+
+**回退指定数量的提交**
+
+```bash
+git reset --hard HEAD~3
+```
+
+这个命令会回退 3 个提交。`HEAD~3` 表示当前版本往前数 3 个版本。`--hard` 表示彻底回退，工作区和暂存区的修改都会丢失。
+
+**回退到特定版本**
+
+```bash
+git reset --hard abc1234
+```
+
+如果你知道具体的提交哈希值（通过 `git log` 查看），可以直接回退到那个版本。哈希值不用写全，前几位就够了。
+
+# 查看状态和历史
+
+这些命令帮你了解当前仓库的状态和历史记录。
+
+**查看当前状态**
+
+```bash
+git status
+```
+
+显示当前分支、有哪些文件被修改、哪些文件在暂存区等信息。我每次操作前都会先看一眼。
+
+**查看操作历史**
+
+```bash
+git reflog
+```
+
+这是个救命命令。它会显示所有操作记录，包括已经回退的提交。如果你回退错了，可以用这个命令找到之前的提交哈希值，然后再回退回去。
+
+**简洁日志显示**
+
+```bash
+git log --pretty=oneline
+```
+
+用一行显示一个提交，看起来更清爽。默认的 `git log` 信息太多，不太好找。
+
+# 暂存和提交
+
+这是最常用的操作，把修改的代码提交到仓库。
+
+**添加文件到暂存区**
+
+```bash
+git add index.html
+```
+
+把 `index.html` 添加到暂存区。如果想添加所有修改的文件，用 `git add .`
+
+**提交更改**
+
+```bash
+git commit -m "修复了登录bug"
+```
+
+把暂存区的文件提交到仓库，`-m` 后面跟提交信息。提交信息要写清楚改了什么，方便以后查看。
+
+**取消暂存**
+
+```bash
+git restore --staged index.html
+```
+
+如果你不小心 `git add` 了不该提交的文件，用这个命令可以把它从暂存区移除，但文件的修改还在。
+
+**丢弃工作区修改**
+
+```bash
+git checkout -- index.html
+```
+
+如果你改了文件但还没 `git add`，想放弃这些修改，用这个命令可以恢复到上次提交的状态。注意，这个操作不可逆。
+
+# 比较差异
+
+**比较工作区与版本库**
+
+```bash
+git diff HEAD -- index.html
+```
+
+查看工作区的 `index.html` 和版本库中最新版本的差异。可以看到具体改了哪些行。
+
+# 分支操作
+
+分支是 Git 最强大的功能之一，可以让你在不影响主分支的情况下开发新功能。
+
+**创建并切换分支**
+
+```bash
+git checkout -b feature-login
+```
+
+创建一个叫 `feature-login` 的新分支，并切换到这个分支。相当于 `git branch feature-login` + `git checkout feature-login`
+
+**仅创建分支**
+
+```bash
+git branch feature-login
+```
+
+只创建分支，不切换。
+
+**切换分支**
+
+```bash
+git checkout main
+```
+
+切换到 `main` 分支。
+
+**合并分支**
+
+```bash
+git merge feature-login
+```
+
+把 `feature-login` 分支的修改合并到当前分支。默认使用快速前进模式（fast-forward），不会产生新的提交。
+
+**禁用快速前进合并**
+
+```bash
+git merge --no-ff feature-login
+```
+
+用 `--no-ff` 参数会创建一个新的提交，保留分支的合并历史。这样可以看出来这些提交是从哪个分支合并过来的。
+
+**删除分支**
+
+```bash
+git branch -d feature-login
+```
+
+删除已经合并的分支。如果分支还没合并，Git 会提示你，防止误删。
+
+# 工作现场保存
+
+有时候你正在开发一个功能，突然要去修复一个紧急 bug，但当前的修改还不想提交，就可以用 stash。
+
+**保存工作现场**
+
+```bash
+git stash
+```
+
+把当前的修改保存起来，工作区会恢复到干净的状态。
+
+**查看保存的工作现场**
+
+```bash
+git stash list
+```
+
+查看所有保存的工作现场。
+
+**恢复工作现场**
+
+```bash
+git stash pop
+```
+
+恢复最近一次保存的工作现场，并从 stash 列表中删除。
+
+# 远程操作
+
+**推送到远程仓库**
+
+```bash
+git push origin main
+```
+
+把本地的 `main` 分支推送到远程仓库的 `origin`。第一次推送可能需要加 `-u` 参数：`git push -u origin main`
+
+**本地分支跟踪远程分支**
+
+```bash
+git branch --set-upstream-to=origin/main main
+```
+
+让本地的 `main` 分支跟踪远程的 `origin/main` 分支。设置好之后，直接 `git push` 和 `git pull` 就可以了，不用每次都指定远程分支。
+
+# SSH 公钥配置
+
+用 SSH 方式连接 GitHub 比 HTTPS 方便，不用每次都输入密码。
+
+**设置用户信息**
+
+```bash
+git config --global user.name "你的名字"
+git config --global user.email "你的邮箱"
+```
+
+设置全局的用户名和邮箱，提交时会用到。
+
+**生成 SSH 密钥**
+
+```bash
+ssh-keygen -t rsa -C "your_email@example.com"
+```
+
+生成 SSH 密钥对。一路回车就行，会在 `~/.ssh/` 目录下生成 `id_rsa`（私钥）和 `id_rsa.pub`（公钥）。
+
+**添加公钥到 GitHub**
+
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+
+复制公钥内容，然后到 GitHub 的 Settings -> SSH and GPG keys -> New SSH key，粘贴进去就可以了。
+
+# 我的使用习惯
+
+我最常用的命令：
+
+- `git status` - 每次操作前先看看状态
+- `git add .` 和 `git commit -m "xxx"` - 提交代码
+- `git push` - 推送到远程
+- `git stash` 和 `git stash pop` - 临时保存工作现场
+- `git reflog` - 救命命令，回退错了可以用这个找回来
+
+# 总结
+
+说白了，Git 命令就那么几个常用的，记住这些基本够用了。遇到复杂的操作再去查文档也不迟。
+
+---
+
+**参考资料**：
+
+- [Git 官方文档](https://git-scm.com/doc) - Git 完整文档
+- [Pro Git 中文版](https://git-scm.com/book/zh/v2) - Git 学习书籍
