@@ -88,22 +88,9 @@ const {title, } = Astro.props;
           window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
         };
         
-        // 语言切换函数
+        // 语言切换函数 - 不改变按钮状态，始终显示 "EN | 中文"
         window.updateLanguageIcon = function() {
-          const container = document.getElementById('language-icon');
-          if (!container) return;
-          
-          // 显示当前可以切换到的语言（如果当前是中文，显示EN；如果是英文，显示中）
-          const langText = window.currentLang === 'zh' ? 'EN' : '中';
-          
-          container.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
-              <path d="M2 12h20"/>
-            </svg>
-            <span class="text-[10px] font-bold relative z-10" style="margin-top: 1px;">${langText}</span>
-          `;
+          // 不需要更新，按钮始终显示 "EN | 中文"
         };
         
         window.toggleLanguage = function() {
@@ -116,9 +103,6 @@ const {title, } = Astro.props;
           // 保存到 localStorage
           localStorage.setItem('language', window.currentLang);
           
-          // 更新图标
-          window.updateLanguageIcon();
-          
           // 触发语言切换事件
           window.dispatchEvent(new CustomEvent('languageChanged', { 
             detail: { language: window.currentLang } 
@@ -129,7 +113,6 @@ const {title, } = Astro.props;
           
           // 如果在博客列表页面，不刷新，通过事件通知页面更新
           if (currentPath === '/blog' || currentPath === '/blog/') {
-            // 博客列表页面会监听 languageChanged 事件并更新内容
             console.log('Blog page - dispatched languageChanged event');
             return;
           }
