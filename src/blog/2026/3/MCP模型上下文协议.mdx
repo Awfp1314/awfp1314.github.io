@@ -1,0 +1,124 @@
+---
+title: "MCP（Model Context Protocol）模型上下文协议"
+description: MCP是一种协议，它把AI访问外部资源或者工具都统一了标准
+author: HUTAO667
+tags: ["AI", "MCP", "LLM"]
+pubDate: "2026-03-15"
+---
+
+最近在开发UE_ToolkitAI项目的时候，遇到了一个让我很头疼的问题：每次想让AI访问不同的外部工具，都得单独写一套插件。A应用连接B服务要写插件，C应用连接B服务又得重新写一遍，这种重复劳动真的很烦。
+
+直到我接触到MCP（Model Context Protocol），才发现原来这个问题已经有了解决方案。今天就来聊聊MCP是什么，以及它为什么这么重要。
+
+# 什么是MCP
+
+MCP是一种协议，它把AI访问外部资源或者工具都统一了标准。
+
+没有MCP之前，想让AI访问外部的工具或者资源，都需要单独的写插件，特别麻烦。A应用要连接B服务，要单独写一个插件，C应用要连接B服务，又得重新写一套插件，因为没有统一的标准。
+
+MCP正是解决了这个问题，现在只需要根据MCP标准实现一次服务端，任何支持MCP的客户端都可以使用。
+
+# 用类比来理解
+
+我觉得用生活中的例子更好理解。
+
+就像是统一了插座的规格，以前每个电器都有自己的插头形状，每个品牌的插座也不一样，那得多麻烦？现在有了国标、美标、欧标这些统一标准，电器厂商按标准做插头，插座厂商按标准做插座，一切就能对接上了。
+
+再比如耳机接口的进化，以前诺基亚、索尼、三星各有各的标准，买耳机还得看兼不兼容自己的手机。后来3.5mm耳机接口成了行业标准，任何耳机都能插在任何设备上。虽然现在又进化到蓝牙和Type-C了，但核心思想是一样的：统一标准，减少适配成本。
+
+还有操作系统，以前每个应用都要为每个硬件平台单独适配，想在不同电脑上跑同一个程序？对不起，得重新开发。操作系统提供了统一的接口层，应用程序只需要调用操作系统的API，不用管底层硬件是什么。
+
+MCP在AI领域就是类似的角色。
+
+# MCP的工作流程
+
+MCP的工作流是这样的：
+
+```
+MCP Host（支持MCP协议的AI客户端）
+    ↓
+Transfer Layer（传输层）
+    ↓
+MCP Server（各种MCP工具）
+```
+
+说白了就是三层：
+
+MCP Host就是支持MCP的AI客户端，比如Claude Desktop，或者你自己开发的AI应用。
+
+中间是传输层，负责把消息在客户端和服务端之间传来传去。
+
+最后是MCP Server，提供具体功能的服务端，比如文件操作、数据库查询、网络搜索这些。
+
+每个MCP Server只需要实现一次，就能被所有支持MCP的客户端使用，这就是它的核心价值。
+
+# 在我项目中的应用
+
+在我的UE_ToolkitAI项目里，我用MCP来实现AI助手和虚幻引擎的交互。
+
+如果不用MCP，我得为每个AI模型（Claude、GPT、Gemini）单独写适配层，为每个功能（文件操作、项目管理、资源迁移）写独立的插件，AI模型一更新，所有插件都得重新适配。这意味着大量重复代码和维护成本。
+
+采用MCP后就简单多了，所有AI模型通过MCP协议访问工具，统一接口。每个功能实现为独立的MCP Server，模块化。新增功能只需要添加新的MCP Server，AI模型和具体功能解耦，互不影响。
+
+比如我实现一个"项目管理"功能：
+
+```python
+# MCP Server端（只需实现一次）
+class ProjectManagementServer:
+    def list_projects(self):
+        """列出所有项目"""
+        return get_all_projects()
+
+    def create_project(self, name, template):
+        """创建新项目"""
+        return create_ue_project(name, template)
+
+    def get_project_info(self, project_path):
+        """获取项目信息"""
+        return analyze_project(project_path)
+```
+
+任何支持MCP的AI客户端都可以直接调用这些功能，不需要额外的适配代码。
+
+# MCP和传统插件的区别
+
+传统插件的问题在于：
+
+- 每个应用都要单独开发
+- 需要同步更新所有插件
+- 添加新功能要改所有应用
+- 各家标准不统一
+
+MCP的优势是：
+
+- 实现一次，到处使用
+- 只需更新MCP Server
+- 加个新MCP Server就行
+- 统一的协议标准
+
+这个区别还是挺明显的，开发效率能提升不少。
+
+# 我的看法
+
+我觉得MCP对AI应用开发的意义，就像HTTP对互联网的意义一样重要。
+
+虽然现在MCP还在发展阶段，但我能看到它的潜力。会有越来越多的MCP Server实现，社区会贡献各种工具库，会形成标准化的最佳实践。
+
+不过MCP也有它的缺点，就像是一个黑盒。你调用MCP Server的时候，不太清楚里面具体是怎么实现的，出了问题也不好调试。这时候AgentSkills就显得很有意思了，它似乎集成了MCP的优点，但没有黑盒效应的缺点，因为Skills是本地的，透明化的，你能清楚地看到它在做什么。
+
+如果你也在开发AI应用，我建议在设计架构的时候就考虑MCP的集成，这样后面会省很多事。就像当初选择用HTTP一样，选择一个好的标准能让后面的开发轻松很多。当然，对于一些需要透明化的场景，AgentSkills可能是更好的选择。
+
+# 总结
+
+说白了，MCP就是解决了AI应用开发中的一个核心问题：如何让AI高效、标准化地访问外部资源。
+
+通过统一的协议标准，开发者可以避免重复造轮子，降低维护成本，提高开发效率。就像插座标准让电器互联互通，MCP正在让AI工具生态变得更加开放和繁荣。
+
+---
+
+**参考资料**：
+
+- [MCP 官方网站](https://modelcontextprotocol.io/) - Model Context Protocol 官方文档
+- [MCP 规范文档](https://modelcontextprotocol.io/specification/2025-11-25) - 协议规范详细说明
+- [Anthropic MCP 发布公告](https://www.anthropic.com/news/model-context-protocol) - Anthropic 官方博客
+- [MCP GitHub 仓库](https://github.com/modelcontextprotocol/modelcontextprotocol) - 开源代码和文档
