@@ -197,11 +197,60 @@ const {title, } = Astro.props;
             return;
           }
           
-          // 如果在博客文章页面，跳转到博客列表
+          // 如果在博客文章页面，尝试切换到对应语言版本
           const articleMatch = currentPath.match(/\/(\d{4})\/(\d{1,2})\/([^\/]+)\/?$/);
           if (articleMatch) {
-            console.log('Article page - redirecting to blog list');
-            window.location.href = '/blog';
+            console.log('Article page detected:', currentPath);
+            
+            // 获取当前文章信息
+            const year = articleMatch[1];
+            const month = articleMatch[2];
+            const currentSlug = articleMatch[3];
+            
+            // 检查当前文章是否是中文（包含中文字符）
+            const isChineseArticle = /[\u4e00-\u9fff]/.test(currentSlug);
+            
+            // 如果当前语言与文章语言不匹配，尝试跳转到对应版本
+            // 例如：当前是中文文章，但用户想切换到英文
+            if ((window.currentLang === 'en' && isChineseArticle) ||
+                (window.currentLang === 'zh' && !isChineseArticle)) {
+              
+              // 尝试查找对应语言版本
+              // 这里我们无法准确知道对应文章的slug，所以采用保守策略：
+              // 1. 首先尝试触发事件，让文章页面处理
+              const languageSwitchHandled = window.dispatchEvent(
+                new CustomEvent('articleLanguageSwitch', {
+                  detail: {
+                    language: window.currentLang,
+                    year: year,
+                    month: month,
+                    currentSlug: currentSlug
+                  },
+                  cancelable: true
+                })
+              );
+              
+              // 如果事件被取消（preventDefault），说明文章页面已处理
+              if (!languageSwitchHandled) {
+                console.log('Article language switch handled by article page');
+                return;
+              }
+              
+              // 2. 如果文章页面没有处理，显示提示并保持在当前页面
+              console.log('No alternate version found - staying on current page');
+              
+              // 显示一个友好的提示（可选）
+              // alert('该文章暂无' + (window.currentLang === 'en' ? '英文' : '中文') + '版本，已切换界面语言。');
+              
+              // 保持在当前页面，只更新UI语言
+              return;
+            } else {
+              // 当前语言与文章语言匹配
+              // 例如：当前是中文文章，用户想切换到中文（不应该发生）
+              // 或者当前是英文文章，用户想切换到英文
+              console.log('Article language matches current language preference');
+              return;
+            }
           }
         };
         

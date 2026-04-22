@@ -1,0 +1,65 @@
+---
+// Astro 组件示例
+// 展示如何创建一个标准的 Astro 组件
+
+// 1. 导入依赖
+import { Icon } from 'lucide-astro';
+
+// 2. 定义 Props 接口（TypeScript）
+interface Props {
+  title: string;
+  description?: string;
+  icon?: string;
+  className?: string;
+}
+
+// 3. 获取 Props
+const { title, description, icon, className = '' } = Astro.props;
+---
+
+<!-- 4. 组件模板 -->
+<div class={`card p-6 rounded-lg border border-border bg-card ${className}`}>
+  <!-- 标题区域 -->
+  <div class="flex items-center gap-3 mb-3">
+    {icon && (
+      <Icon name={icon} class="size-6 text-primary" />
+    )}
+    <h3 class="text-xl font-semibold text-foreground">
+      {title}
+    </h3>
+  </div>
+  
+  <!-- 描述区域 -->
+  {description && (
+    <p class="text-muted-foreground">
+      {description}
+    </p>
+  )}
+  
+  <!-- 插槽内容 -->
+  <div class="mt-4">
+    <slot />
+  </div>
+</div>
+
+<!-- 5. 组件样式（可选） -->
+<style>
+  .card {
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<!-- 6. 组件脚本（可选） -->
+<script>
+  // 客户端交互逻辑
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      console.log('Card clicked');
+    });
+  });
+</script>

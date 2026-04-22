@@ -1,0 +1,66 @@
+---
+// Layout 组件示例
+// 展示如何创建页面布局
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <!-- 基础 Meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- SEO Meta -->
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    {image && <meta property="og:image" content={image} />}
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    {image && <meta name="twitter:image" content={image} />}
+    
+    <!-- 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  
+  <body class="min-h-screen bg-background text-foreground">
+    <!-- 页面结构 -->
+    <div class="flex flex-col min-h-screen">
+      <!-- 头部 -->
+      <Header />
+      
+      <!-- 主内容 -->
+      <main class="flex-grow">
+        <slot />
+      </main>
+      
+      <!-- 底部 -->
+      <Footer />
+    </div>
+  </body>
+</html>

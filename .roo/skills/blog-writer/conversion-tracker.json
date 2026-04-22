@@ -1,0 +1,140 @@
+{
+  "converted": [
+    {
+      "notePath": "知识库/02_Notes/MCP （模型上下文协议）.md",
+      "blogPath": "src/blog/2026/3/MCP模型上下文协议.mdx",
+      "blogPathEn": "src/blog/2026/3/MCP-Model-Context-Protocol.mdx",
+      "convertedDate": "2026-03-15",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/AgentSkills.md",
+      "blogPath": "src/blog/2026/3/AgentSkills技能系统.mdx",
+      "blogPathEn": "src/blog/2026/3/AgentSkills-Local-Skill-Library.mdx",
+      "convertedDate": "2026-03-18",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/Transformer架构.md",
+      "blogPath": "src/blog/2026/3/Transformer架构.mdx",
+      "blogPathEn": "src/blog/2026/3/Transformer-Architecture.mdx",
+      "convertedDate": "2026-03-20",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/RAG （检索增强生成）.md",
+      "blogPath": "src/blog/2026/3/RAG检索增强生成.mdx",
+      "blogPathEn": "src/blog/2026/3/RAG-Retrieval-Augmented-Generation.mdx",
+      "convertedDate": "2026-03-25",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/Rust环境准备.md",
+      "blogPath": "src/blog/2026/3/Rust环境准备.mdx",
+      "blogPathEn": "src/blog/2026/3/Rust-Environment-Setup.mdx",
+      "convertedDate": "2026-03-22",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/OpenClaw部署.md",
+      "blogPath": "src/blog/2026/4/OpenClaw部署指南.mdx",
+      "blogPathEn": "src/blog/2026/4/OpenClaw-Deployment-Guide.mdx",
+      "convertedDate": "2026-04-11",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/UeToolkit使用.md",
+      "blogPath": "src/blog/2026/4/UeToolkit使用文档.mdx",
+      "blogPathEn": "src/blog/2026/4/UeToolkit-User-Guide.mdx",
+      "convertedDate": "2026-04-05",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/线性注意力.md",
+      "blogPath": "src/blog/2026/4/线性注意力.mdx",
+      "blogPathEn": "src/blog/2026/4/Linear-Attention.mdx",
+      "convertedDate": "2026-04-19",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/Obsidian 阿里云OSS同步.md",
+      "blogPath": "src/blog/2026/4/Obsidian阿里云OSS同步.mdx",
+      "blogPathEn": "src/blog/2026/4/Obsidian-Aliyun-OSS-Sync.mdx",
+      "convertedDate": "2026-04-19",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/Obsidian使用OneDrive同步.md",
+      "blogPath": "src/blog/2026/4/Obsidian-OneDrive同步.mdx",
+      "blogPathEn": "src/blog/2026/4/Obsidian-OneDrive-Sync.mdx",
+      "convertedDate": "2026-04-08",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/Vercel部署网站.md",
+      "blogPath": "src/blog/2026/2/Vercel部署和域名配置.mdx",
+      "blogPathEn": "src/blog/2026/2/Vercel-Deployment-and-Domain-Setup.mdx",
+      "convertedDate": "2026-02-22",
+      "status": "published",
+      "hasEnglish": true,
+      "notes": "合并了Vercel映射域名.md的内容"
+    },
+    {
+      "notePath": "知识库/02_Notes/Git常用命令.md",
+      "blogPath": "src/blog/2025/1/Git常用命令速查.mdx",
+      "blogPathEn": "src/blog/2025/1/Git-Command-Cheatsheet.mdx",
+      "convertedDate": "2025-01-07",
+      "status": "published",
+      "hasEnglish": true
+    },
+    {
+      "notePath": "知识库/02_Notes/虚幻引擎：库存系统的搭建.md",
+      "blogPath": "src/blog/2024/10/虚幻引擎背包系统开发.mdx",
+      "blogPathEn": "src/blog/2024/10/Unreal-Engine-Inventory-System.mdx",
+      "convertedDate": "2024-10-18",
+      "status": "published",
+      "hasEnglish": true
+    }
+  ],
+  "pending": [],
+  "skipped": [
+    {
+      "notePath": "知识库/02_Notes/UeToolkit 新项目架构规划.md",
+      "reason": "涉及商业机密"
+    },
+    {
+      "notePath": "知识库/02_Notes/虚幻引擎：编辑器类型.md",
+      "reason": "内容过于简略，不适合转化为博客"
+    },
+    {
+      "notePath": "知识库/02_Notes/关于obsidian知识库搭建方法.md",
+      "reason": "用户个人想法，不适合公开"
+    },
+    {
+      "notePath": "知识库/02_Notes/Copilot.md",
+      "reason": "用户不需要转化"
+    },
+    {
+      "notePath": "知识库/02_Notes/MCP&A2A&AgentSkills.md",
+      "reason": "用户不需要转化"
+    },
+    {
+      "notePath": "知识库/02_Notes/Telegram：中文设置.md",
+      "reason": "用户不需要转化"
+    },
+    {
+      "notePath": "知识库/02_Notes/Vercel映射域名.md",
+      "reason": "已合并到Vercel部署和域名配置.mdx"
+    }
+  ]
+}

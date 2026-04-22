@@ -1,0 +1,67 @@
+---
+// 页面组件示例
+// 展示如何创建一个标准页面
+
+import MainLayout from '../layouts/MainLayout.astro';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+// 获取博客文章
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+// 页面元数据
+const pageTitle = '博客';
+const pageDescription = '分享技术文章和开发经验';
+---
+
+<MainLayout title={pageTitle} description={pageDescription}>
+  <!-- 页面容器 -->
+  <div class="container mx-auto px-4 py-12">
+    <!-- 页面标题 -->
+    <header class="mb-12 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        {pageTitle}
+      </h1>
+      <p class="text-xl text-muted-foreground">
+        {pageDescription}
+      </p>
+    </header>
+    
+    <!-- 文章列表 -->
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {sortedPosts.map(post => (
+        <Card
+          title={post.data.title}
+          description={post.data.description}
+          href={`/blog/${post.slug}`}
+        >
+          <!-- 文章元信息 -->
+          <div class="flex items-center gap-4 text-sm text-muted-foreground">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('zh-CN')}
+            </time>
+            {post.data.tags && (
+              <div class="flex gap-2">
+                {post.data.tags.slice(0, 2).map(tag => (
+                  <span class="px-2 py-1 rounded bg-muted text-xs">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </Card>
+      ))}
+    </div>
+    
+    <!-- 空状态 -->
+    {sortedPosts.length === 0 && (
+      <div class="text-center py-12">
+        <p class="text-muted-foreground">暂无文章</p>
+      </div>
+    )}
+  </div>
+</MainLayout>
