@@ -41,15 +41,18 @@ const {title, } = Astro.props;
         // 根据当前 URL 判断语言
         const currentPath = window.location.pathname;
         const isEnglishPage = currentPath.includes('/index-en') || currentPath.includes('/about-en');
+        const isChinesePage = currentPath === '/' || currentPath === '/about' || currentPath === '/about/';
         
-        // 根据 URL 判断语言，URL 优先级最高
+        // 只在首页和关于页根据 URL 强制设置语言，其他页面保留 localStorage 中的设置
         if (isEnglishPage) {
           window.currentLang = 'en';
           localStorage.setItem('language', 'en');
-        } else {
-          // 非英文页面默认为中文
+        } else if (isChinesePage) {
           window.currentLang = 'zh';
           localStorage.setItem('language', 'zh');
+        } else {
+          // 其他页面（如博客列表、博客详情）从 localStorage 读取，默认为中文
+          window.currentLang = localStorage.getItem('language') || 'zh';
         }
       })();
     </script>

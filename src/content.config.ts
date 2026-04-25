@@ -17,6 +17,7 @@ const blog = defineCollection({
       }),
       tags: z.array(z.string()),
       lang: z.optional(z.enum(['zh', 'en'])).default('zh'), // 添加语言字段
+      alternateSlug: z.optional(z.string()), // 对应语言版本的文章 slug
     })
 });
 

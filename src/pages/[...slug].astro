@@ -11,8 +11,11 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+// 将 alternateSlug 传递给布局
+const alternateSlug = post.data.alternateSlug;
 ---
 
-<MarkdownPostLayout frontmatter={post.data}>
+<MarkdownPostLayout frontmatter={post.data} alternateSlug={alternateSlug}>
   <Content />
 </MarkdownPostLayout>

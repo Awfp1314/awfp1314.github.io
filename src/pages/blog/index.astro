@@ -83,7 +83,7 @@ function formatDate(dateString) {
 
     function renderPosts(filteredPosts) {
       container.innerHTML = filteredPosts.map(post => `
-        <a href="/${post.id}/" class="group block p-5 bg-muted/30 hover:bg-muted/50 border border-border rounded-xl transition-all hover:translate-x-1 h-[180px] flex flex-col">
+        <a href="/${post.id}/" class="post-link group block p-5 bg-muted/30 hover:bg-muted/50 border border-border rounded-xl transition-all hover:translate-x-1 h-[180px] flex flex-col" data-post-id="${post.id}">
           <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 flex-grow">
             <div class="flex-grow flex flex-col min-w-0">
               <h2 class="text-lg font-bold text-foreground group-hover:text-primary transition-colors mb-1 line-clamp-1">
@@ -109,6 +109,16 @@ function formatDate(dateString) {
           </div>
         </a>
       `).join('');
+      
+      // 为所有文章链接添加点击事件，保存滚动位置
+      document.querySelectorAll('.post-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          // 保存当前滚动位置
+          sessionStorage.setItem('blogListScrollPosition', window.scrollY.toString());
+          // 保存当前搜索关键词
+          sessionStorage.setItem('blogListSearchQuery', searchInput.value);
+        });
+      });
     }
 
     searchInput.addEventListener('input', (e) => {
@@ -144,6 +154,35 @@ function formatDate(dateString) {
       posts = getPostsByLang(currentLang);
       updatePageText(currentLang);
       renderPosts(posts);
+      
+      // 恢复搜索关键词
+      const savedSearchQuery = sessionStorage.getItem('blogListSearchQuery');
+      if (savedSearchQuery) {
+        searchInput.value = savedSearchQuery;
+        // 触发搜索
+        const query = savedSearchQuery.toLowerCase();
+        const filtered = posts.filter(post => 
+          post.data.title.toLowerCase().includes(query) || 
+          post.data.description.toLowerCase().includes(query) ||
+          (post.data.tags && post.data.tags.some(tag => tag.toLowerCase().includes(query)))
+        );
+        renderPosts(filtered);
+      }
+      
+      // 恢复滚动位置
+      const savedScrollPosition = sessionStorage.getItem('blogListScrollPosition');
+      if (savedScrollPosition) {
+        // 使用 requestAnimationFrame 确保 DOM 已经渲染完成
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: parseInt(savedScrollPosition, 10),
+            behavior: 'instant' // 立即滚动，不使用平滑动画
+          });
+          // 清除保存的滚动位置，避免下次进入时还原到这个位置
+          sessionStorage.removeItem('blogListScrollPosition');
+          sessionStorage.removeItem('blogListSearchQuery');
+        });
+      }
     }
     
     // 初始化
