@@ -172,8 +172,8 @@ function formatDate(dateString) {
       // 恢复滚动位置
       const savedScrollPosition = sessionStorage.getItem('blogListScrollPosition');
       if (savedScrollPosition) {
-        // 使用 requestAnimationFrame 确保 DOM 已经渲染完成
-        requestAnimationFrame(() => {
+        // 使用 setTimeout 确保 DOM 完全渲染和动画完成
+        setTimeout(() => {
           window.scrollTo({
             top: parseInt(savedScrollPosition, 10),
             behavior: 'instant' // 立即滚动，不使用平滑动画
@@ -181,7 +181,7 @@ function formatDate(dateString) {
           // 清除保存的滚动位置，避免下次进入时还原到这个位置
           sessionStorage.removeItem('blogListScrollPosition');
           sessionStorage.removeItem('blogListSearchQuery');
-        });
+        }, 100); // 增加延迟到 100ms
       }
     }
     
