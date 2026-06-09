@@ -4,46 +4,46 @@ import Footer from "./../components/Footer.astro"
 
 import "../styles/global.css"
 
-const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index-en' || Astro.url.pathname === '/index-en/';
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '/index-en' || pathname === '/index-en/';
+const defaultLang = pathname.includes('/index-en') || pathname.includes('/about-en') ? 'en' : 'zh';
 
-const {title, } = Astro.props;
+const {
+  title,
+  description = 'HUTAO667 的个人技术博客，分享 AI 应用开发、项目实践和技术思考。',
+  lang = defaultLang,
+} = Astro.props;
+const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
 ---
 
-<html>
+<html lang={htmlLang}>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:type" content="website">
+    <link rel="canonical" href={Astro.url.href}>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
-    {
-      isHome && (<link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet"/>)
-    }
+    {isHome && (<link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet"/>)}
 
     <title>{title}</title>
     <script is:inline>
-      // 立即执行，避免闪烁
       (function() {
-        // 从 localStorage 读取主题，默认为 light
         const savedTheme = localStorage.getItem('theme') || 'light';
         window.isDark = savedTheme === 'dark';
-        
-        // 立即应用主题类
-        if (window.isDark) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-        
-        // 根据当前 URL 判断语言
+        document.documentElement.classList.toggle('dark', window.isDark);
+
         const currentPath = window.location.pathname;
         const isEnglishPage = currentPath.includes('/index-en') || currentPath.includes('/about-en');
         const isChinesePage = currentPath === '/' || currentPath === '/about' || currentPath === '/about/';
-        
-        // 只在首页和关于页根据 URL 强制设置语言，其他页面保留 localStorage 中的设置
+
         if (isEnglishPage) {
           window.currentLang = 'en';
           localStorage.setItem('language', 'en');
@@ -51,69 +51,45 @@ const {title, } = Astro.props;
           window.currentLang = 'zh';
           localStorage.setItem('language', 'zh');
         } else {
-          // 其他页面（如博客列表、博客详情）从 localStorage 读取，默认为中文
           window.currentLang = localStorage.getItem('language') || 'zh';
         }
       })();
     </script>
     
     <script>
-      // 主题切换函数
       function initTheme() {
         const savedTheme = localStorage.getItem('theme') || 'light';
         window.isDark = savedTheme === 'dark';
         
-        // 更新图标
         window.updateToggleIcon = function() {
           const container = document.getElementById('toggle-icon');
           if (!container) return;
-          
-          if (window.isDark) {
-            container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" class="size-5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path></svg>`;
-          } else {
-            container.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" class="size-5"><path d="M12 2v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="M20 12h2"></path><path d="m19.07 4.93-1.41 1.41"></path><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"></path><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"></path></svg>`;
-          }
+          container.innerHTML = window.isDark
+            ? `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" class="size-5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path></svg>`
+            : `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" class="size-5"><path d="M12 2v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="M20 12h2"></path><path d="m19.07 4.93-1.41 1.41"></path><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"></path><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"></path></svg>`;
         };
         
-        // 更新 Logo
         window.updateLogo = function() {
           const logoEl = document.getElementById('hutao667-logo');
-          if (!logoEl) return;
-          logoEl.src = "/favicon.ico";
+          if (logoEl) logoEl.src = "/favicon.ico";
         };
         
-        // 切换主题
         window.toggleTheme = function() {
           window.isDark = !window.isDark;
           const newTheme = window.isDark ? 'dark' : 'light';
-          
-          // 更新 DOM
           document.documentElement.classList.toggle('dark', window.isDark);
-          
-          // 保存到 localStorage
           localStorage.setItem('theme', newTheme);
-          
-          // 更新 UI
           window.updateToggleIcon();
           window.updateLogo();
-          
-          // 触发自定义事件，通知其他可能的监听器
           window.dispatchEvent(new CustomEvent('themechange', { detail: { theme: newTheme } }));
         };
         
-        // 更新导航链接的语言
         window.updateNavLinks = function() {
-          const navLinks = document.querySelectorAll('.nav-link');
-          console.log('Updating nav links, current lang:', window.currentLang, 'found links:', navLinks.length);
-          
-          navLinks.forEach(link => {
+          document.querySelectorAll('.nav-link').forEach(link => {
             const zhHref = link.getAttribute('data-zh-href');
             const enHref = link.getAttribute('data-en-href');
             const zhLabel = link.getAttribute('data-zh-label');
             const enLabel = link.getAttribute('data-en-label');
-            
-            console.log('Link data:', { zhHref, enHref, zhLabel, enLabel });
-            
             if (window.currentLang === 'zh') {
               if (zhHref) link.setAttribute('href', zhHref);
               if (zhLabel) link.textContent = zhLabel;
@@ -124,147 +100,48 @@ const {title, } = Astro.props;
           });
         };
         
-        // 语言切换函数 - 更新当前语言的视觉状态
         window.updateLanguageIcon = function() {
           const enEl = document.getElementById('lang-en');
           const zhEl = document.getElementById('lang-zh');
           if (!enEl || !zhEl) return;
-          
-          if (window.currentLang === 'zh') {
-            // 中文模式：中文大且深色，英文小且浅色
-            zhEl.className = 'text-base text-foreground transition-all';
-            enEl.className = 'text-sm text-muted-foreground transition-all';
-          } else {
-            // 英文模式：英文大且深色，中文小且浅色
-            enEl.className = 'text-base text-foreground transition-all';
-            zhEl.className = 'text-sm text-muted-foreground transition-all';
-          }
+          enEl.className = window.currentLang === 'en' ? 'text-base text-foreground transition-all' : 'text-sm text-muted-foreground transition-all';
+          zhEl.className = window.currentLang === 'zh' ? 'text-base text-foreground transition-all' : 'text-sm text-muted-foreground transition-all';
         };
         
         window.toggleLanguage = function() {
-          // 切换语言
-          const oldLang = window.currentLang;
           window.currentLang = window.currentLang === 'zh' ? 'en' : 'zh';
-          
-          console.log('Language switched from', oldLang, 'to', window.currentLang);
-          
-          // 保存到 localStorage
           localStorage.setItem('language', window.currentLang);
-          
-          // 更新按钮视觉状态
           window.updateLanguageIcon();
-          
-          // 更新导航链接
           window.updateNavLinks();
+          window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: window.currentLang } }));
           
-          // 触发语言切换事件
-          window.dispatchEvent(new CustomEvent('languageChanged', { 
-            detail: { language: window.currentLang } 
-          }));
-          
-          // 获取当前路径
           const currentPath = window.location.pathname;
-          
-          // 如果在博客列表页面，不刷新，通过事件通知页面更新
-          if (currentPath === '/blog' || currentPath === '/blog/') {
-            console.log('Blog page - dispatched languageChanged event');
-            return;
-          }
-          
-          // 如果在首页或关于页面，跳转到对应语言版本
+          if (currentPath === '/blog' || currentPath === '/blog/') return;
           if (currentPath === '/' || currentPath === '/index' || currentPath === '/index/') {
-            const targetUrl = window.currentLang === 'en' ? '/index-en' : '/';
-            console.log('Home page - redirecting to', targetUrl);
-            window.location.href = targetUrl;
+            window.location.href = window.currentLang === 'en' ? '/index-en' : '/';
             return;
           }
-          
           if (currentPath === '/about' || currentPath === '/about/') {
-            const targetUrl = window.currentLang === 'en' ? '/about-en' : '/about';
-            console.log('About page - redirecting to', targetUrl);
-            window.location.href = targetUrl;
+            window.location.href = window.currentLang === 'en' ? '/about-en' : '/about';
             return;
           }
-          
           if (currentPath === '/about-en' || currentPath === '/about-en/') {
-            const targetUrl = window.currentLang === 'zh' ? '/about' : '/about-en';
-            console.log('About-en page - redirecting to', targetUrl);
-            window.location.href = targetUrl;
+            window.location.href = window.currentLang === 'zh' ? '/about' : '/about-en';
             return;
           }
-          
           if (currentPath === '/index-en' || currentPath === '/index-en/') {
-            const targetUrl = window.currentLang === 'zh' ? '/' : '/index-en';
-            console.log('Index-en page - redirecting to', targetUrl);
-            window.location.href = targetUrl;
+            window.location.href = window.currentLang === 'zh' ? '/' : '/index-en';
             return;
           }
-          
-          // 如果在博客文章页面，尝试切换到对应语言版本
-          const articleMatch = currentPath.match(/\/(\d{4})\/(\d{1,2})\/([^\/]+)\/?$/);
-          if (articleMatch) {
-            console.log('Article page detected:', currentPath);
-            
-            // 获取当前文章信息
-            const year = articleMatch[1];
-            const month = articleMatch[2];
-            const currentSlug = articleMatch[3];
-            
-            // 检查当前文章是否是中文（包含中文字符）
-            const isChineseArticle = /[\u4e00-\u9fff]/.test(currentSlug);
-            
-            // 如果当前语言与文章语言不匹配，尝试跳转到对应版本
-            // 例如：当前是中文文章，但用户想切换到英文
-            if ((window.currentLang === 'en' && isChineseArticle) ||
-                (window.currentLang === 'zh' && !isChineseArticle)) {
-              
-              // 尝试查找对应语言版本
-              // 这里我们无法准确知道对应文章的slug，所以采用保守策略：
-              // 1. 首先尝试触发事件，让文章页面处理
-              const languageSwitchHandled = window.dispatchEvent(
-                new CustomEvent('articleLanguageSwitch', {
-                  detail: {
-                    language: window.currentLang,
-                    year: year,
-                    month: month,
-                    currentSlug: currentSlug
-                  },
-                  cancelable: true
-                })
-              );
-              
-              // 如果事件被取消（preventDefault），说明文章页面已处理
-              if (!languageSwitchHandled) {
-                console.log('Article language switch handled by article page');
-                return;
-              }
-              
-              // 2. 如果文章页面没有处理，显示提示并保持在当前页面
-              console.log('No alternate version found - staying on current page');
-              
-              // 显示一个友好的提示（可选）
-              // alert('该文章暂无' + (window.currentLang === 'en' ? '英文' : '中文') + '版本，已切换界面语言。');
-              
-              // 保持在当前页面，只更新UI语言
-              return;
-            } else {
-              // 当前语言与文章语言匹配
-              // 例如：当前是中文文章，用户想切换到中文（不应该发生）
-              // 或者当前是英文文章，用户想切换到英文
-              console.log('Article language matches current language preference');
-              return;
-            }
-          }
+          window.dispatchEvent(new CustomEvent('articleLanguageSwitch', { detail: { language: window.currentLang }, cancelable: true }));
         };
         
-        // 初始化 UI
         window.updateToggleIcon();
         window.updateLogo();
         window.updateLanguageIcon();
         window.updateNavLinks();
       }
       
-      // DOM 加载完成后初始化
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initTheme);
       } else {

@@ -5,15 +5,14 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 
 import expressiveCode from 'astro-expressive-code';
+import ecConfig from './ec.config.mjs';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://awfp1314.github.io/',
   integrations: [tailwind({
     applyBaseStyles: false,
-  }), expressiveCode({
-      themes: ['material-theme-lighter', 'kanagawa-dragon']
-  }), mdx(), react()],
+  }), expressiveCode(ecConfig), mdx(), react()],
   trailingSlash: 'ignore',
   server: {
     port: 4321,

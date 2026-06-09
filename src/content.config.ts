@@ -8,16 +8,19 @@ const blog = defineCollection({
     loader: glob({ pattern: '**/[^_]*.mdx', base: "./src/blog/" }),
     schema: z.object({
       title: z.string(),
-      pubDate: z.optional(z.string().date()),
+      pubDate: z.string().date(),
       description: z.string(),
       author: z.string(),
-      image: z.optional(z.string(), {
-        url: z.string(),
-        alt: z.string()
-      }),
+      image: z.union([
+        z.string(),
+        z.object({
+          url: z.string(),
+          alt: z.string(),
+        }),
+      ]).optional(),
       tags: z.array(z.string()),
-      lang: z.optional(z.enum(['zh', 'en'])).default('zh'), // 添加语言字段
-      alternateSlug: z.optional(z.string()), // 对应语言版本的文章 slug
+      lang: z.enum(['zh', 'en']).default('zh'),
+      alternateSlug: z.string().optional(),
     })
 });
 

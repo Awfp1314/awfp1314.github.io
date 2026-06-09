@@ -1,13 +1,16 @@
 ---
-import { REF_URL } from "../consts";
+import { withRef } from "../consts";
 
-const {href, className} = Astro.props;
-
+const {href, className = '', ...rest} = Astro.props;
+const isExternal = typeof href === 'string' && /^https?:\/\//.test(href);
 ---
 
 <a 
-  href={href[0] === '/' ? href : href + "?ref=" + REF_URL} 
+  href={withRef(href)} 
   class={"underline font-medium !text-foreground " + className}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+  {...rest}
 >
   <slot />
 </a>

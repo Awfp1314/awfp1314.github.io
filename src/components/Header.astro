@@ -1,119 +1,90 @@
 ---
-import Link from "./Link.astro";
 import NavLink from "./NavLink.astro";
 import { NAV_LINKS } from "../consts";
 
 const currentPage = Astro.url.pathname;
-const isHome = currentPage === '/' || currentPage === '/index-en' || currentPage === '/index-en/';
-
-// 根据当前页面判断语言
-const isEnglishPage = currentPage.includes('/index-en') || currentPage.includes('/about-en');
-const currentLang = isEnglishPage ? 'en' : 'zh';
+const normalizedPage = currentPage.replace(/\/$/, '') || '/';
+const isHome = normalizedPage === '/' || normalizedPage === '/index-en';
+const currentLang = currentPage.includes('/index-en') || currentPage.includes('/about-en') ? 'en' : 'zh';
 const navLinks = NAV_LINKS[currentLang];
 ---
 
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between py-2 lg:py-4 transition-all duration-300">
+  {!isHome ? (
+    <a href="/" id="logo-container" class="logo ml-2 md:ml-6 lg:ml-2 transition-all duration-300" aria-label="HUTAO667 home">
+      <img src="/favicon.ico" alt="HUTAO667 Logo" id="hutao667-logo" class="w-8 h-8 md:w-11 md:h-11 rounded-full object-cover transition-opacity" />
+    </a>
+  ) : (
+    <div></div>
+  )}
 
-      {!isHome && (
-        <a href="/" id="logo-container" class="logo ml-2 md:ml-6 lg:ml-2 transition-all duration-300">
-          <img src="#" alt=":|" id="hutao667-logo" class="w-8 h-8 md:w-11 md:h-11 rounded-full object-cover transition-opacity">
-        </a>
-      )}
-      {isHome && <div></div>}
-
-      <nav id="nav-links" class="flex items-center space-x-2 md:space-x-7 lg:space-x-10 pr-2 md:pr-10 lg:pr-14 transition-all duration-300 overflow-hidden">
-        {!isHome && navLinks.map((item, index) => {
-          const zhLink = NAV_LINKS.zh[index];
-          const enLink = NAV_LINKS.en[index];
-          return (
-            <NavLink 
-              href={item.href} 
-              className={`text-sm md:text-lg ${
-                currentPage.replaceAll('/', '') === item.href.replaceAll('/', '') ? "text-foreground" : "text-muted-foreground"
-              } select-none nav-link whitespace-nowrap`} 
-              data-zh-href={zhLink.href}
-              data-en-href={enLink.href}
-              data-zh-label={zhLink.label}
-              data-en-label={enLink.label}
-            >
-              {item.label}
-            </NavLink>
-          );
-        })
-        }
-
-        <!-- 语言切换按钮 - 始终显示 -->
-        <button
-          onclick="toggleLanguage()"
-          class="px-2 py-1 md:px-3 md:py-1.5 rounded-md hover:bg-muted/50 transition-colors"
-          aria-label="Toggle language"
-          title="切换语言 / Switch Language"
+  <nav id="nav-links" class="flex items-center space-x-2 md:space-x-7 lg:space-x-10 pr-2 md:pr-10 lg:pr-14 transition-all duration-300 overflow-hidden">
+    {!isHome && navLinks.map((item, index) => {
+      const zhLink = NAV_LINKS.zh[index];
+      const enLink = NAV_LINKS.en[index];
+      const normalizedHref = item.href.replace(/\/$/, '') || '/';
+      const isActive = normalizedPage === normalizedHref;
+      return (
+        <NavLink 
+          href={item.href} 
+          className={`text-sm md:text-lg ${isActive ? "text-foreground" : "text-muted-foreground"} select-none nav-link whitespace-nowrap`} 
+          data-zh-href={zhLink.href}
+          data-en-href={enLink.href}
+          data-zh-label={zhLink.label}
+          data-en-label={enLink.label}
         >
-          <span id="language-text" class="flex items-center gap-1 md:gap-1.5 font-semibold">
-            <span id="lang-en" class={currentLang === 'en' ? 'text-sm md:text-base text-foreground transition-all' : 'text-xs md:text-sm text-muted-foreground transition-all'}>EN</span>
-            <span class="text-muted-foreground text-xs md:text-sm">|</span>
-            <span id="lang-zh" class={currentLang === 'zh' ? 'text-sm md:text-base text-foreground transition-all' : 'text-xs md:text-sm text-muted-foreground transition-all'}>中文</span>
-          </span>
-        </button>
+          {item.label}
+        </NavLink>
+      );
+    })}
 
-        <!-- 主题切换按钮 - 始终显示 -->
-        <button
-          onclick="toggleTheme()"
-          class="p-1.5 md:p-2 rounded-full hover:bg-muted-foreground/30 dark:bg-background/30 transition-colors"
-          aria-label="Toggle theme"
-        >
-          <span id="toggle-icon" class="text-sm md:text-base"></span>
-        </button>
-      </nav>
-    </header>
+    <button
+      onclick="toggleLanguage()"
+      class="px-2 py-1 md:px-3 md:py-1.5 rounded-md hover:bg-muted/50 transition-colors"
+      aria-label="Toggle language"
+      title="切换语言 / Switch Language"
+    >
+      <span id="language-text" class="flex items-center gap-1 md:gap-1.5 font-semibold">
+        <span id="lang-en" class={currentLang === 'en' ? 'text-sm md:text-base text-foreground transition-all' : 'text-xs md:text-sm text-muted-foreground transition-all'}>EN</span>
+        <span class="text-muted-foreground text-xs md:text-sm">|</span>
+        <span id="lang-zh" class={currentLang === 'zh' ? 'text-sm md:text-base text-foreground transition-all' : 'text-xs md:text-sm text-muted-foreground transition-all'}>中文</span>
+      </span>
+    </button>
 
-    <script is:inline>
-      (function() {
-        let lastScrollY = window.scrollY;
-        const header = document.getElementById('main-header');
-        const navLinks = document.getElementById('nav-links');
-        const logoContainer = document.getElementById('logo-container');
+    <button
+      onclick="toggleTheme()"
+      class="p-1.5 md:p-2 rounded-full hover:bg-muted-foreground/30 dark:bg-background/30 transition-colors"
+      aria-label="Toggle theme"
+    >
+      <span id="toggle-icon" class="text-sm md:text-base"></span>
+    </button>
+  </nav>
+</header>
 
-        window.addEventListener('scroll', () => {
-          if (!header || !navLinks || !logoContainer) return;
-          
-          const currentScrollY = window.scrollY;
-          const isMobile = window.innerWidth < 768; // md breakpoint
-          
-          if (currentScrollY > 50) {
-            if (currentScrollY > lastScrollY && currentScrollY > 200) {
-              // Scrolling down - hide elements
-              navLinks.style.opacity = '0';
-              navLinks.style.pointerEvents = 'none';
-              navLinks.style.transform = 'translateY(-10px)';
-              
-              if (isMobile) {
-                logoContainer.style.opacity = '0';
-                logoContainer.style.pointerEvents = 'none';
-                logoContainer.style.transform = 'translateY(-10px)';
-              }
-            } else {
-              // Scrolling up - show elements
-              navLinks.style.opacity = '1';
-              navLinks.style.pointerEvents = 'auto';
-              navLinks.style.transform = 'translateY(0)';
-              
-              logoContainer.style.opacity = '1';
-              logoContainer.style.pointerEvents = 'auto';
-              logoContainer.style.transform = 'translateY(0)';
-            }
-          } else {
-            // Near top
-            navLinks.style.opacity = '1';
-            navLinks.style.pointerEvents = 'auto';
-            navLinks.style.transform = 'translateY(0)';
-            
-            logoContainer.style.opacity = '1';
-            logoContainer.style.pointerEvents = 'auto';
-            logoContainer.style.transform = 'translateY(0)';
-          }
-          
-          lastScrollY = currentScrollY;
-        });
-      })();
-    </script>
+<script is:inline>
+  (function() {
+    let lastScrollY = window.scrollY;
+    const navLinks = document.getElementById('nav-links');
+    const logoContainer = document.getElementById('logo-container');
+
+    window.addEventListener('scroll', () => {
+      if (!navLinks) return;
+      const currentScrollY = window.scrollY;
+      const isMobile = window.innerWidth < 768;
+      const shouldHide = currentScrollY > 50 && currentScrollY > lastScrollY && currentScrollY > 200;
+
+      navLinks.style.opacity = shouldHide ? '0' : '1';
+      navLinks.style.pointerEvents = shouldHide ? 'none' : 'auto';
+      navLinks.style.transform = shouldHide ? 'translateY(-10px)' : 'translateY(0)';
+
+      if (logoContainer) {
+        const hideLogo = shouldHide && isMobile;
+        logoContainer.style.opacity = hideLogo ? '0' : '1';
+        logoContainer.style.pointerEvents = hideLogo ? 'none' : 'auto';
+        logoContainer.style.transform = hideLogo ? 'translateY(-10px)' : 'translateY(0)';
+      }
+
+      lastScrollY = currentScrollY;
+    });
+  })();
+</script>

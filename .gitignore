@@ -16,6 +16,8 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.*
+!.env.example
 .env.production
 
 # macOS-specific files
@@ -30,3 +32,9 @@ pnpm-debug.log*
 
 # Kiro 配置
 .kiro/
+
+# Claude Code local settings
+.claude/
+
+# CodeGraph local index
+.codegraph/

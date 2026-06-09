@@ -3,42 +3,35 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Link from "../components/Link.astro";
 ---
 
-<MainLayout title="关于 - HUTAO667">
-  <div class="prose prose-neutral max-w-lg md:max-w-xl lg:max-w-4xl mx-auto px-4 py-8 text-justify text-foreground animate-fade-in animate-slide-up">
-    你好，我是 HUTAO。<br><br>
-    一名 AI 应用开发爱好者。我热衷于探索 LLM 的实际应用，享受将 AI 能力集成到实用工具中的过程。
-    <br><br>
-    目前，我正在开发 UE_ToolkitAI，一个 AI 驱动的虚幻引擎工具箱，集成了多模型 LLM、Function Calling 和 MCP 协议。
-    <br><br>
-    这个博客是我的技术笔记整理空间，记录了从 AI 应用开发到工具设计的实践经验。
-    <br><br>
-    如果你也对 AI 应用开发、LLM 集成或者开发工具设计感兴趣，欢迎随时交流。
-  </div>
+<MainLayout title="关于 - HUTAO667" description="关于 HUTAO667：AI 应用开发者，关注 LLM、MCP、Function Calling、Unreal Engine 工具和 Web 开发。" lang="zh">
+  <section class="max-w-4xl mx-auto px-6 py-12 w-full animate-fade-in">
+    <div class="border-b border-border pb-8 mb-8">
+      <p class="text-sm uppercase tracking-[0.3em] text-muted-foreground mb-3">About</p>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-foreground">关于我</h1>
+      <p class="mt-5 text-lg text-muted-foreground leading-relaxed">
+        你好，我是 HUTAO667，一名专注于 AI 应用开发和工程化实践的开发者。
+      </p>
+    </div>
 
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-fade-in {
-      animation: fadeIn 0.6s ease-out forwards;
-    }
-
-    .animate-slide-up {
-      opacity: 0;
-      animation: slideUp 0.8s ease-out forwards;
-    }
-  </style>
+    <div class="grid gap-6 text-foreground leading-8">
+      <p>
+        我关注 LLM 应用、多模型集成、Function Calling、MCP 协议、RAG，以及如何把这些能力落地到真实项目中。
+      </p>
+      <p>
+        这个博客用于记录我的技术学习、项目复盘和问题解决过程。内容会覆盖 AI 应用开发、Unreal Engine 工具开发、Python 桌面应用、Web 全栈开发和效率工具等方向。
+      </p>
+      <div class="rounded-2xl border border-border bg-muted/30 p-6">
+        <h2 class="text-xl font-semibold mb-4">当前关注</h2>
+        <ul class="list-disc pl-6 space-y-2 text-muted-foreground">
+          <li>LLM 应用工程化：多模型接入、工具调用、上下文管理</li>
+          <li>RAG 与知识库：文档处理、检索增强、评估优化</li>
+          <li>Unreal Engine 工具：AI 驱动的桌面工具箱与编辑器辅助</li>
+          <li>个人知识管理：Obsidian、自动化同步和内容发布流程</li>
+        </ul>
+      </div>
+      <p>
+        你可以在 <Link href="/blog">博客归档</Link> 阅读文章，也可以通过 <Link href="https://github.com/Awfp1314">GitHub</Link> 了解我的项目。
+      </p>
+    </div>
+  </section>
 </MainLayout>

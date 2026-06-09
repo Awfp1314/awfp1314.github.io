@@ -22,3 +22,18 @@ export const HOME_LINKS = [
   { href: '/blog', label: '博客' },
   ...SOCIALS,
 ]
+
+export function withRef(href) {
+  if (!href || href.startsWith('/') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+    return href;
+  }
+
+  try {
+    const url = new URL(href);
+    url.searchParams.set('ref', REF_URL);
+    return url.toString();
+  } catch {
+    const separator = href.includes('?') ? '&' : '?';
+    return `${href}${separator}ref=${encodeURIComponent(REF_URL)}`;
+  }
+}
