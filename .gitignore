@@ -38,3 +38,6 @@ pnpm-debug.log*
 
 # CodeGraph local index
 .codegraph/
+
+# AI Knowledge folder (assistant context, not source code)
+Knowledge/
