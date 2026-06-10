@@ -133,7 +133,11 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
             window.location.href = window.currentLang === 'zh' ? '/' : '/index-en';
             return;
           }
-          window.dispatchEvent(new CustomEvent('articleLanguageSwitch', { detail: { language: window.currentLang }, cancelable: true }));
+          const alternateSlugEl = document.querySelector('[data-alternate-slug]');
+          const articleAlternateSlug = alternateSlugEl?.getAttribute('data-alternate-slug');
+          if (articleAlternateSlug) {
+            window.location.href = '/' + articleAlternateSlug.replace(/^\//, '');
+          }
         };
         
         window.updateToggleIcon();
