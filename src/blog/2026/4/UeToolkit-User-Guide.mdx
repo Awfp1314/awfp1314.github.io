@@ -8,15 +8,15 @@ lang: "en"
 alternateSlug: "2026/4/uetoolkit使用文档"
 ---
 
-# Quick Start
+## Quick Start
 
-## Project Management
+### Project Management
 
 - **Centralized Scanning**: Automatically retrieves all Unreal Engine projects on local disk, enabling one-stop navigation and quick launch for multi-version projects.
 
 - **Lossless Renaming**: Supports one-click renaming logic for Blueprint projects, ensuring renaming doesn't affect packaging and deployment through automated path association handling (C++ project support in development).
 
-## Asset Management
+### Asset Management
 
 - **Multi-dimensional Asset Support**: Supports unified warehousing of four packaging structures: `CONTENT` (asset packages), `PLUGIN` (plugins), `PROJECT` (complete projects), and `OTHERS` (general multimedia).
 
@@ -24,17 +24,17 @@ alternateSlug: "2026/4/uetoolkit使用文档"
 
 - **Resource Organization Optimization**: Built-in intelligent filtering mechanism supports automatic decompression, deduplication, and ad file filtering to keep asset library clean.
 
-## AI Assistant
+### AI Assistant
 
 - **Logic Audit**: Uses AI for deep analysis of library assets, supports structured analysis of individual assets or entire asset library.
 - **Blueprint Analysis (UE 5.4)**: Based on Socket communication and UE plugin linkage, supports read-only mode logic analysis and fault diagnosis for version 5.4 Blueprints.
 
-## Configuration Tools
+### Configuration Tools
 
 - **Configuration Mirroring**: Supports snapshot saving of project's User Preferences and Project Settings.
 - **One-click Sync**: Enables quick application of configurations across different projects, currently perfectly adapted for UE4 environment development flow.
 
-# 1. Project Management
+## 1. Project Management
 
 When opening the toolbox for the first time, it will scan projects. Loading will be slower. After scanning completes, it looks like this:
 
@@ -44,9 +44,9 @@ Right-click menu supports the following functions:
 
 ![Right-click Menu](/blog-images/uetoolkit/image-20260405183556769.png)
 
-# 2. Asset Management
+## 2. Asset Management
 
-## 2.1 Adding Assets
+### 2.1 Adding Assets
 
 Supports drag-and-drop addition and addition through toolbox. Adding assets supports two formats: compressed packages and folders. The toolbox will automatically identify asset types for both formats. Recognizable types include asset packages, plugins, projects, models, and other resources.
 
@@ -66,7 +66,7 @@ After successful addition, the added asset card will appear (Note: Assets don't 
 
 ![Asset Card](/blog-images/uetoolkit/image-20260405184639373.png)
 
-## 2.2 Previewing Assets
+### 2.2 Previewing Assets
 
 To preview assets, you first need to create and set up a preview project.
 
@@ -94,7 +94,7 @@ Opening the asset shows no damage or other issues, can preview normally:
 
 ![Normal Preview](/blog-images/uetoolkit/image-20260405185644719.png)
 
-## 2.3 Setting Asset Thumbnails
+### 2.3 Setting Asset Thumbnails
 
 Currently only supports thumbnail settings for asset packages and project assets.
 
@@ -113,7 +113,7 @@ You can see the thumbnail has been set successfully:
 
 ![Thumbnail Success](/blog-images/uetoolkit/image-20260405190156001.png)
 
-## 2.4 Importing Assets
+### 2.4 Importing Assets
 
 When importing assets, clicking the import icon on the asset card will open the project selection interface, which will automatically filter projects that can use the current asset:
 
@@ -121,9 +121,9 @@ When importing assets, clicking the import icon on the asset card will open the 
 
 Click the Import Project button to successfully import.
 
-# 3. AI Assistant
+## 3. AI Assistant
 
-## 3.1 AI Assistant Configuration
+### 3.1 AI Assistant Configuration
 
 AI assistant supports configuration for mainstream model providers and BYOK custom provider configuration, ollama. Just enter the key. Custom configuration requires entering URL.
 
@@ -139,7 +139,7 @@ Simple test:
 
 You can see it performed detailed analysis of the asset.
 
-## 3.2 Blueprint Analysis
+### 3.2 Blueprint Analysis
 
 Blueprint Analysis (currently only supports UE 5.4)
 
@@ -151,7 +151,7 @@ Blueprint analysis requires plugin cooperation. First place the plugin in the pr
 
 ![Blueprint Analysis 3](/blog-images/uetoolkit/image-20260301200136954.png)
 
-# 4. Configuration Tools
+## 4. Configuration Tools
 
 Configuration tools can extract configurations from existing projects and apply them to other projects. Extractable configurations include two categories: Project Settings and Editor Preferences.
 
@@ -167,7 +167,7 @@ When applying, you can choose to backup original configuration. If problems occu
 
 ![Rollback Configuration](/blog-images/uetoolkit/image-20260405192450877.png)
 
-# 5. Issue Feedback
+## 5. Issue Feedback
 
 If you have issues, you can click the Issue Feedback button in the lower left corner of the toolbox for feedback, or join the official communication group and @ the group owner
 

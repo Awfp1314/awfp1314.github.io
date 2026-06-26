@@ -14,11 +14,11 @@ This made me curious: does AI really have to be this complex? So I looked into t
 
 Then I found [this paper](https://arxiv.org/abs/2006.16236). Although I didn't fully understand it (too many mathematical formulas), I grasped the basic concept: linear attention reduces context complexity, making context grow linearly instead of quadratically.
 
-# What is Linear Attention
+## What is Linear Attention
 
 Linear attention is an optimization of the Transformer architecture. By introducing a "hidden state" (like an external brain), it allows AI to automatically store key information during conversations and retrieve it directly when needed, instead of reprocessing all the context every time.
 
-# Understanding Through Analogy
+## Understanding Through Analogy
 
 I think linear attention is like a programmer's USB drive:
 
@@ -42,7 +42,7 @@ Or to put it another way, linear attention is like:
 
 This is why linear attention solves the long conversation problem.
 
-# How Linear Attention Works
+## How Linear Attention Works
 
 Traditional Transformer uses the attention formula: Attention(Q, K, V) = softmax(QK^T)V
 
@@ -54,7 +54,7 @@ The key is changing the computation order - first calculating φ(K)^T V, then mu
 
 More importantly, the AI saves each conversation as a vector (hidden state). When you ask a question next time, instead of reading all the context, the AI finds relevant hidden states based on vector similarity and retrieves them directly.
 
-# Current State
+## Current State
 
 Many institutions are researching linear attention, and some relatively mature models have emerged:
 
@@ -69,7 +69,7 @@ However, linear attention still has one issue: hidden state retrieval isn't prec
 
 To be honest, I haven't used these linear attention models in my projects yet, because they're not mature enough - they might not even match GPT-4o. But I'll keep following this direction, and once the technology matures, I'll definitely try it out right away.
 
-# Why Linear Attention Matters
+## Why Linear Attention Matters
 
 After learning about linear attention, I think this is a pretty revolutionary concept. It solves the fundamental problem of AI context.
 
@@ -85,7 +85,7 @@ Although many companies now use context compression techniques, this doesn't sol
 
 Linear attention, by introducing hidden states, makes conversation context linear. You don't need to send all previous context every time - the AI selectively activates hidden states as needed. This not only improves efficiency but also dramatically reduces energy consumption.
 
-# My Understanding
+## My Understanding
 
 Simply put, traditional Transformer architecture and linear attention are two different approaches:
 
@@ -94,7 +94,7 @@ Simply put, traditional Transformer architecture and linear attention are two di
 
 Linear attention isn't just an optimization - it's a shift in thinking. It transforms AI from "must review everything each time" to "remember key information, retrieve on demand."
 
-# Summary
+## Summary
 
 In simple terms, linear attention gives AI a USB drive (or notebook). Traditional Transformer has to re-read all the code every time, while linear attention stores key information on a USB drive and pulls it out when needed.
 

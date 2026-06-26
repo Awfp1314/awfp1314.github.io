@@ -12,7 +12,7 @@ Recently, while researching large models, I kept wondering: when I send a long m
 
 Simply put, Transformer lets each word "see" other words and then decide which words are more important. It sounds simple, but the implementation is quite clever.
 
-## Prerequisite: Word Embeddings
+### Prerequisite: Word Embeddings
 
 Before talking about Transformer, we need to discuss word embeddings.
 
@@ -24,7 +24,7 @@ When you send a message to a large model, the message is split into many words, 
 
 This is a word embedding. With word embeddings, Transformer can start working.
 
-## Transformer's Core: QKV Mechanism
+### Transformer's Core: QKV Mechanism
 
 Transformer provides three matrices: **Wq, Wk, Wv**.
 
@@ -36,7 +36,7 @@ Each word vector is multiplied by these three matrices separately, resulting in 
 
 With Q, K, and V, there are four steps.
 
-### Step 1: Scoring
+#### Step 1: Scoring
 
 Each word uses its own Q to multiply all other words' K (including itself), i.e., doing dot product.
 
@@ -44,7 +44,7 @@ This way, each word gets a score with every other word, representing the correla
 
 For example: `[10, 5, 2]`
 
-### Step 2: Normalization
+#### Step 2: Normalization
 
 Here's the problem: these scores are too large, causing gradient instability.
 
@@ -63,13 +63,13 @@ This way, words with high probability are still high, but other words' probabili
 
 After scaling, use softmax for probability processing.
 
-### Step 3: Weighted Fusion
+#### Step 3: Weighted Fusion
 
 This step multiplies the weight calculated by each word by its own V vector, then adds the results together.
 
 The final result is the word vector carrying contextual information from this word's own perspective.
 
-### Step 4: Response
+#### Step 4: Response
 
 The large model does these things:
 
@@ -77,7 +77,7 @@ The large model does these things:
 
 2. **FFN (Feed-Forward Network)**: Put the results calculated in Step 3 into the FFN's input layer for forward and backward propagation continuous learning. Through repeated training to adjust w and b parameters, the final response users see is the trained response.
 
-## My Understanding
+### My Understanding
 
 Transformer's core is letting each word "see" other words, then calculating which words are more important through the QKV mechanism.
 

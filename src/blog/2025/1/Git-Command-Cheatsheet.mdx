@@ -10,7 +10,7 @@ alternateSlug: "2025/1/git常用命令速查"
 
 I often forget some Git commands when using it, and have to search for them every time. So I organized commonly used commands into a cheatsheet that I can refer to when needed.
 
-# Version Rollback
+## Version Rollback
 
 Sometimes you commit wrong code or want to go back to a previous version, you need version rollback.
 
@@ -30,7 +30,7 @@ git reset --hard abc1234
 
 If you know the specific commit hash (view through `git log`), you can rollback directly to that version. You don't need to write the full hash, the first few characters are enough.
 
-# View Status and History
+## View Status and History
 
 These commands help you understand the current repository status and history.
 
@@ -58,7 +58,7 @@ git log --pretty=oneline
 
 Display one commit per line, looks cleaner. The default `git log` has too much information and is hard to navigate.
 
-# Staging and Committing
+## Staging and Committing
 
 These are the most common operations, committing modified code to the repository.
 
@@ -94,7 +94,7 @@ git checkout -- index.html
 
 If you modified a file but haven't `git add` it yet, and want to discard these changes, use this command to restore to the last committed state. Note, this operation is irreversible.
 
-# Compare Differences
+## Compare Differences
 
 **Compare Working Directory with Repository**
 
@@ -104,7 +104,7 @@ git diff HEAD -- index.html
 
 View the difference between `index.html` in working directory and the latest version in repository. You can see which lines were changed.
 
-# Branch Operations
+## Branch Operations
 
 Branches are one of Git's most powerful features, allowing you to develop new features without affecting the main branch.
 
@@ -156,7 +156,7 @@ git branch -d feature-login
 
 Delete merged branch. If the branch hasn't been merged, Git will warn you to prevent accidental deletion.
 
-# Stash Work in Progress
+## Stash Work in Progress
 
 Sometimes you're developing a feature and suddenly need to fix an urgent bug, but don't want to commit current changes, you can use stash.
 
@@ -184,7 +184,7 @@ git stash pop
 
 Restore the most recent stash and remove it from stash list.
 
-# Remote Operations
+## Remote Operations
 
 **Push to Remote Repository**
 
@@ -202,7 +202,7 @@ git branch --set-upstream-to=origin/main main
 
 Make local `main` branch track remote `origin/main` branch. After setting this up, you can just use `git push` and `git pull` without specifying remote branch every time.
 
-# SSH Key Configuration
+## SSH Key Configuration
 
 Using SSH to connect to GitHub is more convenient than HTTPS, no need to enter password every time.
 
@@ -231,7 +231,7 @@ cat ~/.ssh/id_rsa.pub
 
 Copy the public key content, then go to GitHub Settings -> SSH and GPG keys -> New SSH key, paste it in.
 
-# My Usage Habits
+## My Usage Habits
 
 My most frequently used commands:
 
@@ -241,7 +241,7 @@ My most frequently used commands:
 - `git stash` and `git stash pop` - Temporarily save work in progress
 - `git reflog` - Lifesaver command, can recover from wrong rollbacks
 
-# Summary
+## Summary
 
 Simply put, there are only a few commonly used Git commands, remembering these is basically enough. Look up documentation for complex operations when needed.
 

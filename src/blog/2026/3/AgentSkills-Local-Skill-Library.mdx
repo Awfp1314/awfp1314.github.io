@@ -10,7 +10,7 @@ alternateSlug: "2026/3/agentskills技能系统"
 
 Today let's talk about AgentSkills, also known as Claude Skills. If you're using AI to assist development and want AI to follow your workflow, AgentSkills is a good choice.
 
-# What is AgentSkills
+## What is AgentSkills
 
 AgentSkills is defined by Anthropic, also called Claude Skills. Essentially, it's a skill library for AI.
 
@@ -22,7 +22,7 @@ A complete skill library generally includes these parts:
 - **scripts folder**: Contains scripts that SKILL will call during execution
 - **reference folder**: Contains standard output json files for AI to verify if its results comply with SKILL specifications
 
-# Why AgentSkills is Needed
+## Why AgentSkills is Needed
 
 You might ask, why not just use [MCP](/2026/3/mcp-model-context-protocol/)?
 
@@ -37,7 +37,7 @@ You could say AgentSkills provides similar functionality to MCP (letting AI call
 
 This is why I say AgentSkills is "local and transparent."
 
-# Structure of SKILL.md
+## Structure of SKILL.md
 
 SKILL.md must have yaml attributes at the beginning, with name and description being required. AI activates on-demand based on the description.
 
@@ -60,7 +60,7 @@ Then in SKILL.md, define:
 
 For example, in my project I defined a 6-step SOP process: requirement analysis → proposal → wait for confirmation → implementation → delivery → Git commit. AI processes requirements according to this flow every time, without chaos.
 
-# How to Use AgentSkills
+## How to Use AgentSkills
 
 Most AI clients on the market support SKILL configuration. If your AI client supports SKILL configuration, just add it in settings.
 
@@ -70,7 +70,7 @@ But if there's no SKILL configuration at the settings level, AI might forget. So
 
 However, most AI on the market now have SKILL configuration, so this isn't a big problem.
 
-# My Usage in Projects
+## My Usage in Projects
 
 In my UE_ToolkitAI project, I use AgentSkills to standardize AI's development workflow.
 
@@ -83,7 +83,7 @@ For example, I defined:
 
 This way AI won't go off track and processes requirements according to standardized procedures every time. And because SKILL is local, I can adjust specifications anytime according to project needs - very flexible.
 
-# When to Use SKILL, When to Use MCP
+## When to Use SKILL, When to Use MCP
 
 My experience is:
 
@@ -103,7 +103,7 @@ My experience is:
 
 Simply put, if you need transparency and controllability, use AgentSkills. If you need to quickly integrate various tools, use MCP.
 
-# Development of SKILL Ecosystem
+## Development of SKILL Ecosystem
 
 The SKILL ecosystem is now growing, with SKILLs solving various problems emerging constantly.
 
@@ -111,7 +111,7 @@ For example, there are SKILLs specifically for code review, SKILLs for document 
 
 Compared to MCP's black box, SKILL's advantage is you can see how others implement it, learn from their experience, and then improve according to your own needs. This openness is very helpful for learning and improvement.
 
-# Summary
+## Summary
 
 AgentSkills and MCP are both ways to let AI call external tools, but with different focuses.
 

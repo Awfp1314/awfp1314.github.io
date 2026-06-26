@@ -12,7 +12,7 @@ Recently, while developing the UE_ToolkitAI project, I encountered a frustrating
 
 It wasn't until I came across MCP (Model Context Protocol) that I discovered there was already a solution to this problem. Today, let's talk about what MCP is and why it's so important.
 
-# What is MCP
+## What is MCP
 
 MCP is a protocol that standardizes how AI accesses external resources and tools.
 
@@ -20,7 +20,7 @@ Before MCP, if you wanted AI to access external tools or resources, you had to w
 
 MCP solves exactly this problem. Now you only need to implement the server side once according to the MCP standard, and any client that supports MCP can use it.
 
-# Understanding Through Analogy
+## Understanding Through Analogy
 
 I think it's easier to understand with real-life examples.
 
@@ -32,7 +32,7 @@ There's also operating systems. In the past, every application had to be adapted
 
 MCP plays a similar role in the AI field.
 
-# MCP Workflow
+## MCP Workflow
 
 The MCP workflow looks like this:
 
@@ -54,7 +54,7 @@ Finally, there's the MCP Server, which provides specific functionality like file
 
 Each MCP Server only needs to be implemented once and can be used by all clients that support MCP. That's its core value.
 
-# Application in My Project
+## Application in My Project
 
 In my UE_ToolkitAI project, I use MCP to implement interaction between the AI assistant and Unreal Engine.
 
@@ -82,7 +82,7 @@ class ProjectManagementServer:
 
 Any AI client that supports MCP can directly call these functions without additional adaptation code.
 
-# Difference Between MCP and Traditional Plugins
+## Difference Between MCP and Traditional Plugins
 
 The problem with traditional plugins:
 
@@ -100,7 +100,7 @@ MCP advantages:
 
 The difference is quite obvious, and development efficiency can be significantly improved.
 
-# My Thoughts
+## My Thoughts
 
 I think MCP's significance for AI application development is as important as HTTP's significance for the internet.
 
@@ -110,7 +110,7 @@ However, MCP also has its drawbacks - it's like a black box. When you call an MC
 
 If you're also developing AI applications, I recommend considering MCP integration when designing the architecture. It will save you a lot of trouble later. Just like choosing HTTP back then, choosing a good standard can make future development much easier. Of course, for scenarios that require transparency, AgentSkills might be a better choice.
 
-# Summary
+## Summary
 
 Simply put, MCP solves a core problem in AI application development: how to enable AI to efficiently and standardly access external resources.
 

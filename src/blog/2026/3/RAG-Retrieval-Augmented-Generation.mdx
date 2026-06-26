@@ -12,7 +12,7 @@ When working on AI projects, I encountered a problem: large models know nothing 
 
 Later I discovered that RAG was designed to solve this problem.
 
-## Blind Spots of Large Models
+### Blind Spots of Large Models
 
 Large models are trained on public data, and training has time cutoffs. This leads to two problems:
 
@@ -21,9 +21,9 @@ Large models are trained on public data, and training has time cutoffs. This lea
 
 RAG is like adding an external knowledge base to large models. Each time you ask a question, it first searches the knowledge base for information, then has the large model answer based on the found information. This way it won't make things up.
 
-## How RAG Works
+### How RAG Works
 
-### Step 1: Prepare Knowledge Base
+#### Step 1: Prepare Knowledge Base
 
 First, process the documents:
 
@@ -35,7 +35,7 @@ There's a pitfall here: **whichever semantic model you use to prepare the knowle
 
 Why convert to numbers? Because AI only understands numbers.
 
-### Step 2: User Query
+#### Step 2: User Query
 
 When you ask a question, RAG does these things:
 
@@ -45,7 +45,7 @@ When you ask a question, RAG does these things:
 
 The whole process is: you ask → convert to numbers → search knowledge base → give information to AI → AI answers
 
-## My Practice
+### My Practice
 
 I've implemented RAG in projects, mainly for handling project documentation and code repository queries.
 
@@ -59,7 +59,7 @@ The key is how to make it find more accurately:
 - Semantic model should be well chosen
 - Algorithm for finding similar content should be optimized
 
-## My Understanding
+### My Understanding
 
 RAG's core is letting large models no longer "work behind closed doors."
 

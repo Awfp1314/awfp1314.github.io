@@ -12,7 +12,7 @@ alternateSlug: "2026/3/transformer-architecture"
 
 说白了，Transformer 就是让每个词都能"看到"其他词，然后决定哪些词更重要。听起来简单，但实现起来挺巧妙的。
 
-## 前提：词向量
+### 前提：词向量
 
 在讲 Transformer 之前，得先说说词向量。
 
@@ -24,7 +24,7 @@ alternateSlug: "2026/3/transformer-architecture"
 
 这就是词向量。有了词向量，Transformer 才能开始工作。
 
-## Transformer 的核心：QKV 机制
+### Transformer 的核心：QKV 机制
 
 Transformer 提供了三个矩阵：**Wq、Wk、Wv**。
 
@@ -36,7 +36,7 @@ Transformer 提供了三个矩阵：**Wq、Wk、Wv**。
 
 有了 Q、K、V，接下来就是四个步骤。
 
-### Step 1：打分
+#### Step 1：打分
 
 每个词用自己的 Q 去乘一遍其他词的 K（包括自己），也就是做点积。
 
@@ -44,7 +44,7 @@ Transformer 提供了三个矩阵：**Wq、Wk、Wv**。
 
 比如：`[10, 5, 2]`
 
-### Step 2：归一化
+#### Step 2：归一化
 
 问题来了：这些分数太大了，会导致梯度不稳定。
 
@@ -63,13 +63,13 @@ Transformer 提供了三个矩阵：**Wq、Wk、Wv**。
 
 缩放之后，再用 softmax 进行概率处理。
 
-### Step 3：加权融合
+#### Step 3：加权融合
 
 这一步就是将每个词计算出的权重乘以它自己的 V 向量，然后把结果相加。
 
 最终得到的就是以这个词自己的视角所携带的上下文信息的词向量。
 
-### Step 4：回答
+#### Step 4：回答
 
 大模型会做这几件事情：
 
@@ -77,7 +77,7 @@ Transformer 提供了三个矩阵：**Wq、Wk、Wv**。
 
 2. **FFN（前馈神经网络）**：将 Step 3 计算出的结果放进 FFN 的输入层，进行前向传播和反向传播的不断学习。经过反复训练调整 w 和 b 的参数，最终用户看到的回答就是经过训练后的回答。
 
-## 我的理解
+### 我的理解
 
 Transformer 的核心就是让每个词都能"看到"其他词，然后通过 QKV 机制计算出哪些词更重要。
 
