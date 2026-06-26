@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../layouts/MainLayout.astro";
+import BlogArchive from "../components/BlogArchive.astro";
+
+const allPosts = await getCollection("blog");
+const posts = allPosts
+  .filter((post) => post.data.lang === 'en')
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+---
+
+<MainLayout title="Blog Archive - HUTAO667" description="HUTAO667's blog archive about AI application development, project practice, and technical notes." lang="en">
+  <BlogArchive posts={posts} lang="en" />
+</MainLayout>

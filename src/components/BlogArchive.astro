@@ -1,0 +1,106 @@
+---
+import { ui } from "../i18n.js";
+
+const { posts, lang = 'zh' } = Astro.props;
+const t = ui[lang] || ui.zh;
+const searchLabel = lang === 'en' ? 'Search blog posts' : '搜索博客文章';
+const storagePrefix = lang === 'en' ? 'blogArchiveEn' : 'blogArchiveZh';
+
+function formatDate(dateString) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return '';
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+---
+
+<div class="max-w-4xl mx-auto px-6 py-12 w-full animate-fade-in">
+  <div class="mb-12 border-b border-border pb-8 animate-slide-up" style="animation-delay: 0.1s;">
+    <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4" id="blog-title">{t.blogTitle}</h1>
+    <p class="text-muted-foreground font-mono text-sm" id="blog-description">{t.blogDescription}</p>
+
+    <div class="mt-6">
+      <input
+        type="text"
+        id="search-input"
+        aria-label={searchLabel}
+        placeholder={t.blogSearch}
+        class="w-full px-4 py-2 bg-muted/30 border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+      />
+    </div>
+  </div>
+
+  <div class="space-y-4 animate-slide-up" id="posts-container" style="animation-delay: 0.3s;">
+    {posts.map((post) => (
+      <a href={`/${post.id}/`} class="post-link group flex p-5 bg-muted/30 hover:bg-muted/50 border border-border rounded-xl transition-all hover:translate-x-1 min-h-[180px] flex-col" data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(' ')}`.toLowerCase()}>
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 flex-grow">
+          <div class="flex-grow flex flex-col min-w-0">
+            <h2 class="text-lg font-bold text-foreground group-hover:text-primary transition-colors mb-1 line-clamp-1">{post.data.title}</h2>
+            <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed mb-3">{post.data.description}</p>
+            <div class="flex flex-wrap gap-2 overflow-hidden" style="max-height: 3rem;">
+              {post.data.tags.map((tag) => (
+                <span class="text-[10px] uppercase tracking-widest font-mono bg-background px-2 py-0.5 border border-border rounded text-muted-foreground whitespace-nowrap">{tag}</span>
+              ))}
+            </div>
+          </div>
+          <div class="shrink-0 flex items-center md:flex-col md:items-end gap-2 text-muted-foreground font-mono text-sm">
+            <span>{formatDate(post.data.pubDate)}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+
+<script define:vars={{ storagePrefix }}>
+  const searchInput = document.getElementById('search-input');
+  const posts = Array.from(document.querySelectorAll('.post-link'));
+  const scrollKey = `${storagePrefix}ScrollPosition`;
+  const searchKey = `${storagePrefix}SearchQuery`;
+
+  function setPostVisible(post, visible) {
+    post.classList.toggle('hidden', !visible);
+    post.classList.toggle('flex', visible);
+  }
+
+  function applyFilters() {
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    posts.forEach((post) => {
+      const matchesQuery = !query || (post.dataset.search || '').includes(query);
+      setPostVisible(post, matchesQuery);
+    });
+  }
+
+  posts.forEach((link) => {
+    link.addEventListener('click', () => {
+      sessionStorage.setItem(scrollKey, window.scrollY.toString());
+      sessionStorage.setItem(searchKey, searchInput.value);
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilters);
+
+  const savedSearchQuery = sessionStorage.getItem(searchKey);
+  if (savedSearchQuery) searchInput.value = savedSearchQuery;
+  applyFilters();
+
+  const savedScrollPosition = sessionStorage.getItem(scrollKey);
+  if (savedScrollPosition) {
+    setTimeout(() => {
+      window.scrollTo({ top: parseInt(savedScrollPosition, 10), behavior: 'instant' });
+      sessionStorage.removeItem(scrollKey);
+      sessionStorage.removeItem(searchKey);
+    }, 100);
+  }
+</script>
+
+<style>
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+  .animate-slide-up { opacity: 0; animation: slideUp 0.8s ease-out forwards; }
+</style>

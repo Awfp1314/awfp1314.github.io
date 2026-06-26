@@ -13,7 +13,7 @@ export const NAV_LINKS = {
   ],
   en: [
     { href: '/index-en', label: 'Home'},
-    { href: '/blog', label: 'Blog'},
+    { href: '/blog-en', label: 'Blog'},
     { href: '/about-en', label: 'About'},
   ]
 }

@@ -6,7 +6,7 @@ import "../styles/global.css"
 
 const pathname = Astro.url.pathname;
 const isHome = pathname === '/' || pathname === '/index-en' || pathname === '/index-en/';
-const defaultLang = pathname.includes('/index-en') || pathname.includes('/about-en') ? 'en' : 'zh';
+const defaultLang = pathname.includes('/index-en') || pathname.includes('/about-en') || pathname.includes('/blog-en') ? 'en' : 'zh';
 
 const {
   title,
@@ -40,16 +40,9 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
         window.isDark = savedTheme === 'dark';
         document.documentElement.classList.toggle('dark', window.isDark);
 
-        const currentPath = window.location.pathname;
         const pageLang = document.documentElement.dataset.pageLang === 'en' ? 'en' : 'zh';
-        const isBlogArchive = currentPath === '/blog' || currentPath === '/blog/';
-
-        if (isBlogArchive) {
-          window.currentLang = localStorage.getItem('language') || pageLang;
-        } else {
-          window.currentLang = pageLang;
-          localStorage.setItem('language', pageLang);
-        }
+        window.currentLang = pageLang;
+        localStorage.setItem('language', pageLang);
       })();
     </script>
     
@@ -113,7 +106,14 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
           window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: window.currentLang } }));
           
           const currentPath = window.location.pathname;
-          if (currentPath === '/blog' || currentPath === '/blog/') return;
+          if (currentPath === '/blog' || currentPath === '/blog/') {
+            window.location.href = window.currentLang === 'en' ? '/blog-en' : '/blog';
+            return;
+          }
+          if (currentPath === '/blog-en' || currentPath === '/blog-en/') {
+            window.location.href = window.currentLang === 'zh' ? '/blog' : '/blog-en';
+            return;
+          }
           if (currentPath === '/' || currentPath === '/index' || currentPath === '/index/') {
             window.location.href = window.currentLang === 'en' ? '/index-en' : '/';
             return;
