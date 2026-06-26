@@ -112,6 +112,11 @@ const resolvedAlternateLinks = alternateLinks.map((link) => ({
           zhEl.className = window.currentLang === 'zh' ? 'text-base text-foreground transition-all' : 'text-sm text-muted-foreground transition-all';
         };
         
+        function replaceWithLanguagePage(targetPath) {
+          if (!targetPath || window.location.pathname === targetPath) return;
+          window.location.replace(targetPath);
+        }
+
         window.toggleLanguage = function() {
           window.currentLang = window.currentLang === 'zh' ? 'en' : 'zh';
           localStorage.setItem('language', window.currentLang);
@@ -121,33 +126,33 @@ const resolvedAlternateLinks = alternateLinks.map((link) => ({
           
           const currentPath = window.location.pathname;
           if (currentPath === '/blog' || currentPath === '/blog/') {
-            window.location.href = window.currentLang === 'en' ? '/blog-en' : '/blog';
+            replaceWithLanguagePage(window.currentLang === 'en' ? '/blog-en' : '/blog');
             return;
           }
           if (currentPath === '/blog-en' || currentPath === '/blog-en/') {
-            window.location.href = window.currentLang === 'zh' ? '/blog' : '/blog-en';
+            replaceWithLanguagePage(window.currentLang === 'zh' ? '/blog' : '/blog-en');
             return;
           }
           if (currentPath === '/' || currentPath === '/index' || currentPath === '/index/') {
-            window.location.href = window.currentLang === 'en' ? '/index-en' : '/';
+            replaceWithLanguagePage(window.currentLang === 'en' ? '/index-en' : '/');
             return;
           }
           if (currentPath === '/about' || currentPath === '/about/') {
-            window.location.href = window.currentLang === 'en' ? '/about-en' : '/about';
+            replaceWithLanguagePage(window.currentLang === 'en' ? '/about-en' : '/about');
             return;
           }
           if (currentPath === '/about-en' || currentPath === '/about-en/') {
-            window.location.href = window.currentLang === 'zh' ? '/about' : '/about-en';
+            replaceWithLanguagePage(window.currentLang === 'zh' ? '/about' : '/about-en');
             return;
           }
           if (currentPath === '/index-en' || currentPath === '/index-en/') {
-            window.location.href = window.currentLang === 'zh' ? '/' : '/index-en';
+            replaceWithLanguagePage(window.currentLang === 'zh' ? '/' : '/index-en');
             return;
           }
           const alternateSlugEl = document.querySelector('[data-alternate-slug]');
           const articleAlternateSlug = alternateSlugEl?.getAttribute('data-alternate-slug');
           if (articleAlternateSlug) {
-            window.location.href = '/' + articleAlternateSlug.replace(/^\/|\/$/g, '') + '/';
+            replaceWithLanguagePage('/' + articleAlternateSlug.replace(/^\/|\/$/g, '') + '/');
           }
         };
         
