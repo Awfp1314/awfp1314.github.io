@@ -41,3 +41,4 @@ pnpm-debug.log*
 
 # AI Knowledge folder (assistant context, not source code)
 Knowledge/
+知识库/
