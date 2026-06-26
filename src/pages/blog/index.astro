@@ -9,6 +9,15 @@ const posts = allPosts
   .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 ---
 
-<MainLayout title="博客归档 - HUTAO667" description="HUTAO667 的博客归档，记录 AI 应用开发、项目实践和技术思考。" lang="zh">
+<MainLayout
+  title="博客归档 - HUTAO667"
+  description="HUTAO667 的博客归档，记录 AI 应用开发、项目实践和技术思考。"
+  lang="zh"
+  alternateLinks={[
+    { hreflang: 'zh-CN', href: '/blog/' },
+    { hreflang: 'en', href: '/blog-en/' },
+    { hreflang: 'x-default', href: '/blog/' },
+  ]}
+>
   <BlogArchive posts={posts} lang="zh" />
 </MainLayout>

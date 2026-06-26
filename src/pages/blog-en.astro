@@ -9,6 +9,15 @@ const posts = allPosts
   .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
 ---
 
-<MainLayout title="Blog Archive - HUTAO667" description="HUTAO667's blog archive about AI application development, project practice, and technical notes." lang="en">
+<MainLayout
+  title="Blog Archive - HUTAO667"
+  description="HUTAO667's blog archive about AI application development, project practice, and technical notes."
+  lang="en"
+  alternateLinks={[
+    { hreflang: 'en', href: '/blog-en/' },
+    { hreflang: 'zh-CN', href: '/blog/' },
+    { hreflang: 'x-default', href: '/blog/' },
+  ]}
+>
   <BlogArchive posts={posts} lang="en" />
 </MainLayout>

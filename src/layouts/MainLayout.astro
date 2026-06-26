@@ -12,8 +12,16 @@ const {
   title,
   description = 'HUTAO667 的个人技术博客，分享 AI 应用开发、项目实践和技术思考。',
   lang = defaultLang,
+  ogType = 'website',
+  publishedTime,
+  tags = [],
+  alternateLinks = [],
 } = Astro.props;
 const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
+const resolvedAlternateLinks = alternateLinks.map((link) => ({
+  ...link,
+  href: new URL(link.href, Astro.site ?? Astro.url).href,
+}));
 ---
 
 <html lang={htmlLang} data-page-lang={lang}>
@@ -23,8 +31,14 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
     <meta name="description" content={description}>
     <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
-    <meta property="og:type" content="website">
+    <meta property="og:type" content={ogType}>
+    <meta property="og:url" content={Astro.url.href}>
+    {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime}>}
+    {ogType === 'article' && tags.map((tag) => <meta property="article:tag" content={tag}>)}
     <link rel="canonical" href={Astro.url.href}>
+    {resolvedAlternateLinks.map((link) => (
+      <link rel="alternate" hreflang={link.hreflang} href={link.href}>
+    ))}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
