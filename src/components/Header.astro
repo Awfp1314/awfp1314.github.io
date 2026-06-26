@@ -5,7 +5,8 @@ import { NAV_LINKS } from "../consts";
 const currentPage = Astro.url.pathname;
 const normalizedPage = currentPage.replace(/\/$/, '') || '/';
 const isHome = normalizedPage === '/' || normalizedPage === '/index-en';
-const currentLang = currentPage.includes('/index-en') || currentPage.includes('/about-en') ? 'en' : 'zh';
+const { lang } = Astro.props;
+const currentLang = lang === 'en' ? 'en' : 'zh';
 const navLinks = NAV_LINKS[currentLang];
 ---
 

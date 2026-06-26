@@ -16,7 +16,7 @@ const {
 const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
 ---
 
-<html lang={htmlLang}>
+<html lang={htmlLang} data-page-lang={lang}>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,17 +41,14 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
         document.documentElement.classList.toggle('dark', window.isDark);
 
         const currentPath = window.location.pathname;
-        const isEnglishPage = currentPath.includes('/index-en') || currentPath.includes('/about-en');
-        const isChinesePage = currentPath === '/' || currentPath === '/about' || currentPath === '/about/';
+        const pageLang = document.documentElement.dataset.pageLang === 'en' ? 'en' : 'zh';
+        const isBlogArchive = currentPath === '/blog' || currentPath === '/blog/';
 
-        if (isEnglishPage) {
-          window.currentLang = 'en';
-          localStorage.setItem('language', 'en');
-        } else if (isChinesePage) {
-          window.currentLang = 'zh';
-          localStorage.setItem('language', 'zh');
+        if (isBlogArchive) {
+          window.currentLang = localStorage.getItem('language') || pageLang;
         } else {
-          window.currentLang = localStorage.getItem('language') || 'zh';
+          window.currentLang = pageLang;
+          localStorage.setItem('language', pageLang);
         }
       })();
     </script>
@@ -136,7 +133,7 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
           const alternateSlugEl = document.querySelector('[data-alternate-slug]');
           const articleAlternateSlug = alternateSlugEl?.getAttribute('data-alternate-slug');
           if (articleAlternateSlug) {
-            window.location.href = '/' + articleAlternateSlug.replace(/^\//, '');
+            window.location.href = '/' + articleAlternateSlug.replace(/^\/|\/$/g, '') + '/';
           }
         };
         
@@ -156,7 +153,7 @@ const htmlLang = lang === 'en' ? 'en' : 'zh-CN';
   <body>
     <div class="grid"></div>
     <div class="page flex flex-col min-h-screen">
-        <Header />
+        <Header lang={lang} />
         <main class={`flex-grow flex justify-center ${!isHome ? 'pt-20 lg:pt-24' : ''}`}>
           <slot />
         </main>
