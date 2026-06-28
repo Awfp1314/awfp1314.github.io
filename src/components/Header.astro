@@ -10,7 +10,7 @@ const currentLang = lang === 'en' ? 'en' : 'zh';
 const navLinks = NAV_LINKS[currentLang];
 ---
 
-<header id="main-header" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between py-2 lg:py-4 transition-all duration-300">
+<header id="main-header" class="site-header fixed top-0 left-0 right-0 z-50 flex items-center justify-between py-2 lg:py-4 transition-all duration-300">
   {!isHome ? (
     <a href="/" id="logo-container" class="logo ml-2 md:ml-6 lg:ml-2 transition-all duration-300" aria-label="HUTAO667 home">
       <img src="/favicon.ico" alt="HUTAO667 Logo" id="hutao667-logo" class="w-8 h-8 md:w-11 md:h-11 rounded-full object-cover transition-opacity" />
@@ -19,7 +19,7 @@ const navLinks = NAV_LINKS[currentLang];
     <div></div>
   )}
 
-  <nav id="nav-links" class="flex items-center space-x-2 md:space-x-7 lg:space-x-10 pr-2 md:pr-10 lg:pr-14 transition-all duration-300 overflow-hidden">
+  <nav id="nav-links" class="site-nav flex items-center gap-1 md:gap-3 transition-all duration-300 overflow-hidden">
     {!isHome && navLinks.map((item, index) => {
       const zhLink = NAV_LINKS.zh[index];
       const enLink = NAV_LINKS.en[index];
@@ -41,7 +41,7 @@ const navLinks = NAV_LINKS[currentLang];
 
     <button
       onclick="toggleLanguage()"
-      class="px-2 py-1 md:px-3 md:py-1.5 rounded-md hover:bg-muted/50 transition-colors"
+      class="utility-button px-2 py-1 md:px-3 md:py-1.5 rounded-full transition-colors"
       aria-label="Toggle language"
       title="切换语言 / Switch Language"
     >
@@ -54,7 +54,7 @@ const navLinks = NAV_LINKS[currentLang];
 
     <button
       onclick="toggleTheme()"
-      class="p-1.5 md:p-2 rounded-full hover:bg-muted-foreground/30 dark:bg-background/30 transition-colors"
+      class="utility-button p-1.5 md:p-2 rounded-full transition-colors"
       aria-label="Toggle theme"
     >
       <span id="toggle-icon" class="text-sm md:text-base"></span>

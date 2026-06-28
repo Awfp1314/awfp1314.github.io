@@ -1,6 +1,7 @@
 ---
 import Header from "./../components/Header.astro"
 import Footer from "./../components/Footer.astro"
+import { SITE_VERSION } from "../siteVersion.js";
 
 import "../styles/global.css"
 
@@ -29,6 +30,12 @@ const resolvedAlternateLinks = alternateLinks.map((link) => ({
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content={description}>
+    <meta name="site-version" content={SITE_VERSION}>
+    <meta name="theme-color" content="#f3ede2" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#151927" media="(prefers-color-scheme: dark)">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
     <meta property="og:type" content={ogType}>
@@ -57,6 +64,44 @@ const resolvedAlternateLinks = alternateLinks.map((link) => ({
         const pageLang = document.documentElement.dataset.pageLang === 'en' ? 'en' : 'zh';
         window.currentLang = pageLang;
         localStorage.setItem('language', pageLang);
+      })();
+    </script>
+
+    <script is:inline define:vars={{ siteVersion: SITE_VERSION }}>
+      (function() {
+        const versionKey = 'hutao667:site-version';
+        const reloadKey = 'hutao667:site-reloaded';
+
+        try {
+          if (!localStorage.getItem(versionKey)) {
+            localStorage.setItem(versionKey, siteVersion);
+          }
+
+          const versionUrl = new URL('/site-version.json', window.location.origin);
+          versionUrl.searchParams.set('t', String(Date.now()));
+
+          fetch(versionUrl, { cache: 'no-store' })
+            .then((response) => response.ok ? response.json() : null)
+            .then((payload) => {
+              const latestVersion = payload && typeof payload.version === 'string' ? payload.version : '';
+              if (!latestVersion) return;
+
+              const reloadToken = siteVersion + '->' + latestVersion;
+              if (latestVersion !== siteVersion && sessionStorage.getItem(reloadKey) !== reloadToken) {
+                sessionStorage.setItem(reloadKey, reloadToken);
+                localStorage.setItem(versionKey, latestVersion);
+                window.location.reload();
+                return;
+              }
+
+              if (localStorage.getItem(versionKey) !== latestVersion) {
+                localStorage.setItem(versionKey, latestVersion);
+              }
+            })
+            .catch(() => {});
+        } catch (error) {
+          // Local storage can be unavailable in hardened browsing modes.
+        }
       })();
     </script>
     
