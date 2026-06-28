@@ -153,52 +153,44 @@ const resolvedAlternateLinks = alternateLinks.map((link) => ({
           const enEl = document.getElementById('lang-en');
           const zhEl = document.getElementById('lang-zh');
           if (!enEl || !zhEl) return;
-          enEl.className = window.currentLang === 'en' ? 'text-base text-foreground transition-all' : 'text-sm text-muted-foreground transition-all';
-          zhEl.className = window.currentLang === 'zh' ? 'text-base text-foreground transition-all' : 'text-sm text-muted-foreground transition-all';
+          enEl.className = window.currentLang === 'en' ? 'text-sm md:text-base text-foreground transition-all' : 'text-xs md:text-sm text-muted-foreground transition-all';
+          zhEl.className = window.currentLang === 'zh' ? 'text-sm md:text-base text-foreground transition-all' : 'text-xs md:text-sm text-muted-foreground transition-all';
         };
         
+        function normalizePath(path) {
+          return path.replace(/\/$/, '') || '/';
+        }
+
+        function getLanguagePagePath(nextLang) {
+          const currentPath = normalizePath(window.location.pathname);
+          if (currentPath === '/blog') return nextLang === 'en' ? '/blog-en' : '/blog';
+          if (currentPath === '/blog-en') return nextLang === 'zh' ? '/blog' : '/blog-en';
+          if (currentPath === '/' || currentPath === '/index') return nextLang === 'en' ? '/index-en' : '/';
+          if (currentPath === '/index-en') return nextLang === 'zh' ? '/' : '/index-en';
+          if (currentPath === '/about') return nextLang === 'en' ? '/about-en' : '/about';
+          if (currentPath === '/about-en') return nextLang === 'zh' ? '/about' : '/about-en';
+
+          const alternateSlugEl = document.querySelector('[data-alternate-slug]');
+          const articleAlternateSlug = alternateSlugEl?.getAttribute('data-alternate-slug');
+          return articleAlternateSlug ? '/' + articleAlternateSlug.replace(/^\/|\/$/g, '') + '/' : '';
+        }
+
         function replaceWithLanguagePage(targetPath) {
-          if (!targetPath || window.location.pathname === targetPath) return;
+          if (!targetPath || normalizePath(window.location.pathname) === normalizePath(targetPath)) return false;
           window.location.replace(targetPath);
+          return true;
         }
 
         window.toggleLanguage = function() {
-          window.currentLang = window.currentLang === 'zh' ? 'en' : 'zh';
-          localStorage.setItem('language', window.currentLang);
+          const nextLang = window.currentLang === 'zh' ? 'en' : 'zh';
+          localStorage.setItem('language', nextLang);
+
+          if (replaceWithLanguagePage(getLanguagePagePath(nextLang))) return;
+
+          window.currentLang = nextLang;
           window.updateLanguageIcon();
           window.updateNavLinks();
           window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: window.currentLang } }));
-          
-          const currentPath = window.location.pathname;
-          if (currentPath === '/blog' || currentPath === '/blog/') {
-            replaceWithLanguagePage(window.currentLang === 'en' ? '/blog-en' : '/blog');
-            return;
-          }
-          if (currentPath === '/blog-en' || currentPath === '/blog-en/') {
-            replaceWithLanguagePage(window.currentLang === 'zh' ? '/blog' : '/blog-en');
-            return;
-          }
-          if (currentPath === '/' || currentPath === '/index' || currentPath === '/index/') {
-            replaceWithLanguagePage(window.currentLang === 'en' ? '/index-en' : '/');
-            return;
-          }
-          if (currentPath === '/about' || currentPath === '/about/') {
-            replaceWithLanguagePage(window.currentLang === 'en' ? '/about-en' : '/about');
-            return;
-          }
-          if (currentPath === '/about-en' || currentPath === '/about-en/') {
-            replaceWithLanguagePage(window.currentLang === 'zh' ? '/about' : '/about-en');
-            return;
-          }
-          if (currentPath === '/index-en' || currentPath === '/index-en/') {
-            replaceWithLanguagePage(window.currentLang === 'zh' ? '/' : '/index-en');
-            return;
-          }
-          const alternateSlugEl = document.querySelector('[data-alternate-slug]');
-          const articleAlternateSlug = alternateSlugEl?.getAttribute('data-alternate-slug');
-          if (articleAlternateSlug) {
-            replaceWithLanguagePage('/' + articleAlternateSlug.replace(/^\/|\/$/g, '') + '/');
-          }
         };
         
         window.updateToggleIcon();
