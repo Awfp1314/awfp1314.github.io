@@ -90,7 +90,7 @@
   }
 }
 
-.grid {
+.background-grid {
   position: fixed;
   inset: 0;
   z-index: -2;
