@@ -1,0 +1,125 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">UE Toolkit 产品闭环示意图</title>
+  <desc id="desc">UE Toolkit Client 通过 Web 服务端连接版本更新、授权激活、支付回调、用户反馈和继续迭代。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7F1E8"/>
+      <stop offset="0.52" stop-color="#EEF3F1"/>
+      <stop offset="1" stop-color="#EDF0F8"/>
+    </linearGradient>
+    <linearGradient id="client" x1="154" y1="236" x2="394" y2="484" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C65A3A"/>
+      <stop offset="1" stop-color="#9A3F65"/>
+    </linearGradient>
+    <linearGradient id="web" x1="886" y1="236" x2="1126" y2="484" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#256A7B"/>
+      <stop offset="1" stop-color="#394E91"/>
+    </linearGradient>
+    <linearGradient id="node" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F6F0E8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-24%" width="140%" height="148%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#1D2430" flood-opacity="0.16"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.6" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#58616E"/>
+    </marker>
+    <style>
+      .label {
+        font-family: "Microsoft YaHei", "Noto Sans SC", "PingFang SC", Arial, sans-serif;
+        fill: #202631;
+      }
+      .muted {
+        fill: #69717D;
+      }
+      .white {
+        fill: #FFFFFF;
+      }
+      .mono {
+        font-family: "Cascadia Mono", "Consolas", monospace;
+      }
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" rx="36" fill="url(#bg)"/>
+  <path d="M80 618C218 563 319 618 461 578C651 524 649 384 842 343C989 312 1088 367 1200 300" stroke="#FFFFFF" stroke-width="72" stroke-linecap="round" opacity="0.45"/>
+  <path d="M94 138C221 175 288 108 406 146C545 191 532 282 675 295C810 307 854 243 984 265C1073 280 1132 329 1186 377" stroke="#D8D2C7" stroke-width="2" stroke-dasharray="9 13" opacity="0.55"/>
+
+  <text x="80" y="82" class="label" font-size="34" font-weight="700">UE Toolkit 产品闭环</text>
+  <text x="80" y="122" class="label muted" font-size="19">从本地桌面工具，到可发布、可更新、可授权、可收费、可迭代的小产品</text>
+
+  <g filter="url(#shadow)">
+    <rect x="118" y="228" width="288" height="264" rx="28" fill="url(#client)"/>
+    <text x="262" y="293" text-anchor="middle" class="label white mono" font-size="28" font-weight="700">Client</text>
+    <text x="262" y="329" text-anchor="middle" class="label white" font-size="22" font-weight="700">桌面客户端</text>
+    <text x="262" y="374" text-anchor="middle" class="label white" font-size="17">工程管理 / 资产管理</text>
+    <text x="262" y="405" text-anchor="middle" class="label white" font-size="17">配置工具 / AI 助手</text>
+    <text x="262" y="436" text-anchor="middle" class="label white" font-size="17">本地文件与 UE 项目操作</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="874" y="228" width="288" height="264" rx="28" fill="url(#web)"/>
+    <text x="1018" y="293" text-anchor="middle" class="label white mono" font-size="28" font-weight="700">Web</text>
+    <text x="1018" y="329" text-anchor="middle" class="label white" font-size="22" font-weight="700">官网 / 服务端 / 后台</text>
+    <text x="1018" y="374" text-anchor="middle" class="label white" font-size="17">下载页 / 版本 API</text>
+    <text x="1018" y="405" text-anchor="middle" class="label white" font-size="17">授权 / 支付 / 统计</text>
+    <text x="1018" y="436" text-anchor="middle" class="label white" font-size="17">用户反馈与运营管理</text>
+  </g>
+
+  <g>
+    <path d="M422 326 C515 274 608 256 718 288 C775 304 822 329 858 356" stroke="#58616E" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <text x="640" y="260" text-anchor="middle" class="label muted" font-size="18">启动 / 检查更新 / 授权验证</text>
+  </g>
+  <g>
+    <path d="M858 412 C760 489 636 510 514 478 C470 466 434 446 405 420" stroke="#58616E" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <text x="640" y="529" text-anchor="middle" class="label muted" font-size="18">版本信息 / 激活结果 / 用户反馈处理</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="486" y="150" width="308" height="84" rx="18" fill="url(#node)" stroke="#D8CABE"/>
+    <circle cx="528" cy="192" r="18" fill="#F4C66B"/>
+    <path d="M520 192H536M528 184V200" stroke="#5E4A1F" stroke-width="3" stroke-linecap="round"/>
+    <text x="562" y="185" class="label" font-size="21" font-weight="700">版本更新</text>
+    <text x="562" y="211" class="label muted" font-size="15">让用户知道何时升级、升级什么</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="486" y="268" width="308" height="84" rx="18" fill="url(#node)" stroke="#D8CABE"/>
+    <circle cx="528" cy="310" r="18" fill="#90C8B8"/>
+    <path d="M520 310L526 316L538 303" stroke="#244C44" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="562" y="303" class="label" font-size="21" font-weight="700">授权激活</text>
+    <text x="562" y="329" class="label muted" font-size="15">试用、月卡、永久版和设备绑定</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="486" y="386" width="308" height="84" rx="18" fill="url(#node)" stroke="#D8CABE"/>
+    <circle cx="528" cy="428" r="18" fill="#D99A8A"/>
+    <path d="M520 428H536M524 421H533M524 435H533" stroke="#633228" stroke-width="3" stroke-linecap="round"/>
+    <text x="562" y="421" class="label" font-size="21" font-weight="700">支付回调</text>
+    <text x="562" y="447" class="label muted" font-size="15">付费后生成激活码，完成商业验证</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="486" y="504" width="308" height="84" rx="18" fill="url(#node)" stroke="#D8CABE"/>
+    <circle cx="528" cy="546" r="18" fill="#AAB7E8"/>
+    <path d="M520 552C524 544 532 544 536 552M520 540H536" stroke="#343F77" stroke-width="3" stroke-linecap="round"/>
+    <text x="562" y="539" class="label" font-size="21" font-weight="700">反馈统计</text>
+    <text x="562" y="565" class="label muted" font-size="15">看见问题、整理反馈、继续迭代</text>
+  </g>
+
+  <path d="M640 234V268" stroke="#A5A09A" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M640 352V386" stroke="#A5A09A" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <path d="M640 470V504" stroke="#A5A09A" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow)"/>
+
+  <g>
+    <path d="M828 546 C916 606 1036 602 1100 514" stroke="#7B8290" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="8 10" marker-end="url(#arrow)"/>
+    <text x="1008" y="608" text-anchor="middle" class="label muted" font-size="17">运营后台沉淀数据</text>
+  </g>
+  <g>
+    <path d="M452 546 C351 607 223 585 178 510" stroke="#7B8290" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="8 10" marker-end="url(#arrow)"/>
+    <text x="274" y="608" text-anchor="middle" class="label muted" font-size="17">反馈进入下一轮客户端迭代</text>
+  </g>
+
+  <text x="640" y="672" text-anchor="middle" class="label muted" font-size="16">核心不是单个功能，而是：发布 -> 使用 -> 验证 -> 反馈 -> 更新</text>
+</svg>
