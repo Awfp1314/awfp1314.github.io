@@ -1,13 +1,7 @@
 ---
 import { HOME_LINKS } from "../consts";
-import { getCollection } from "astro:content";
 import MainLayout from "../layouts/MainLayout.astro"
 import Link from "../components/Link.astro";
-
-const recentAiPosts = (await getCollection("blog"))
-  .filter((post) => post.data.lang === "zh" && post.data.tags.some((tag) => /AI|LLM|MCP|Agent/i.test(tag)))
-  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
-  .slice(0, 4);
 ---
 
 <MainLayout title="HUTAO667" description="HUTAO667 的个人技术博客，分享 AI 应用开发、项目实践和技术思考。" lang="zh">
@@ -27,21 +21,6 @@ const recentAiPosts = (await getCollection("blog"))
       </p>
     </div>
   </div>
-
-  <section class="container-2 mx-auto w-full max-w-4xl px-6 pb-8" aria-labelledby="recent-ai-posts">
-    <div class="mb-4 flex items-center justify-between border-b border-border pb-2">
-      <h2 id="recent-ai-posts" class="text-xl font-semibold text-foreground">AI 相关文章</h2>
-      <Link href="/blog" className="text-sm text-muted-foreground underline">查看全部</Link>
-    </div>
-    <div class="grid gap-3 sm:grid-cols-2">
-      {recentAiPosts.map((post) => (
-        <Link href={`/${post.id}/`} className="rounded-lg border border-border bg-muted/20 p-4 text-left transition-colors hover:bg-muted/40">
-          <h3 class="mb-1 line-clamp-2 font-medium text-foreground">{post.data.title}</h3>
-          <p class="line-clamp-2 text-sm text-muted-foreground">{post.data.description}</p>
-        </Link>
-      ))}
-    </div>
-  </section>
 
   <style>
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
