@@ -1,0 +1,39 @@
+---
+title: "How I Use AI to Organize Real Product Iterations"
+description: "From user feedback and shared asset libraries to UI acceptance, a record of my AI-assisted iteration method in UE Toolkit."
+author: HUTAO667
+tags: ["AI", "AI-assisted Development", "UE Toolkit", "Product Iteration"]
+pubDate: "2026-09-11"
+lang: "en"
+alternateSlug: "2026/9/我如何用AI组织一个真实产品的迭代"
+---
+
+After working on a real product, I start less often with “what feature should I add next?” and more often with “where did the user get stuck?”
+
+The latest shared-library work in UE Toolkit began this way. The problem was not one broken button. In a real network environment, users could encounter waiting, failure, retry, and unclear states in the same flow.
+
+## Turn one report into several paths
+
+“Shared asset loading is wrong” is not yet an implementation task. I need to find out whether the first read is slow, every refresh repeats the scan, the thumbnail failed, the manifest is stale, or an old task is writing after the connection changed.
+
+I record those symptoms separately and use AI to help map the data flow and possible state conflicts. The vague request “optimize the library” becomes several questions: how is the manifest stored, how is preview material cached, how does a failure recover, and how do concurrent refreshes avoid missing items?
+
+## Separate manifests from preview material
+
+The file manifest and preview material were previously too tightly coupled. A read failure made it difficult to tell whether the problem was the connection, metadata, or a thumbnail.
+
+I separated the manifest into a sidecar and reused validated shared-asset caches. During acceptance I checked that opening the same asset again did not download the full payload, that a failed thumbnail affected only its own item, and that an old task could not update the current page after switching libraries.
+
+## Recovery matters after failure
+
+After a shared-library creation failure, a WebDAV credential change, or a connection switch, the user needs a recoverable state rather than only an error message.
+
+I split cleanup and retry into explicit paths. The checks included whether a failed attempt left partial data, whether a newly submitted credential actually refreshed the connection, and whether a second click started a new task instead of reusing a stuck state.
+
+AI helped me inspect related modules and fill in tests. The final decision still came from running the application and repeating the failure paths.
+
+## Users see state, not commits
+
+It is easy to be distracted by the number of commits, tests, or changed files. Users see whether the list appears, whether a thumbnail loads, whether a button responds, and whether they can try again after a failure.
+
+That is why I treat user actions as acceptance criteria. AI can speed up investigation and implementation, but I remain responsible for deciding what to change, how much to change, and whether the result is actually usable.
