@@ -1,0 +1,166 @@
+---
+title: "Sub2API 服务器部署与排错"
+description: "记录如何在 Ubuntu 上使用 Docker Compose、Nginx 和 HTTPS 部署 Sub2API，以及部署中容易遗漏的安全边界和排错路径。"
+author: HUTAO667
+tags: ["Sub2API", "Docker Compose", "Nginx", "HTTPS", "服务器部署"]
+pubDate: "2026-08-17"
+lang: "zh"
+---
+
+部署一个 API 服务，最容易低估的并不是把容器跑起来，而是让它能够稳定、安全地被外部访问。
+
+这篇记录一次 Sub2API 的部署过程。目标是在 Ubuntu 服务器上运行应用、PostgreSQL 和 Redis，通过 Nginx 对外提供 HTTPS 服务。重点不放在某一条安装命令，而是放在几个真正容易出问题的环节：服务监听范围、反向代理、证书验证、密钥保护和故障排查。
+
+> 本文中的域名、IP、密码和 API Key 均使用占位符。实际部署时不要把 `.env`、数据库密码、JWT 密钥或平台密钥放进聊天、截图和公开仓库。
+
+## 先确认服务器是否适合部署
+
+在开始前，先检查系统版本、CPU 架构、内存、Swap 和磁盘空间：
+
+```bash
+cat /etc/os-release
+uname -m
+free -h
+df -h /
+```
+
+小规格服务器也可以承载个人使用的服务，但需要如实看待容量。内存不足时，数据库、Redis 和应用同时启动更容易出现问题；没有 Swap 时，短时内存峰值也可能直接让进程被系统终止。
+
+随后确认 Docker 和 Compose 是否已就绪：
+
+```bash
+docker --version
+docker compose version
+systemctl is-active docker
+```
+
+![服务器尚未安装 Docker 的终端提示](/blog-images/sub2api-deploy/docker-not-installed.png)
+
+## 用 Compose 管理应用和依赖
+
+把应用、PostgreSQL 和 Redis 放到同一个 Compose 配置里，至少能让启动、检查和更新入口保持一致。
+
+启动前先检查 Compose 展开后的配置：
+
+```bash
+docker compose config --quiet
+```
+
+这个命令没有输出，通常表示 Compose 文件语法可以被解析。接着启动服务：
+
+```bash
+docker compose up -d
+docker compose ps
+```
+
+不要只看某个容器是否“正在运行”。应用、数据库和缓存的状态都应检查；如果镜像提供健康检查，优先确认状态为 `healthy`。
+
+## 让应用只监听本机
+
+应用端口不应该直接暴露到公网。更稳妥的做法是让应用监听 `127.0.0.1:8080`，公网流量统一由 Nginx 处理。
+
+这样做的好处是：
+
+- 应用端口不会被直接扫描和访问；
+- HTTPS、重定向和请求头统一在 Nginx 管理；
+- 后续更换应用容器或增加访问控制时，外部入口不需要变化。
+
+配置完成后，可以先从服务器内部确认应用响应：
+
+```bash
+curl -sS -o /dev/null \
+  -w 'HTTP状态码：%{http_code}\n' \
+  http://127.0.0.1:8080
+```
+
+内部能访问只是第一步，它不能证明域名、Nginx、防火墙和证书都正常。
+
+## Nginx 反向代理要考虑流式请求
+
+Nginx 的作用不是简单把域名转发给 `8080`。对于可能有流式响应、长时间请求或 WebSocket 的服务，代理缓冲和超时设置会直接影响使用体验。
+
+一个简化的核心配置如下：
+
+```nginx
+server {
+    listen 80;
+    server_name api.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_buffering off;
+        proxy_request_buffering off;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+    }
+}
+```
+
+修改 Nginx 配置后，先检查语法，再加载：
+
+```bash
+nginx -t && systemctl reload nginx
+```
+
+> 这里的配置示例只展示代理的关键项。实际 Nginx 版本、证书配置和站点文件路径应以当前服务器环境为准。
+
+如果提示 `nginx.service is not active, cannot reload`，不要把它误判为配置写错。先检查服务状态与 80、443 端口占用，再决定是启动 Nginx，还是先处理端口冲突。
+
+## 证书超时，常常不是 Certbot 的问题
+
+配置 HTTPS 时，最常见的现象是域名解析正确、Nginx 本机也能访问，但 Certbot 仍然提示连接超时。
+
+原因通常在公网入口：云服务器安全组或系统防火墙没有放行 80 端口。Let’s Encrypt 需要从公网访问该端口完成验证，服务器内部能访问并不代表外部能够连接。
+
+排查时依次检查：
+
+```bash
+ss -lntp | grep -E ':(80|443)\b' || true
+ufw status verbose
+iptables -L INPUT -n --line-numbers
+```
+
+确认云平台和系统防火墙都允许 HTTP/HTTPS 后，再申请证书。不要在没有定位原因时反复请求证书，以免积累无意义的失败记录。
+
+![Docker 安装完成后的系统提示](/blog-images/sub2api-deploy/docker-install-complete.png)
+
+## 把密钥和备份当成部署的一部分
+
+部署过程中生成的数据库密码、JWT、TOTP 密钥和 API Key 都是生产凭据。它们应保存在受保护的环境变量文件和密码管理器中，而不是公开笔记。
+
+`.env` 至少需要限制权限：
+
+```bash
+chmod 600 .env
+stat -c '%a %U:%G %n' .env
+```
+
+更新服务前，也应该先考虑备份。对于使用本地数据目录的 Compose 服务，备份需要覆盖应用配置、数据库和缓存数据；备份文件本身同样含有敏感信息，不能当作普通附件上传或分享。
+
+## 几个容易混淆的故障
+
+### 容器正常，域名却无法访问
+
+先区分问题在哪一层：应用本机响应、Nginx 配置、Nginx 服务状态、DNS、系统防火墙、云平台安全组，分别检查。不要因为 `docker compose ps` 显示正常，就直接认定外部访问也没有问题。
+
+### 服务能访问，但流式响应不正常
+
+检查 Nginx 是否仍在缓冲响应，以及代理超时是否过短。应用层、代理层和客户端都可能影响最终表现，应该从日志和实际请求逐层定位。
+
+### API Key 可用，但接口返回 403
+
+先检查 Key 所属分组是否允许目标接口和模型映射。地址、Key 本身和分组权限是不同层的配置，不能只围绕其中一个参数反复修改。
+
+## 结语
+
+部署不是“服务启动成功”就结束了。一个真正能长期使用的服务，需要把应用、反向代理、证书、防火墙、密钥和备份看成同一条链路。
+
+这次过程让我印象最深的是：很多看似奇怪的故障，其实都不是某个工具坏了，而是两层配置之间没有对齐。按链路拆开检查，比凭感觉反复重试更快，也更可靠。
