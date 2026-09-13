@@ -1,0 +1,39 @@
+---
+title: "Token, Context Windows, and RAG Trade-offs"
+description: "How token budgets, context selection, chunking, and retrieval quality shape the speed, cost, and reliability of AI applications."
+author: HUTAO667
+tags: ["AI applications", "RAG", "Token"]
+pubDate: "2026-08-01"
+lang: "en"
+alternateSlug: "2026/8/Token上下文窗口与RAG的工程取舍"
+---
+
+It is tempting to assume that a larger context window means putting more documents into every request. In practice, more text can increase cost and latency while making the important evidence harder to find.
+
+RAG is not simply a way to give a model more information. It is a way to choose which information is worth bringing into a particular answer.
+
+## Tokens are the unit the model processes
+
+Models process tokens rather than pages or characters. A token may be a word piece, punctuation, whitespace, bytes, or a special marker. System instructions, user messages, history, tool output, retrieved passages, and generated output all consume the same context budget.
+
+That is why a fixed “one token equals this many characters” rule is not reliable. Exact planning should use the target model's tokenizer and should reserve space for the model's output and tool results.
+
+## Long context is capacity, not organization
+
+Long context is useful when a request genuinely needs a large body of material. It does not automatically identify the newest document, reconcile conflicting rules, or focus attention on the relevant section. Sending every document can produce slower and less specific answers.
+
+The first product decision is therefore not “how much can the model see?” but “what evidence does this question need?”
+
+## Retrieval quality matters more than quantity
+
+RAG typically cleans and chunks documents, indexes them, retrieves likely passages for a query, and provides those passages to the model. Retrieval can find potentially related text; it cannot by itself know whether a source is current or whether a chunk still contains enough context to support a conclusion.
+
+Chunks that are too small lose prerequisites and scope. Chunks that are too large mix topics and waste context. Natural units such as a feature instruction, a troubleshooting step, or a configuration rule usually preserve meaning better than arbitrary cuts.
+
+Useful metadata—title, version, module, and source location—also helps judge whether a retrieved passage applies.
+
+## Context is a product budget
+
+An application must decide what is always present, what is retrieved by question, what history is summarized or discarded, and when users need to see the supporting source. Those choices determine accuracy, response time, and cost together.
+
+Token budgets, context windows, and RAG are not independent features. They are one information-selection problem: bring a small amount of reliable evidence into the model instead of a large amount of loosely related text.

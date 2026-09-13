@@ -1,0 +1,40 @@
+---
+title: "Organizing AI Collaboration: Task Boundaries, Context, and Acceptance"
+description: "How people can keep AI-assisted work controllable through focused tasks, relevant context, and real acceptance criteria."
+author: HUTAO667
+tags: ["AI collaboration", "Agent", "Engineering practice"]
+pubDate: "2026-07-16"
+lang: "en"
+alternateSlug: "2026/7/人如何组织AI协作-任务拆分上下文边界与验收标准"
+---
+
+Once a project has multiple modules, history, and real users, the central question is not whether an AI can generate code. It is who ensures that the generated change solves the current problem without damaging an existing path.
+
+I do not rely on a complicated multi-agent setup for that. The practical foundation is clearer: define a bounded task, provide the context that decision needs, explore before committing to a solution, and accept the result in the real environment.
+
+## Replace broad wishes with a task
+
+“Make asset management more stable” is not a task. It does not say where the issue appears, which part of the path is in scope, what must remain unchanged, or what success looks like. A useful task answers those questions before implementation begins.
+
+## Give relevant context, not all context
+
+For a UI slowdown, the cause might be scanning, file reads, image loading, list rendering, or a background worker updating the interface. A reproducible symptom, the responsible path, logs, and an expected result are more useful than a complete repository dump.
+
+The goal is traceability. A reviewer should be able to explain why an approach was chosen and what evidence will show whether it worked.
+
+## Explore before expanding
+
+AI is useful for comparing documentation, mapping code to a symptom, and building a small experiment. Exploration should not silently become product code. A prototype that cannot prove an interface, compatibility rule, or interaction is workable is a reason to reduce uncertainty, not a reason to make the implementation larger.
+
+## Treat output as a deliverable to accept
+
+A generated patch is a proposed deliverable. Acceptance checks the normal path, error behavior, existing functionality, visible feedback, and the original completion condition. Git status or a successful compilation alone cannot answer those product questions.
+
+The person remains responsible for the direction and standard. AI accelerates research and implementation. Actual behavior decides whether the work is accepted.
+
+```text
+confirm the problem → split the task → provide context
+→ explore or implement → run and accept → feed back results
+```
+
+This feedback loop is less dramatic than asking a model to finish everything at once, but it is much closer to how reliable work moves forward.

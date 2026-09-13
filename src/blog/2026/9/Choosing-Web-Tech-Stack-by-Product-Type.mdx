@@ -1,0 +1,41 @@
+---
+title: "Choosing a Web Tech Stack by Product Type"
+description: "Choose a web stack from real product constraints—content, SEO, accounts, payments, administration, and maintenance—instead of framework popularity."
+author: HUTAO667
+tags: ["Web development", "Technology selection", "React", "Next.js", "Vite"]
+pubDate: "2026-09-13"
+lang: "en"
+alternateSlug: "2026/9/按产品形态选择Web技术栈"
+---
+
+“Which framework is most popular?” is usually the wrong starting question. A better question is what the product needs: search visibility, static content, a back office, accounts, payments, a database, or a simple and maintainable landing page.
+
+There is no single best stack. The stack should fit the product shape, the team's ability to maintain it, and the cost of operating it over time.
+
+## Static sites and portfolios
+
+For a content site, landing page, download page, or portfolio without complex data interaction, plain HTML/CSS/JavaScript or a small React site can be enough. Prioritize speed, simple deployment, maintainable content, and search visibility. When articles, static generation, or richer content workflows matter, Astro or Next.js may be a better fit.
+
+## Admin tools and internal applications
+
+Administration tools usually care more about forms, permissions, tables, filters, and application state than SEO. React with Vite is a common straightforward choice. The important work is not only rendering components: interfaces, permissions, failure states, and maintenance boundaries matter just as much.
+
+## Documentation and content sites
+
+Blogs and documentation systems are primarily content, navigation, search, and performance problems. Static-site generation works well when Markdown, code blocks, images, language support, and deployment are organized around sustained writing rather than one-off pages.
+
+## Full-stack products
+
+Once a product needs accounts, roles, orders, payments, a database, and server-side APIs, the front-end framework is only one layer. Whether the product uses a full-stack framework or separate services, it still needs decisions about identity, secrets, backups, payment callbacks, error handling, releases, and rollback.
+
+## Use constraints to decide
+
+| Question | What it affects |
+| --- | --- |
+| Does the product need SEO? | Static generation, SSR, or client rendering |
+| Does it need accounts, roles, or payments? | Server design, data, and security |
+| Does it need a back office? | Forms, permissions, lists, and APIs |
+| Is it primarily documentation? | Markdown, navigation, search, and publishing |
+| Can the team maintain it? | Complexity, deployment, and troubleshooting cost |
+
+Start with a clear stack that satisfies the current product. Let real growth, performance constraints, and maintenance pain justify later complexity. Do not pick a framework first and then search for a product that can justify it.

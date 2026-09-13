@@ -1,0 +1,52 @@
+---
+title: "AI-Assisted Development: From Requirement Breakdown to Human Acceptance"
+description: "A practical workflow for defining a problem, validating a solution, and accepting AI-assisted work in a real product."
+author: HUTAO667
+tags: ["AI-assisted development", "Product engineering", "Development workflow"]
+pubDate: "2026-06-30"
+lang: "en"
+alternateSlug: "2026/6/AI协作开发流程-从需求拆分到人工验收"
+---
+
+AI-assisted development is often described as giving a requirement to a model and waiting for code. In a real product, that is rarely the hard part. The difficult questions are whether the requirement is clear, whether the approach works in the actual environment, and whether a user can complete the intended task.
+
+I treat AI as a fast collaborator rather than an automatic product owner. It can help research, compare options, create prototypes, implement focused changes, and investigate failures. A person still has to decide what matters, what is out of scope, and what counts as done.
+
+## Start with the user problem
+
+Before asking for implementation, turn a vague wish into a bounded problem: who is blocked, what is happening now, what should change, and what result will prove that it changed. This does not require a long specification. It requires a usable boundary.
+
+For example, an asset-import problem can be split into input recognition, classification, visible status, confirmation, and error handling. That is much easier to discuss and verify than asking for a generally “better asset workflow”.
+
+## Break work into observable steps
+
+Do not hand a large mixed requirement to an agent in one pass. Separate the path into small results: can the input be recognized, can the state be shown, can the operation finish, and can failure be explained? When each step has an observable result, failures are easier to locate and a broad change is less likely to hide unrelated regressions.
+
+## Research and prototype before expanding implementation
+
+Generated code can look plausible while using the wrong interface or misunderstanding a version constraint. For compatibility rules, external APIs, performance issues, or system configuration, I first check the actual mechanism and then use AI to help implement a solution against that evidence.
+
+A small prototype is often more valuable than a complete-looking architecture. It answers whether an interface is usable, whether the interaction makes sense, and whether the solution creates another problem before it spreads through the product.
+
+## Provide the smallest useful context
+
+AI needs context, but sending an entire repository is not automatically helpful. The useful context is the current module's role, reproducible symptoms, expected behavior, relevant logs or code, known failed attempts, and boundaries that must not move.
+
+Context should make a proposed change traceable: what observation supports it, which path will it affect, and how will it be checked?
+
+## Acceptance begins after implementation
+
+“Implemented” only means that a change was produced. It does not mean the feature works for a real user. I run the product and check the normal path, likely errors, existing behavior, and whether the interface explains what happens next. When acceptance fails, I feed back the symptom, reproduction steps, logs, and expected result for another focused iteration.
+
+The loop is simple:
+
+```text
+define the problem
+→ break it down
+→ research or prototype
+→ implement
+→ run and accept
+→ feed back the result
+```
+
+AI increases the speed of this loop. It does not remove the need for product judgment or real acceptance.

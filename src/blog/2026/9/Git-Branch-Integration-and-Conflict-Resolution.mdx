@@ -1,0 +1,48 @@
+---
+title: "Git Branch Integration and Conflict Resolution"
+description: "A practical Git workflow for updating a feature branch, resolving conflicts by intent, and verifying the integrated result."
+author: HUTAO667
+tags: ["Git", "Branch management", "Conflict resolution", "Development collaboration"]
+pubDate: "2026-09-02"
+lang: "en"
+alternateSlug: "2026/9/Git分支整合与冲突处理"
+---
+
+Merge conflicts are difficult less because of Git commands than because a conflict does not say which behavior the product should keep. A reliable workflow updates the feature branch against the current main branch, interprets both changes by purpose, and verifies the result after Git accepts the merge.
+
+## Update main before integration
+
+Before submitting or merging a feature, update the local main branch and merge it into the feature branch:
+
+```bash
+git switch main
+git pull
+git switch <feature-branch>
+git merge main
+```
+
+This is not the final merge into main. It is an early compatibility check that keeps a feature branch from drifting too far away from the project.
+
+## Resolve conflicts by intent
+
+Conflict markers tell us that two edits overlap; they do not decide which edit is right. Ask what each side was trying to achieve: is one side fixing a defect while the other adds behavior, has one rule been replaced, or do both purposes need to survive together?
+
+Do not mechanically keep the current branch or main. Use the current requirement, confirmed behavior, and relevant tests to make the decision.
+
+## Git acceptance is not product acceptance
+
+After resolving files and staging the merge, Git only knows that the text conflict is gone. Review the result, run the relevant build or tests, and check the worktree:
+
+```bash
+git status
+git diff --check
+```
+
+For UI, file-processing, deployment, or user-facing changes, run the actual affected path too. A clean worktree cannot prove that an integrated feature still works.
+
+```text
+update main → return to the feature branch → merge main
+→ resolve by intent → verify the result → commit and push
+```
+
+The dependable completion condition is not “no conflict markers remain”. It is that the integrated project still satisfies the requirement and passes the appropriate verification.
