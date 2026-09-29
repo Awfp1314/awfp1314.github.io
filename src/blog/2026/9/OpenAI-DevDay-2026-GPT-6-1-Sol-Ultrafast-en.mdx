@@ -1,0 +1,289 @@
+---
+title: "GPT-6.1 Sol + Ultrafast: What OpenAI Updated at DevDay 2026"
+description: "A practical overview of GPT-6.1 Sol, Ultrafast, Pro 500, Agents API, Decisions API, Codex Cloud, ChatGPT Space, and the enterprise AI stack shown at OpenAI DevDay 2026."
+author: HUTAO667
+tags: ["OpenAI", "GPT-6.1 Sol", "Ultrafast", "Agents", "Codex", "ChatGPT"]
+pubDate: "2026-09-29"
+lang: "en"
+image:
+  url: "/blog-images/openai-devday-2026/620f24976159734b00f0bd1c418dc41c.jpg"
+  alt: "OpenAI DevDay 2026 product overview"
+alternateSlug: "2026/9/OpenAI-DevDay-2026-GPT-6-1-Sol-Ultrafast"
+---
+
+# GPT-6.1 Sol + Ultrafast: What OpenAI Updated at DevDay 2026
+
+The most important part of today's OpenAI DevDay was not a reintroduction of an already-released flagship model. It was the combination of **GPT-6.1 Sol** and **Ultrafast**.
+
+One is positioned as a stronger, more scalable workhorse for reasoning, coding, and agent workflows. The other turns response speed into a product tier that can be selected when latency matters.
+
+Around those two launches, OpenAI also presented Dots, ChatGPT Space, plugin extensions, meeting recaps, Agents API, Decisions API, Codex in the cloud, Codex Security Cloud, and Pro 500.
+
+The overall direction is clear: ChatGPT is moving from a chat interface toward software that can keep working on a goal over time.
+
+![OpenAI DevDay 2026 product overview](/blog-images/openai-devday-2026/620f24976159734b00f0bd1c418dc41c.jpg)
+
+## GPT-6.1 Sol is the main model story
+
+GPT-6.1 Sol is presented as an upgrade for complex coding, agent workflows, and professional tasks—not merely as a model that writes longer answers.
+
+The focus is on:
+
+- stronger complex coding;
+- more reliable long-running tasks;
+- better computer use and tool calling;
+- a better fit for enterprise agents and developer workflows;
+- a price point that is easier to scale across repeated calls.
+
+The stage placed GPT-6.1 Sol next to Ultrafast, Agents API, Decisions API, and Codex in the cloud. That combination says a lot about the model's role: it is meant to power workflows in which the model understands a goal, uses tools, checks results, and continues.
+
+![GPT-6.1 Sol pricing comparison](/blog-images/openai-devday-2026/36de2a8ab8139efd090c628460bd49b0.jpg)
+
+This is also why the event treated model capability and execution speed as separate choices. A team can choose a standard mode for ordinary work, then pay for a faster tier when an interactive or tool-heavy workflow needs lower latency.
+
+## Ultrafast turns waiting time into a product
+
+The message on stage was direct: Ultrafast is available across the API, ChatGPT, and Codex, with a displayed maximum of up to 300 tokens per second. Another demo compared Ultrafast with Regular side by side.
+
+![Ultrafast is available in API, ChatGPT, and Codex](/blog-images/openai-devday-2026/de664d41a3c2d8edf342bf9407f2534f.jpg)
+
+![Ultrafast versus Regular](/blog-images/openai-devday-2026/7e9c6041281c6969e133799e69077a34.jpg)
+
+For ordinary chat, speed mostly changes how smooth the experience feels. For an agent, it changes the shape of the product.
+
+A single task may require the model to:
+
+1. read a file;
+2. search the web;
+3. call a tool;
+4. run code;
+5. inspect the result;
+6. revise its plan;
+7. call another tool.
+
+If every step takes too long, the whole workflow feels like a sequence of waiting screens. Ultrafast is aimed at making the interaction feel closer to real-time software collaboration.
+
+The trade-off is equally clear: higher speed costs more. That makes Ultrafast most useful for latency-sensitive steps, rather than something that must be enabled for every request.
+
+## The pricing model is becoming a workflow decision
+
+The displayed GPT-6.1 Sol pricing separates input, cached input, and output:
+
+- Input: $2 per 1M tokens;
+- cached input: $0.10 per 1M tokens;
+- output: $10 per 1M tokens.
+
+![GPT-6.1 Sol pricing on stage](/blog-images/openai-devday-2026/36de2a8ab8139efd090c628460bd49b0.jpg)
+
+The important point is not one isolated number. It is how those numbers affect the total cost of a long-running agent.
+
+When a model repeatedly reads project material, calls tools, and verifies results, cache hit rates and output volume matter as much as the headline model price. A practical architecture may therefore use:
+
+- standard speed for ordinary steps;
+- Ultrafast for interactive steps;
+- cached context for repeated material;
+- more reasoning only at critical decision points;
+- a cheaper model for low-value work.
+
+Model selection is moving from “which model is strongest?” toward “which speed and cost profile belongs to this part of the workflow?”
+
+## Pro 500: heavy users are buying continuity
+
+The event also showed Pro 500 with:
+
+- Ultrafast;
+- no five-hour limit;
+- use across partner applications;
+- 25x the usage of Plus.
+
+![Pro 500](/blog-images/openai-devday-2026/13f37de0790841af370dcfce54f19ba2.jpg)
+
+![100, 200, and Pro 500 usage levels](/blog-images/openai-devday-2026/67e9be819abc4e93216a9875eb52a27e.jpg)
+
+This points to a broader shift in AI subscriptions. The difference between plans is no longer only whether a user can access a model. It is also:
+
+- how long the system can work continuously;
+- how many tools it can call;
+- whether it can move across applications;
+- whether a long task can finish without interruption;
+- how quickly the user reaches a usage limit.
+
+For people who code, research, create content, or manage projects every day, continuity may matter more than a small change in single-answer quality.
+
+## Dots and ChatGPT Space: ChatGPT gets a workspace model
+
+The overview also showed Dots on the left and ChatGPT Space on the right.
+
+![Dots: a new experience shown in the OpenAI DevDay overview](/blog-images/openai-devday-2026/official-openai-dots.jpg)
+
+From the stage material, Dots looks like a new AI character or product entry point. ChatGPT Space looks more like a project-centered place for organizing context, tasks, conversations, and collaboration.
+
+![ChatGPT Space and the wider product map](/blog-images/openai-devday-2026/620f24976159734b00f0bd1c418dc41c.jpg)
+
+If the old ChatGPT experience was primarily a conversation window, Space points toward a project workspace:
+
+- project material stays together;
+- conversations and tasks are not scattered;
+- meetings, documents, and plans can connect;
+- collaborators can work around the same goal;
+- external apps and extensions can be added.
+
+That could be especially useful for research, product design, content work, and team projects. Instead of opening a new chat for every question, a user can return to a workspace and let the agent continue with the project context.
+
+## Sign in with ChatGPT, plugin extensions, and meeting recaps
+
+Several smaller items in the overview point to the same ecosystem strategy.
+
+**Sign in with ChatGPT** suggests a more consistent identity entry point across connected applications. **Plugin extensions** show that ChatGPT is meant to connect to design, project-management, documentation, and enterprise services.
+
+The extension cards resemble tools such as Figma and Atlassian. A useful extension will not only return text; it may create a design, open a task, update a project status, or generate a file after the user grants access.
+
+The **Team meeting recap** card is another practical example. The system is shown turning a meeting into a recap and a list of action items.
+
+The value is not merely transcription. It is the conversion of conversation into work:
+
+- Who owns each task?
+- Which items have deadlines?
+- Which decisions are final?
+- Which questions are still open?
+
+## Agents API: models need a runtime
+
+Agents API remains one of the most important developer foundations shown at the event. Its displayed building blocks include:
+
+- Harness;
+- Environment;
+- Memory and context;
+- MCP, tools, and skills;
+- Compaction;
+- Multi-agent workflows.
+
+![Agents API](/blog-images/openai-devday-2026/f80889f8606b2cc87ae7df01e112fc25.jpg)
+
+These are the pieces developers otherwise have to assemble themselves: where the agent runs, which tools it can access, how long context is preserved, how multiple agents divide work, and how a failed task recovers.
+
+Agent development therefore moves beyond writing a prompt. It becomes system design involving:
+
+- permission boundaries;
+- execution environments;
+- tool inventories;
+- memory policies;
+- human approval points;
+- failure recovery;
+- audit trails.
+
+## Decisions API: from suggestions to executable choices
+
+The Decisions API demo used a flight-search scenario. The user expressed a goal in natural language, the system compared options, and the result was returned as a structured decision that could trigger the next step.
+
+![Decisions API](/blog-images/openai-devday-2026/ea99c9de33e422a6b8152bb3326b9d2c.jpg)
+
+This pattern fits:
+
+- flight and hotel selection;
+- product recommendations;
+- customer-service routing;
+- purchasing approvals;
+- risk decisions;
+- operational automation.
+
+Instead of returning a paragraph that an application must parse, the model can return a decision object that the application continues to execute.
+
+The pattern becomes:
+
+> Natural-language goal → agent understanding → structured decision → software execution
+
+## Codex in the cloud: coding agents get an environment
+
+Codex is moving beyond “write a few lines for me” toward “take an engineering task and work on it in the cloud.”
+
+![Codex in the cloud](/blog-images/openai-devday-2026/5f71b03b73e47093bdfffa0862e319ab.jpg)
+
+The workflow can include:
+
+- reading a large codebase;
+- editing multiple files;
+- running tests and builds;
+- handling failures;
+- preparing a fix;
+- running several tasks in parallel;
+- handing the result to a team for review.
+
+![Codex Harness](/blog-images/openai-devday-2026/2f48607200627160bb4f750cf0318ddc.jpg)
+
+The important change is not only faster code completion. Codex is being given an environment, context, and execution loop of its own.
+
+## Codex Security Cloud: security becomes an agent workflow
+
+![Codex Security Cloud](/blog-images/openai-devday-2026/b95b34ce2a892b55fcb590b01fa04756.jpg)
+
+Codex Security Cloud brings code scanning, vulnerability assessment, validation, remediation suggestions, and review into one workflow.
+
+The overview also showed “External Storage Status — Validated”. That suggests enterprise agents need to reason not only about vulnerabilities in code, but also about:
+
+- where external data is stored;
+- which systems are connected;
+- whether the connection has been validated;
+- who can access the data;
+- whether the full process can be audited.
+
+The more actions an agent can take, the less acceptable it is to bolt security on at the end.
+
+## OpenAI and AWS: agents move into enterprise infrastructure
+
+![OpenAI and AWS](/blog-images/openai-devday-2026/123bef80186c7fdfe40a6987e2417da1.jpg)
+
+![OpenAI and AWS: the displayed partnership areas](/blog-images/openai-devday-2026/44ffcc4a7d7321321722037664fbf233.jpg)
+
+The displayed partnership areas included Bedrock Managed Agents, GPT-6.1 Sol and Ultrafast, and Codex with ChatGPT Work.
+
+For enterprises, the important question is not simply whether a model exists. It is whether the system can:
+
+- connect to the existing cloud platform;
+- work with enterprise identity systems;
+- enforce agent permissions;
+- preserve an operational record;
+- fit into existing business processes.
+
+That is how the pieces fit together: the model provides capability, the agent provides execution, the cloud provides deployment, and the security layer defines the boundary.
+
+## The core DevDay update is a new way of working with AI
+
+Put together, the product logic looks like this:
+
+```text
+GPT-6.1 Sol: a stronger workhorse model
+        ↓
+Ultrafast: less waiting
+        ↓
+Agents API: an execution framework
+        ↓
+Decisions API: structured choices
+        ↓
+Codex Cloud: a real engineering environment
+        ↓
+ChatGPT Space: project-centered context
+        ↓
+Extensions, identity, AWS, and security: connection to real systems
+```
+
+So I would not summarize today's event as “another benchmark ranking.” The two ideas worth remembering are:
+
+**First, GPT-6.1 Sol brings stronger agent capability into a more scalable workhorse tier.**
+
+**Second, Ultrafast makes speed itself a product choice, pushing AI from waiting for an answer toward real-time collaboration.**
+
+The next competitive gap will not come only from model scores. It will come from combining models, speed, tools, context, permissions, and workspaces into a workflow people can actually use.
+
+---
+
+### Sources and image notes
+
+- [OpenAI DevDay 2026](https://devday.openai.com/)
+- [OpenAI API model documentation](https://developers.openai.com/api/docs/models)
+- [OpenAI API pricing](https://developers.openai.com/api/docs/pricing)
+- [OpenAI official YouTube channel](https://www.youtube.com/@OpenAI)
+
+The article's product descriptions and numbers are based on the DevDay screenshots and the linked official materials. Pricing and speed can vary by processing tier, context length, and product surface.
+
+#OpenAI #DevDay2026 #GPT61Sol #Ultrafast #AgentsAPI #Codex #ChatGPT #AI #ArtificialIntelligence

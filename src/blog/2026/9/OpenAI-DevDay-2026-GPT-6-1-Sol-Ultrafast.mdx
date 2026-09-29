@@ -1,0 +1,292 @@
+---
+title: "GPT-6.1 Sol + Ultrafast：OpenAI DevDay 2026 今天更新了什么？"
+description: "从 GPT-6.1 Sol 与 Ultrafast 出发，整理 OpenAI DevDay 2026 展示的模型、Agent、Codex、ChatGPT 工作空间与企业生态更新。"
+author: HUTAO667
+tags: ["OpenAI", "GPT-6.1 Sol", "Ultrafast", "Agents", "Codex", "ChatGPT"]
+pubDate: "2026-09-29"
+lang: "zh"
+image:
+  url: "/blog-images/openai-devday-2026/620f24976159734b00f0bd1c418dc41c.jpg"
+  alt: "OpenAI DevDay 2026 product overview"
+alternateSlug: "2026/9/OpenAI-DevDay-2026-GPT-6-1-Sol-Ultrafast-en"
+---
+
+# GPT-6.1 Sol + Ultrafast：OpenAI DevDay 今天到底更新了什么？
+
+今天的 OpenAI DevDay，最值得关注的不是再讲一遍已经发布过的旗舰模型，而是两件非常具体的事：
+
+**GPT-6.1 Sol，和 Ultrafast 超快模式。**
+
+一个负责把更强的推理、编码和 Agent 能力带到更低的价格区间；另一个直接把“等待模型输出”变成了一个可以单独购买的速度档位。
+
+除此之外，OpenAI 还把 Dots、ChatGPT Space、插件扩展、会议总结、Agents API、Decisions API、Codex Cloud、Security Cloud 和 Pro 500 一起放进了同一张产品版图里。
+
+这场发布会给我的整体感觉是：OpenAI 正在把 AI 从“聊天工具”往“可以连续工作的软件系统”推进。
+
+![OpenAI DevDay 2026 更新总览](/blog-images/openai-devday-2026/620f24976159734b00f0bd1c418dc41c.jpg)
+
+## 先说最重要的：GPT-6.1 Sol
+
+这次发布的 GPT-6.1 Sol，不是简单改个小版本号，而是针对复杂编码、Agent 工作流和专业任务做了一轮升级。
+
+这次 GPT-6.1 Sol 的产品目标更接近：
+
+- 更强的复杂编码能力
+- 更稳定的长任务执行
+- 更好的 Computer Use 和工具调用
+- 更适合放进企业 Agent 和开发者工作流
+- 在能力提升的同时，仍然保持相对可控的调用成本
+
+现场把 GPT-6.1 Sol 放在整场发布会的中心位置旁边，和 Ultrafast、Agents API、Decisions API、Codex Cloud 等产品放在一起。这个组合其实已经说明了它的定位：它不是只给人聊天用的模型，而是要作为大量 Agent 工作流的主力模型。
+
+![GPT-6.1 Sol 现场发布画面](/blog-images/openai-devday-2026/36de2a8ab8139efd090c628460bd49b0.jpg)
+
+这次更重要的变化，是 OpenAI 开始把“模型能力”和“执行速度”拆开卖。你可以选择更便宜的标准处理，也可以为了实时交互、代码生成或工具调用速度，切换到更快的档位。
+
+## Ultrafast：AI 的“速度档位”被单独做成产品
+
+现场给出的信息非常直接：Ultrafast 可以在 API、ChatGPT 和 Codex 中使用，最高速度达到每秒 300 tokens；另一张演示画面则把 Ultrafast 和 Regular 放在一起对比。
+
+![Ultrafast：可用于 API、ChatGPT 和 Codex](/blog-images/openai-devday-2026/de664d41a3c2d8edf342bf9407f2534f.jpg)
+
+![Ultrafast 与 Regular 速度对比](/blog-images/openai-devday-2026/7e9c6041281c6969e133799e69077a34.jpg)
+
+对于普通问答，快一点可能只是体验更流畅；但对于 Agent，速度会直接改变产品形态。
+
+一个 Agent 可能要连续完成：
+
+1. 读取文件；
+2. 搜索网页；
+3. 调用工具；
+4. 运行代码；
+5. 检查结果；
+6. 修改方案；
+7. 再次调用工具。
+
+如果每一步都需要等待很久，整条工作流就会变得拖沓。Ultrafast 的意义，就是让这些连续步骤更像实时软件，而不是一问一答地等待模型慢慢输出。
+
+从现场信息来看，Ultrafast 的代价也很明确：速度越高，价格越高。它更适合对延迟敏感的场景，不一定适合所有任务长期打开。
+
+## GPT-6.1 Sol 的价格：重点不是便宜，而是更容易规模化
+
+现场展示的 GPT-6.1 Sol 价格表，把 Input、Cached input 和 Output 分开列出来：
+
+- Input：$2 / 1M tokens
+- Cached input：$0.10 / 1M tokens
+- Output：$10 / 1M tokens
+
+![GPT-6.1 Sol 与旗舰模型价格对比](/blog-images/openai-devday-2026/36de2a8ab8139efd090c628460bd49b0.jpg)
+
+这里最有价值的不是单看某一个数字，而是它会影响 Agent 的整体成本。
+
+当模型需要持续读取项目资料、调用工具、反复验证结果时，缓存输入价格会直接影响长任务的预算。未来开发者很可能会这样搭配：
+
+- 普通步骤用标准速度；
+- 需要快速反馈的步骤用 Ultrafast；
+- 重复读取的内容尽量走缓存；
+- 关键判断再提高 reasoning effort；
+- 低价值任务交给更便宜的模型。
+
+AI 的模型选择，正在从“哪个最强”变成“这一段工作流应该用哪一种速度和成本”。
+
+## Pro 500：重度用户买的不只是模型，而是持续工作时间
+
+现场还展示了 Pro 500：
+
+- Ultrafast
+- 没有 5 小时限制
+- 可以跨合作伙伴应用使用
+- 25 倍 Plus 用量
+
+![Pro 500](/blog-images/openai-devday-2026/13f37de0790841af370dcfce54f19ba2.jpg)
+
+![100、200、Pro 500 用量层级](/blog-images/openai-devday-2026/67e9be819abc4e93216a9875eb52a27e.jpg)
+
+这透露出一个很明显的产品趋势：AI 订阅的竞争，已经不只是“你能不能使用某个模型”，而是：
+
+- 能连续工作多久；
+- 能调用多少工具；
+- 能不能跨应用使用；
+- 能不能跑完一整个长任务；
+- 会不会很快撞到额度限制。
+
+对于高频写代码、做研究、制作内容和管理项目的人来说，用量和连续工作时间可能比单次回答能力更影响实际体验。
+
+## Dots 和 ChatGPT Space：ChatGPT 开始有“团队和空间”的感觉
+
+总览图左侧出现了 Dots，右下角则是 ChatGPT Space。
+
+![Dots：OpenAI DevDay 产品总览中的新体验](/blog-images/openai-devday-2026/official-openai-dots.jpg)
+
+从现场展示来看，Dots 更像一种新的 AI 角色或工作入口；ChatGPT Space 则更像一个围绕项目组织资料、任务、对话和协作内容的空间。
+
+![ChatGPT Space](/blog-images/openai-devday-2026/620f24976159734b00f0bd1c418dc41c.jpg)
+
+如果过去的 ChatGPT 更像一个聊天窗口，那么 Space 的方向就是把它变成一个项目工作区：
+
+- 项目资料放在一起；
+- 对话和任务不再分散；
+- 会议、文档、计划可以互相连接；
+- 团队成员可以围绕同一个目标协作；
+- 外部应用和插件可以继续接入。
+
+这个变化对内容创作、产品设计、研究和团队项目尤其重要。以后可能不是“新开一个对话问问题”，而是直接进入某个工作空间，让 AI 继续沿着项目上下文工作。
+
+## Sign in with ChatGPT、Plugin extensions 和 Team meeting recap
+
+总览图里还有几个很容易被忽略的产品方向。
+
+**Sign in with ChatGPT** 代表 ChatGPT 可以成为更多应用的统一身份入口；**Plugin extensions** 则意味着开发者可以把设计、项目管理、文档和企业服务接入 ChatGPT。
+
+右上角的插件图标里可以看到类似 Figma、Atlassian 的应用形态。未来一个插件不一定只是返回文字，也可能直接在对话里完成设计、创建任务、更新项目状态或生成文件。
+
+另外一个很实用的方向是 **Team meeting recap**：会议结束后，AI 不只是给一段摘要，还会整理参与者、关键结论和 Action items。
+
+这类功能的真正价值在于把“会议内容”变成“接下来要执行的工作”：
+
+- 谁负责什么？
+- 哪些事情有截止日期？
+- 哪些决定已经确定？
+- 哪些问题还没有解决？
+
+## Agents API：把模型变成可运行的 Agent
+
+Agents API 仍然是这次发布会最重要的开发者基础设施之一。现场展示的模块包括：
+
+- Harness
+- Environment
+- Memory & context
+- MCP、tools & skills
+- Compaction
+- Multi-agent
+
+![Agents API](/blog-images/openai-devday-2026/f80889f8606b2cc87ae7df01e112fc25.jpg)
+
+它解决的是开发者自己搭 Agent 时最麻烦的部分：模型在哪里运行、工具如何接入、长上下文如何保存、多个 Agent 如何分工，以及任务失败之后如何继续。
+
+这意味着 Agent 开发会从简单的 Prompt 工程，转向完整的系统设计：
+
+- 权限边界
+- 工作环境
+- 工具清单
+- 记忆策略
+- 人工确认点
+- 失败恢复
+- 结果审计
+
+## Decisions API：从“给建议”到“返回决策”
+
+现场的 Decisions API 演示了一个航班搜索场景：用户只需要表达目标，系统去查找信息、比较选项，最后返回一个结构化的决策结果。
+
+![Decisions API](/blog-images/openai-devday-2026/ea99c9de33e422a6b8152bb3326b9d2c.jpg)
+
+这类 API 很适合：
+
+- 航班和酒店筛选
+- 商品推荐
+- 客服分流
+- 采购审批
+- 风险判断
+- 运营自动化
+
+过去模型输出的是一段文字，应用还要自己解析。Decisions API 的方向，是让模型直接返回应用可以继续执行的选择。
+
+这会让很多产品变成：
+
+> 自然语言输入 → Agent 理解 → 结构化决策 → 软件继续执行
+
+## Codex in the cloud：代码 Agent 进入云端
+
+Codex 的重点也从“帮我写几行代码”，逐渐转向“给它一个工程任务，让它在云端完成”。
+
+![Codex in the cloud](/blog-images/openai-devday-2026/5f71b03b73e47093bdfffa0862e319ab.jpg)
+
+这类工作流可以包括：
+
+- 阅读大型代码库
+- 修改多个文件
+- 运行测试和构建
+- 处理错误
+- 生成修复方案
+- 并行执行多个任务
+- 把结果交给团队审查
+
+![Codex Harness](/blog-images/openai-devday-2026/2f48607200627160bb4f750cf0318ddc.jpg)
+
+对于开发者来说，真正的变化不是“AI 代码补全更快了”，而是 Codex 开始拥有自己的环境、上下文和执行能力。
+
+## Codex Security Cloud：安全工作流也交给 Agent
+
+![Codex Security Cloud](/blog-images/openai-devday-2026/b95b34ce2a892b55fcb590b01fa04756.jpg)
+
+Codex Security Cloud 把代码扫描、漏洞判断、验证、修复建议和审查放进同一个工作流里。
+
+总览图还出现了 External Storage Status — Validated，这说明企业级 Agent 需要关注的不只是代码漏洞，还包括：
+
+- 外部数据存储在哪里；
+- 哪些系统已经连接；
+- 连接是否经过验证；
+- 谁可以访问这些数据；
+- 整个过程能不能审计。
+
+AI 越能执行真实动作，安全就越不能作为最后补上的功能。
+
+## OpenAI × AWS：Agent 会进入企业云平台
+
+![OpenAI × AWS](/blog-images/openai-devday-2026/123bef80186c7fdfe40a6987e2417da1.jpg)
+
+![OpenAI × AWS 合作方向](/blog-images/openai-devday-2026/44ffcc4a7d7321321722037664fbf233.jpg)
+
+现场列出的方向包括 Bedrock Managed Agents、GPT-6.1 Sol 与 Ultrafast，以及 Codex 和 ChatGPT Work。
+
+企业真正关心的通常不是“有没有一个模型”，而是：
+
+- 能不能接入现有云平台；
+- 能不能接企业身份系统；
+- 能不能控制 Agent 权限；
+- 能不能保留完整操作记录；
+- 能不能把 AI 直接嵌入现有业务流程。
+
+所以 AWS 这部分和前面的 Agents API、Codex Security Cloud 是连在一起的：模型负责能力，Agent 负责执行，云平台负责部署，安全系统负责边界。
+
+## 这次 DevDay 的核心，不是又多了几个功能
+
+把今天的更新放在一起看，产品逻辑其实很清楚：
+
+```text
+GPT-6.1 Sol：更强的主力模型
+        ↓
+Ultrafast：把等待时间压下来
+        ↓
+Agents API：提供运行框架
+        ↓
+Decisions API：输出可执行决策
+        ↓
+Codex Cloud：进入真实工程环境
+        ↓
+ChatGPT Space：围绕项目组织工作
+        ↓
+插件、身份、AWS 和安全：接入真实企业系统
+```
+
+所以我觉得今天最值得记住的不是某一张跑分图，而是这两个方向：
+
+**第一，GPT-6.1 Sol 把更强的 Agent 能力带到了更适合规模化使用的价位。**
+
+**第二，Ultrafast 把速度本身做成了产品，AI 开始从“等答案”变成“实时协作”。**
+
+接下来真正会拉开差距的，不只是模型分数，而是：谁能把模型、速度、工具、上下文、权限和工作空间组合成一条真正好用的工作流。
+
+---
+
+### 参考信息
+
+- [OpenAI DevDay 2026 官方页面](https://devday.openai.com/)
+- [GPT-6 Sol API 文档](https://developers.openai.com/api/docs/models/gpt-6-sol)
+- [OpenAI API 模型列表](https://developers.openai.com/api/docs/models)
+- [OpenAI API 价格页](https://developers.openai.com/api/docs/pricing)
+- [Ultrafast 模式介绍](https://openai.com/index/previewing-ultrafast/)
+
+价格和速度数字以现场截图与官方页面最终说明为准；不同处理档位、上下文长度和产品入口可能存在差异。
+
+#OpenAI #DevDay2026 #GPT61Sol #Ultrafast #AgentsAPI #Codex #ChatGPT #AI工具 #人工智能 #科技发布会
